@@ -1,0 +1,12 @@
+package logico;
+
+public enum DiaSemana {
+    LUNES,
+    MARTES,
+    MIERCOLES,
+    JUEVES,
+    VIERNES,
+    SABADO,
+    DOMINGO
+    // LO QUE TENGA QUE VER CON FECHAS EN GENERAL Y QUE HAGA FALTA ESPECIFICAR UN DIA SE HARÁ CON ESTO
+}
