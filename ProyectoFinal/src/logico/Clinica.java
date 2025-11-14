@@ -8,7 +8,8 @@ public class Clinica {
     public static int genCodigoConsultas = 1;
 
     private ArrayList<Cita> citas;
-    private ArrayList<Consulta> consultas;
+    private ArrayList<Paciente> pacientes;
+    private ArrayList<Doctor> doctores;
     //FALTAN VARIOS ATRIBUTOS, AÑADIR MIENTRAS LOS VAS REALIZANDO
     
     
@@ -16,7 +17,8 @@ public class Clinica {
     
     private Clinica() {
     	citas = new ArrayList<Cita>();
-    	consultas = new ArrayList<Consulta>();
+    	pacientes = new ArrayList<Paciente>();
+    	doctores = new ArrayList<Doctor>();
     }
     
     public static Clinica getInstancia() {
@@ -26,5 +28,36 @@ public class Clinica {
         return instancia;
     }
     
-
+    public Paciente buscarPacienteXId(String id) {
+    	Paciente auxPaciente = null;
+    	int i = 0;
+    	
+    	
+    	while(auxPaciente == null && i < pacientes.size()) {
+    		
+    		if(pacientes.get(i).getIdPaciente().equals(id)) 
+    			auxPaciente = pacientes.get(i);
+    		
+    	}
+    	
+    	
+    	return auxPaciente;
+    }
+    
+    public Doctor buscarDoctorXId(String id) {
+    	Doctor auxDoctor = null;
+    	int i = 0;
+    	
+    	while(auxDoctor == null && i < doctores.size()) {
+    		
+    		//if(doctores.get(i).get)
+    		
+    	}
+    	
+    	return auxDoctor;
+    }
+    
+    private void regCita(Cita cita) {
+    	citas.add(cita);
+    }
 }
