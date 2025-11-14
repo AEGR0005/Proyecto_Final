@@ -9,6 +9,8 @@ public class Paciente {
 	private String cedula;
 	private String telefono;
 	private String fecNacim;
+	
+	
 	public Paciente(String idPaciente, String nombre, String cedula, String telefono, String fecNacim) {
 		super();
 		this.idPaciente = idPaciente;

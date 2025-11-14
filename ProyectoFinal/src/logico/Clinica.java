@@ -17,6 +17,7 @@ public class Clinica {
     private Clinica() {
     	citas = new ArrayList<Cita>();
     	consultas = new ArrayList<Consulta>();
+    	
     }
     
     public static Clinica getInstancia() {
