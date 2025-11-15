@@ -102,6 +102,8 @@ public class Doctor {
 	public void setHorariosDisponibles(ArrayList<HorarioDisponible> horariosDisponibles) {
 		this.horariosDisponibles = horariosDisponibles;
 	}
+
+
 	
 	
 	
