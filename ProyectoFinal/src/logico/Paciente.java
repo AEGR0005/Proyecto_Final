@@ -9,14 +9,7 @@ public class Paciente {
 	private String cedula;
 	private String telefono;
 	private String fecNacim;
-	private ArrayList<Vacuna> vacunas;
-	private ArrayList<Consulta> resumen;
-	//Son las consultas que cada doctor elige como importantes.
-	//Todos los doctores las pueden ver.
-	private ArrayList<Consulta> historialClinico;
-	//Guarda todas las consultas que el paciente a tenido.
-	//Al mostrar las de cada doctor, se puede hacer revisando a qué doctor pertenece cada consulta.
-		
+	
 	
 	public Paciente(String idPaciente, String nombre, String cedula, String telefono, String fecNacim) {
 		super();
@@ -25,11 +18,7 @@ public class Paciente {
 		this.cedula = cedula;
 		this.telefono = telefono;
 		this.fecNacim = fecNacim;
-		vacunas = new ArrayList<>();
-		resumen = new ArrayList<>();
-		historialClinico = new ArrayList<>();
 	}
-	
 	public String getIdPaciente() {
 		return idPaciente;
 	}
@@ -59,30 +48,6 @@ public class Paciente {
 	}
 	public void setFecNacim(String fecNacim) {
 		this.fecNacim = fecNacim;
-	}
-
-	public ArrayList<Vacuna> getVacunas() {
-		return vacunas;
-	}
-
-	public void setVacunas(ArrayList<Vacuna> vacunas) {
-		this.vacunas = vacunas;
-	}
-
-	public ArrayList<Consulta> getResumen() {
-		return resumen;
-	}
-
-	public void setResumen(ArrayList<Consulta> resumen) {
-		this.resumen = resumen;
-	}
-
-	public ArrayList<Consulta> getHistorialClinico() {
-		return historialClinico;
-	}
-
-	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
-		this.historialClinico = historialClinico;
 	}
 	
 		
