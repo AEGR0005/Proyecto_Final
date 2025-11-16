@@ -1,8 +1,6 @@
 package logico;
 
-
 import java.util.ArrayList;
-
 
 public class Clinica {
 
@@ -12,7 +10,6 @@ public class Clinica {
     private ArrayList<Cita> citas;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Doctor> doctores;
-    private ArrayList<Consulta> consultas;
     //FALTAN VARIOS ATRIBUTOS, AÑADIR MIENTRAS LOS VAS REALIZANDO
     
     
@@ -22,7 +19,6 @@ public class Clinica {
     	citas = new ArrayList<Cita>();
     	pacientes = new ArrayList<Paciente>();
     	doctores = new ArrayList<Doctor>();
-    	consultas = new ArrayList<Consulta>();
     }
     
     public static Clinica getInstancia() {
@@ -61,27 +57,7 @@ public class Clinica {
     	return auxDoctor;
     }
     
-    
     private void regCita(Cita cita) {
     	citas.add(cita);
     }
-    
-    public Consulta realizarConsulta(Cita cita) {
-    	
-        if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
-            return null; 
-        }
-        
-        String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = new Consulta(idConsulta,cita);
-        consultas.add(nuevaConsulta);
-        cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
-        cita.setConsultaGenerada(nuevaConsulta);
-        cita.completar();
-        genCodigoConsultas++;
-        
-        return nuevaConsulta;
-    }
-    
-    
 }
