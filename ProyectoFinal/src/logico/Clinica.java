@@ -16,7 +16,6 @@ public class Clinica {
     private ArrayList<Paciente> pacientes;
     private ArrayList<Doctor> doctores;
     private ArrayList<Consulta> consultas;
-    //FALTAN VARIOS ATRIBUTOS, AÑADIR MIENTRAS LOS VAS REALIZANDO
     
     
     private static Clinica instancia = null;
