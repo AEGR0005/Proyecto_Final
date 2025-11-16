@@ -18,6 +18,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 public class A extends JDialog {
 
@@ -123,6 +124,11 @@ public class A extends JDialog {
 		cbxDoctores.setModel(new DefaultComboBoxModel(new String[] {"<Elegir>", "A", "B", "C"}));
 		cbxDoctores.setBounds(114, 117, 123, 26);
 		contentPanel.add(cbxDoctores);
+		
+		JLabel lblNewLabel_1 = new JLabel("Working...");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(114, 190, 108, 20);
+		contentPanel.add(lblNewLabel_1);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
