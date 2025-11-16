@@ -88,7 +88,7 @@ public class Consulta {
         this.observaciones = observaciones;
     }
     
-    public boolean isEsImportante() {
+    public boolean getEsImportante() {
         return esImportante;
     }
     
