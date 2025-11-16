@@ -1,7 +1,9 @@
 package logico;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class Clinica {
@@ -82,6 +84,48 @@ public class Clinica {
         
         return nuevaConsulta;
     }
+    private HorarioDisponible buscarHorarioXDia(Doctor doctor, int diaCalendar) {
+        HorarioDisponible horarioEncontrado = null;
+        int i = 0;
+        
+        while(horarioEncontrado == null && i < doctor.getHorariosDisponibles().size()) {
+            HorarioDisponible horario = doctor.getHorariosDisponibles().get(i);
+            
+            if(horario.getDiaSemana() == diaCalendar) {
+                horarioEncontrado = horario;
+            }
+            i++;
+        }
+        
+        return horarioEncontrado;
+    }
+    
+    
+    
+    private int contarCitasXDia(Doctor doctor, Date fecha) {
+        Calendar calendFecha = Calendar.getInstance();
+        calendFecha.setTime(fecha);
+        
+        int contador = 0;
+        
+        for(int i = 0; i < citas.size(); i++) {
+            Cita cita = citas.get(i);
+            
+            if(cita.getDoctor().getIdDoctor().equals(doctor.getIdDoctor()) && 
+               cita.getEstado() == EstadoCita.PROGRAMADA) {
+                Calendar calendCita = Calendar.getInstance();
+                calendCita.setTime(cita.getFechaHora());
+
+                if(calendFecha.get(Calendar.YEAR) == calendCita.get(Calendar.YEAR) &&
+                		calendFecha.get(Calendar.DAY_OF_YEAR) == calendCita.get(Calendar.DAY_OF_YEAR)) {
+                    contador++;
+                }
+            }
+        }
+        return contador;
+    }
+    
+    
     
     
 }
