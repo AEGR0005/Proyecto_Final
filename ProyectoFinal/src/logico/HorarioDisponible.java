@@ -3,14 +3,14 @@ package logico;
 public class HorarioDisponible {
     private String id;
     private Doctor doctor;
-    private DiaSemana diaSemana;
+    private int diaSemana;
     private String horaInicio;
     private String horaFin;
     private int duracionCita;
     
     // ESTA CLASE SE UTILIZARÁ PARA SABER CUALES CITAS SON DISPONIBLES PARA EL DOCTOR
     
-    public HorarioDisponible(String id, Doctor doctor, DiaSemana diaSemana,
+    public HorarioDisponible(String id, Doctor doctor, int diaSemana,
                             String horaInicio, String horaFin, int duracionCita) {
         this.id = id;
         this.doctor = doctor;
@@ -36,11 +36,11 @@ public class HorarioDisponible {
 		this.doctor = doctor;
 	}
 
-	public DiaSemana getDiaSemana() {
+	public int getDiaSemana() {
 		return diaSemana;
 	}
 
-	public void setDiaSemana(DiaSemana diaSemana) {
+	public void setDiaSemana(int diaSemana) {
 		this.diaSemana = diaSemana;
 	}
 

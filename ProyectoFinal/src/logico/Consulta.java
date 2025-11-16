@@ -16,7 +16,7 @@ public class Consulta {
     // LAS IMPORTANTES VAN DENTRO DE LA HISTORIA CLINICA DEL PACIENTE
     private String motivoConsulta;
     
-    public Consulta(String id, Paciente paciente, Doctor doctor, Date fecha, Cita cita) {
+    public Consulta(String id, Cita cita) {
         this.id = id;
         this.paciente = cita.getPaciente();
         this.doctor = cita.getDoctor();
