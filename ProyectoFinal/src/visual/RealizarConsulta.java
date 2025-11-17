@@ -182,7 +182,7 @@ public class RealizarConsulta extends JDialog {
         
         chckEsImportante = new JCheckBox("Marcar como Importante (Agregar al Resumen del Paciente)");
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-        chckEsImportante.setBounds(100, 210, 400, 23);
+        chckEsImportante.setBounds(100, 210, 425, 23);
         panelConsulta.add(chckEsImportante);
         
         

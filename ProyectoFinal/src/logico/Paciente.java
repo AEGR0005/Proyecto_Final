@@ -92,5 +92,12 @@ public class Paciente {
 	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
 		this.historialClinico = historialClinico;
 	}
+	
+	/*
+	public void mostrarHistorialXDoctor(Doctor doctor) {
+		
+		
+		
+	}*/
 
 }
