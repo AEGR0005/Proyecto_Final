@@ -7,7 +7,8 @@ import java.util.Calendar;
 
 
 public class Clinica {
-
+	
+	public static int genCodigoPacientes = 1;
     public static int genCodigoCitas = 1;
     public static int genCodigoConsultas = 1;
     public static int genCodigoDiagnosticos = 1;
@@ -32,6 +33,15 @@ public class Clinica {
             instancia = new Clinica();
         }
         return instancia;
+    }
+    
+    public Paciente createPaciente(String nombre, String cedula) {
+    	
+    	Paciente auxPaciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, null, null);
+    	genCodigoPacientes++;
+    	pacientes.add(auxPaciente);
+    	
+    	return auxPaciente;
     }
     
     public Paciente buscarPacienteXId(String id) {
@@ -113,6 +123,7 @@ public class Clinica {
         Consulta nuevaConsulta = new Consulta(idConsulta,cita);
         consultas.add(nuevaConsulta);
         cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
+        cita.getPaciente().addConsultaToResumen(nuevaConsulta);
         cita.setConsultaGenerada(nuevaConsulta);
         cita.completar();
         genCodigoConsultas++;
@@ -159,5 +170,7 @@ public class Clinica {
         }
         return contador;
     }
+    
+    
 
 }

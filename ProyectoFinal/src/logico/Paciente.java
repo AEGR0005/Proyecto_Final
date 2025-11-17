@@ -93,6 +93,27 @@ public class Paciente {
 		this.historialClinico = historialClinico;
 	}
 	
+	public void addConsultaToResumen(Consulta consulta) {
+		if(consulta.getEsImportante())
+			resumen.add(consulta);
+	}
+	
+	public ArrayList<String> getDoctores(){
+		ArrayList<String> doctores = new ArrayList<>();
+		
+		for (Consulta consulta : historialClinico) {
+			String nomDoc = consulta.getDoctor().getNombre();
+			
+			if(!doctores.contains(nomDoc))
+				doctores.add(nomDoc);
+		}
+		
+		if(doctores.size() == 0)
+			doctores = null;
+		
+		return doctores;
+	}
+	
 	/*
 	public void mostrarHistorialXDoctor(Doctor doctor) {
 		

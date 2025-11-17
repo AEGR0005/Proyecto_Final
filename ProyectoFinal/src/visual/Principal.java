@@ -6,6 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.Cita;
+import logico.Clinica;
+import logico.Consulta;
+import logico.Doctor;
+import logico.Paciente;
+
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -71,6 +78,29 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
+		
+		JMenu mnNewMenu_2 = new JMenu("Listar");
+		menuBar.add(mnNewMenu_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Consultas");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Paciente pac = new Paciente("1620", "Liz Marie Torres", "031032", "849919", null);
+				
+				Doctor doc1 = new Doctor("2024", "Doctor 1", 20, null, null, null, 90);
+				Doctor doc2 = new Doctor("2340", "Doctor 2", 20, null, null, null, 90);
+				
+				Cita cita1 = new Cita("CITA-1", pac, doc1, null, null);
+				Cita cita2 = new Cita("CITA-2", pac, doc2, null, null);
+				Consulta con1 = Clinica.getInstancia().realizarConsulta(cita1);
+				Consulta con2 = Clinica.getInstancia().realizarConsulta(cita2);
+				
+				MostrarConsulta mostrarConsulta = new MostrarConsulta(pac);
+				mostrarConsulta.setVisible(true);
+				mostrarConsulta.setModal(true);
+			}
+		});
+		mnNewMenu_2.add(mntmNewMenuItem_3);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

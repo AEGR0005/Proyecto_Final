@@ -101,7 +101,7 @@ public class RegistrarCita extends JDialog {
 						//JOptionPane.showMessageDialog(null, "El paciente ingresado no existe.", "Paciente", JOptionPane.ERROR_MESSAGE);
 						lblWarnPat.setText("*Paciente no existe.");
 						lblWarnPat.setVisible(true);
-						txtIdPaciente.setText("");
+						txtIdPaciente.setText(" ");
 					}else {
 						txtNomPac.setText(auxPaciente.getNombre());
 					}
@@ -191,6 +191,8 @@ public class RegistrarCita extends JDialog {
 			lblWarnPat.setVisible(false);
 			lblWarnPat.setBounds(129, 82, 192, 10);
 			panel.add(lblWarnPat);
+			
+			Clinica.getInstancia().createPaciente("Liz Marie", "031019");
 		}
 		{
 			JPanel buttonPane = new JPanel();

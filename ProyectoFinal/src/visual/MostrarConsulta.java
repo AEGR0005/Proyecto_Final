@@ -29,25 +29,38 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import logico.Consulta;
+import logico.Paciente;
+
 import javax.swing.event.PopupMenuEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class MostrarConsulta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JComboBox cbxSearchOpcs;
+	private DefaultComboBoxModel mainModel;
+	private DefaultComboBoxModel codigoModel;
+	private DefaultComboBoxModel doctoresModel;
 	private JTextField txtIdDoctor;
 	private JComboBox cbxDoctores;
 	private boolean showDoctores = false;
+	private Paciente auxPaciente;
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
@@ -57,7 +70,7 @@ public class MostrarConsulta extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			MostrarConsulta dialog = new MostrarConsulta();
+			MostrarConsulta dialog = new MostrarConsulta(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -68,8 +81,10 @@ public class MostrarConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public MostrarConsulta() {
-		setBounds(100, 100, 816, 577);
+	public MostrarConsulta(Paciente paciente) {
+		auxPaciente = paciente;
+		//auxPaciente = null;
+		setBounds(100, 100, 825, 577);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
 
@@ -107,15 +122,17 @@ public class MostrarConsulta extends JDialog {
 
 		cbxSearchOpcs = new JComboBox();
 
-
 		cbxSearchOpcs.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbxSearchOpcs.setBounds(84, 50, 123, 26);
 		panelBarra.add(cbxSearchOpcs);
 
-		DefaultComboBoxModel mainModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "C\u00F3digo", "Lista"});
-		DefaultComboBoxModel codigoModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "", "Lista"});
-		DefaultComboBoxModel doctoresModel = new DefaultComboBoxModel(new String[] {"<Elegir>", "A", "B"});
+		mainModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "C\u00F3digo", "Lista"});
+		codigoModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "", "Lista"});
+		doctoresModel = new DefaultComboBoxModel(getDoctoresModel(auxPaciente.getDoctores()));
+		getDoctoresModel(auxPaciente.getDoctores());
+		//DefaultComboBoxModel doctoresModel = new DefaultComboBoxModel(new String[] {"<Elegir>", "A", "B", "C", "D", "E", "G"});
 		cbxSearchOpcs.setModel(mainModel);
+		cbxSearchOpcs.setMaximumRowCount(3);
 
 		cbxSearchOpcs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -131,6 +148,14 @@ public class MostrarConsulta extends JDialog {
 							cbxSearchOpcs.setModel(codigoModel);
 							cbxSearchOpcs.setSelectedIndex(1);
 							cbxSearchOpcs.setEditable(true);
+							
+							cbxSearchOpcs.addFocusListener(new FocusAdapter() {
+								@Override
+								public void focusLost(FocusEvent e) {
+									//Buscar Doctor por Código
+									//Hacer función en Clínica
+								}
+							});
 
 							cbxSearchOpcs.addPopupMenuListener(new PopupMenuListener() {
 								public void popupMenuCanceled(PopupMenuEvent e) {
@@ -141,6 +166,7 @@ public class MostrarConsulta extends JDialog {
 									if(cbxSearchOpcs.getModel() == codigoModel) {
 										cbxSearchOpcs.setModel(mainModel);
 										cbxSearchOpcs.setSelectedIndex(0);
+										cbxSearchOpcs.setEditable(false);
 									}
 									
 								}
@@ -204,7 +230,7 @@ public class MostrarConsulta extends JDialog {
 		panelBarra.add(lblPaciente);
 		lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		JLabel lblNomPac = new JLabel("Liz Marie Torres");
+		JLabel lblNomPac = new JLabel(auxPaciente.getNombre());
 		lblNomPac.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNomPac.setBounds(101, 14, 388, 20);
 		panelBarra.add(lblNomPac);
@@ -219,8 +245,23 @@ public class MostrarConsulta extends JDialog {
 		
 		
 		scrollPane.setViewportView(table);
+		
 		model = new DefaultTableModel();
 		table = new JTable();
+		//model.setColumnIdentifiers();
 
 	}
+	
+	private String[] getDoctoresModel(ArrayList<String> doctores) {
+		String[] opciones = new String[doctores.size()+1];
+		opciones[0] = "<Elegir>";
+		
+		for(int i = 0; i < doctores.size(); i++) {
+			opciones[i+1] = doctores.get(i);
+		}
+
+		return opciones;
+	}
+	
+
 }
