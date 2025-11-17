@@ -143,7 +143,7 @@ public class RealizarConsulta extends JDialog {
         txtDiagnostico.setColumns(10);
         
         btnCrearDiagnostico = new JButton("Crear Diagnóstico");
-        btnCrearDiagnostico.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnCrearDiagnostico.setFont(new Font("Tahoma", Font.BOLD, 11));
         btnCrearDiagnostico.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 abrirCrearDiagnostico();
@@ -162,6 +162,8 @@ public class RealizarConsulta extends JDialog {
         panelConsulta.add(scrollTratamiento);
         
         txtTratamiento = new JTextArea();
+        txtTratamiento.setSize(492, 23);
+        txtTratamiento.setLocation(0, -14);
         txtTratamiento.setLineWrap(true);
         txtTratamiento.setWrapStyleWord(true);
         scrollTratamiento.setViewportView(txtTratamiento);
@@ -176,13 +178,15 @@ public class RealizarConsulta extends JDialog {
         panelConsulta.add(scrollObservaciones);
         
         txtObservaciones = new JTextArea();
+        txtObservaciones.setSize(492, 23);
+        txtObservaciones.setLocation(0, -14);
         txtObservaciones.setLineWrap(true);
         txtObservaciones.setWrapStyleWord(true);
         scrollObservaciones.setViewportView(txtObservaciones);
         
         chckEsImportante = new JCheckBox("Marcar como Importante (Agregar al Resumen del Paciente)");
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-        chckEsImportante.setBounds(100, 210, 400, 23);
+        chckEsImportante.setBounds(100, 210, 494, 23);
         panelConsulta.add(chckEsImportante);
         
         

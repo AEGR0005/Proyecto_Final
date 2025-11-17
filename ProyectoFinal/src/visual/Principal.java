@@ -2,7 +2,9 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class Principal extends JFrame {
 
@@ -78,6 +81,15 @@ public class Principal extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 0, 927, 534);
+		ImageIcon icon = new ImageIcon("recursos/PRECIOUS.jpg");
+		Image img = icon.getImage();
+		Image imgScale = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(imgScale);
+		lblNewLabel.setIcon(scaledIcon);
+		panel.add(lblNewLabel);
 	}
-
 }
