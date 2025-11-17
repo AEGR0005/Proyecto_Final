@@ -6,6 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.Clinica;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -43,6 +46,7 @@ public class Main extends JFrame {
 	 * @return 
 	 */
 	public Main() {
+		
 		setTitle("Clinica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 547);
@@ -74,6 +78,13 @@ public class Main extends JFrame {
 		
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RegistrarPaciente regPaciente = new RegistrarPaciente();
+				regPaciente.setModal(true);
+				regPaciente.setVisible(true);
+			}
+		});
 		mntmNewMenuItem.setPreferredSize(new java.awt.Dimension(226, 40)); 
 		mntmNewMenuItem.setBackground(Color.DARK_GRAY);    
 		mntmNewMenuItem.setForeground(Color.WHITE);

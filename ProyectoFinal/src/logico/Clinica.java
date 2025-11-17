@@ -11,6 +11,8 @@ public class Clinica {
     public static int genCodigoCitas = 1;
     public static int genCodigoConsultas = 1;
     public static int genCodigoDiagnosticos = 1;
+    public static int genCodigoPacientes = 1;
+    public static int genCodigoDoctores = 1;
 
     private ArrayList<Cita> citas;
     private ArrayList<Paciente> pacientes;
@@ -120,6 +122,11 @@ public class Clinica {
         
         return nuevaConsulta;
     }
+    public void regPaciente(Paciente paciente) {
+    	crearDoctorPrueba();
+    	pacientes.add(paciente);
+    	genCodigoPacientes++;
+    }
     
     private HorarioDisponible buscarHorarioXDia(Doctor doctor, int diaCalendar) {
         HorarioDisponible horarioEncontrado = null;
@@ -158,6 +165,34 @@ public class Clinica {
             }
         }
         return contador;
+    }
+    
+
+    public void crearDoctorPrueba() {
+        ArrayList<String> especialidades = new ArrayList<>();
+        especialidades.add("Pediatría");
+        especialidades.add("Dermatología");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 9);
+        cal.set(Calendar.MINUTE, 0);
+        java.util.Date inicioTanda = cal.getTime();  
+        
+        cal.set(Calendar.HOUR_OF_DAY, 18);
+        cal.set(Calendar.MINUTE, 0);
+        java.util.Date finTanda = cal.getTime();  
+        
+        Doctor doctorPrueba = new Doctor(
+            "DOC"+ genCodigoDoctores,
+            "El tejas",
+            20,
+            especialidades,
+            inicioTanda,
+            finTanda,
+            30
+        );
+        
+        doctores.add(doctorPrueba);
     }
 
 }
