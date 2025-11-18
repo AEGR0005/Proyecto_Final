@@ -199,11 +199,7 @@ public class RealizarConsulta extends JDialog {
         chckEsImportante.setBackground(Color.DARK_GRAY);
         chckEsImportante.setForeground(Color.WHITE);
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-<<<<<<< HEAD
-        chckEsImportante.setBounds(100, 210, 425, 23);
-=======
         chckEsImportante.setBounds(100, 210, 494, 23);
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
         panelConsulta.add(chckEsImportante);
         
         
