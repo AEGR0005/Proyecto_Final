@@ -1,5 +1,6 @@
 package logico;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Paciente {
@@ -8,7 +9,7 @@ public class Paciente {
 	private String nombre;
 	private String cedula;
 	private String telefono;
-	private String fecNacim;
+	private Date fecNacim;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
@@ -16,7 +17,7 @@ public class Paciente {
 	private ArrayList<Consulta> historialClinico; 
 	// Guarda todas las consultas que el paciente a tenido. Al mostrar las de cada doctor, se puede hacer revisando a qué doctor pertenece cada consulta.
 
-	public Paciente(String idPaciente, String nombre, String cedula, String telefono, String fecNacim) {
+	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date fecNacim) {
 		super();
 		this.idPaciente = idPaciente;
 		this.nombre = nombre;
@@ -61,11 +62,11 @@ public class Paciente {
 		this.telefono = telefono;
 	}
 
-	public String getFecNacim() {
+	public Date getFecNacim() {
 		return fecNacim;
 	}
 
-	public void setFecNacim(String fecNacim) {
+	public void setFecNacim(Date fecNacim) {
 		this.fecNacim = fecNacim;
 	}
 
