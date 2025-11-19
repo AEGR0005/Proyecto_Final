@@ -114,39 +114,21 @@ public class Clinica {
     }
     
     public Consulta realizarConsulta(Cita cita) {
-    	
         if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
             return null; 
         }
         
         String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = new Consulta(idConsulta,cita);
+        Consulta nuevaConsulta = new Consulta(idConsulta, cita.getPaciente(), cita.getDoctor(), cita.getFechaHora());
         consultas.add(nuevaConsulta);
         cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
         cita.setConsultaGenerada(nuevaConsulta);
         cita.completar();
         genCodigoConsultas++;
-        genCodigoDiagnosticos++;
         
         return nuevaConsulta;
     }
 
-    
-    private HorarioDisponible buscarHorarioXDia(Doctor doctor, int diaCalendar) {
-        HorarioDisponible horarioEncontrado = null;
-        int i = 0;
-        
-        while(horarioEncontrado == null && i < doctor.getHorariosDisponibles().size()) {
-            HorarioDisponible horario = doctor.getHorariosDisponibles().get(i);
-            
-            if(horario.getDiaSemana() == diaCalendar) {
-                horarioEncontrado = horario;
-            }
-            i++;
-        }
-        
-        return horarioEncontrado;
-    }
     
     private int contarCitasXDia(Doctor doctor, Date fecha) {
         Calendar calendFecha = Calendar.getInstance();
@@ -177,23 +159,11 @@ public class Clinica {
         especialidades.add("Pediatría");
         especialidades.add("Dermatología");
         
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 9);
-        cal.set(Calendar.MINUTE, 0);
-        java.util.Date inicioTanda = cal.getTime();  
-        
-        cal.set(Calendar.HOUR_OF_DAY, 18);
-        cal.set(Calendar.MINUTE, 0);
-        java.util.Date finTanda = cal.getTime();  
-        
         Doctor doctorPrueba = new Doctor(
             "DOC"+ genCodigoDoctores,
             "El tejas",
             20,
-            especialidades,
-            inicioTanda,
-            finTanda,
-            30
+            especialidades
         );
         
         doctores.add(doctorPrueba);

@@ -32,7 +32,7 @@ public class RealizarConsulta extends JDialog {
     private JTextField txtPaciente;
     private JTextField txtDoctor;
     private JTextField txtFechaCita;
-    private JTextField txtSintomas;
+    private JTextArea txtSintomas;
     private JTextField txtDiagnostico;
     private JButton btnCrearDiagnostico;
     private JTextArea txtTratamiento;
@@ -42,18 +42,18 @@ public class RealizarConsulta extends JDialog {
     
     
     public static void main(String[] args) {
-		try {
-			RealizarConsulta dialog = new RealizarConsulta();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            RealizarConsulta dialog = new RealizarConsulta();
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public RealizarConsulta() {
         setTitle("Realizar Consulta");
-        setBounds(100, 100, 650, 570);
+        setBounds(100, 100, 650, 630);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBackground(Color.DARK_GRAY);
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,7 +63,7 @@ public class RealizarConsulta extends JDialog {
         JPanel panelCita = new JPanel();
         panelCita.setBackground(Color.DARK_GRAY);
         panelCita.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n de la Cita", TitledBorder.CENTER, TitledBorder.TOP, null, Color.WHITE));
-        panelCita.setBounds(10, 11, 614, 180);
+        panelCita.setBounds(10, 11, 614, 150);
         contentPanel.add(panelCita);
         panelCita.setLayout(null);
         
@@ -110,44 +110,47 @@ public class RealizarConsulta extends JDialog {
         JLabel lblFechaCita = new JLabel("Fecha/Hora:");
         lblFechaCita.setForeground(Color.WHITE);
         lblFechaCita.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblFechaCita.setBounds(10, 125, 80, 14);
+        lblFechaCita.setBounds(10, 120, 80, 14);
         panelCita.add(lblFechaCita);
         
         txtFechaCita = new JTextField();
         txtFechaCita.setEditable(false);
-        txtFechaCita.setBounds(100, 122, 200, 20);
+        txtFechaCita.setBounds(100, 117, 494, 20);
         panelCita.add(txtFechaCita);
         txtFechaCita.setColumns(10);
-        
-        JLabel lblSintomas = new JLabel("Síntomas:");
-        lblSintomas.setForeground(Color.WHITE);
-        lblSintomas.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblSintomas.setBounds(320, 125, 80, 14);
-        panelCita.add(lblSintomas);
-        
-        txtSintomas = new JTextField();
-        txtSintomas.setEditable(false);
-        txtSintomas.setBounds(390, 122, 204, 20);
-        panelCita.add(txtSintomas);
-        txtSintomas.setColumns(10);
         
        
         JPanel panelConsulta = new JPanel();
         panelConsulta.setBackground(Color.DARK_GRAY);
         panelConsulta.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de la Consulta", TitledBorder.CENTER, TitledBorder.TOP, null, Color.WHITE));
-        panelConsulta.setBounds(10, 202, 614, 280);
+        panelConsulta.setBounds(10, 172, 614, 360);
         contentPanel.add(panelConsulta);
         panelConsulta.setLayout(null);
+        
+        JLabel lblSintomas = new JLabel("Síntomas:");
+        lblSintomas.setForeground(Color.WHITE);
+        lblSintomas.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblSintomas.setBounds(10, 25, 80, 14);
+        panelConsulta.add(lblSintomas);
+        
+        JScrollPane scrollSintomas = new JScrollPane();
+        scrollSintomas.setBounds(100, 25, 494, 70);
+        panelConsulta.add(scrollSintomas);
+        
+        txtSintomas = new JTextArea();
+        txtSintomas.setLineWrap(true);
+        txtSintomas.setWrapStyleWord(true);
+        scrollSintomas.setViewportView(txtSintomas);
         
         JLabel lblDiagnostico = new JLabel("Diagnóstico:");
         lblDiagnostico.setForeground(Color.WHITE);
         lblDiagnostico.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblDiagnostico.setBounds(10, 25, 80, 14);
+        lblDiagnostico.setBounds(10, 110, 80, 14);
         panelConsulta.add(lblDiagnostico);
         
         txtDiagnostico = new JTextField();
         txtDiagnostico.setEditable(false);
-        txtDiagnostico.setBounds(100, 22, 344, 20);
+        txtDiagnostico.setBounds(100, 107, 344, 20);
         panelConsulta.add(txtDiagnostico);
         txtDiagnostico.setColumns(10);
         
@@ -158,22 +161,20 @@ public class RealizarConsulta extends JDialog {
                 abrirCrearDiagnostico();
             }
         });
-        btnCrearDiagnostico.setBounds(454, 21, 140, 23);
+        btnCrearDiagnostico.setBounds(454, 106, 140, 23);
         panelConsulta.add(btnCrearDiagnostico);
         
         JLabel lblTratamiento = new JLabel("Tratamiento:");
         lblTratamiento.setForeground(Color.WHITE);
         lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblTratamiento.setBounds(10, 65, 80, 14);
+        lblTratamiento.setBounds(10, 145, 80, 14);
         panelConsulta.add(lblTratamiento);
         
         JScrollPane scrollTratamiento = new JScrollPane();
-        scrollTratamiento.setBounds(100, 65, 494, 60);
+        scrollTratamiento.setBounds(100, 145, 494, 70);
         panelConsulta.add(scrollTratamiento);
         
         txtTratamiento = new JTextArea();
-        txtTratamiento.setSize(492, 23);
-        txtTratamiento.setLocation(0, -14);
         txtTratamiento.setLineWrap(true);
         txtTratamiento.setWrapStyleWord(true);
         scrollTratamiento.setViewportView(txtTratamiento);
@@ -181,16 +182,14 @@ public class RealizarConsulta extends JDialog {
         JLabel lblObservaciones = new JLabel("Observaciones:");
         lblObservaciones.setForeground(Color.WHITE);
         lblObservaciones.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblObservaciones.setBounds(10, 140, 90, 14);
+        lblObservaciones.setBounds(10, 230, 90, 14);
         panelConsulta.add(lblObservaciones);
         
         JScrollPane scrollObservaciones = new JScrollPane();
-        scrollObservaciones.setBounds(100, 140, 494, 60);
+        scrollObservaciones.setBounds(100, 230, 494, 70);
         panelConsulta.add(scrollObservaciones);
         
         txtObservaciones = new JTextArea();
-        txtObservaciones.setSize(492, 23);
-        txtObservaciones.setLocation(0, -14);
         txtObservaciones.setLineWrap(true);
         txtObservaciones.setWrapStyleWord(true);
         scrollObservaciones.setViewportView(txtObservaciones);
@@ -199,7 +198,7 @@ public class RealizarConsulta extends JDialog {
         chckEsImportante.setBackground(Color.DARK_GRAY);
         chckEsImportante.setForeground(Color.WHITE);
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-        chckEsImportante.setBounds(100, 210, 494, 23);
+        chckEsImportante.setBounds(100, 310, 494, 23);
         panelConsulta.add(chckEsImportante);
         
         
@@ -240,7 +239,6 @@ public class RealizarConsulta extends JDialog {
         cbxCita.removeAllItems();
         cbxCita.addItem("<<Seleccione>>");
         
-        
         for(Cita cita : Clinica.getInstancia().getCitas()) {
             if(cita.getEstado() == EstadoCita.PROGRAMADA) {
                 String item = cita.getId() + " - " + cita.getPaciente().getNombre() + " (" + cita.getFechaHora() + ")";
@@ -258,7 +256,6 @@ public class RealizarConsulta extends JDialog {
                 txtPaciente.setText(cita.getPaciente().getNombre() + " - " + cita.getPaciente().getCedula());
                 txtDoctor.setText(cita.getDoctor().getNombre());
                 txtFechaCita.setText(cita.getFechaHora().toString());
-                txtSintomas.setText(cita.getSintomas());
             }
         } else {
             limpiarCampos();
@@ -268,7 +265,6 @@ public class RealizarConsulta extends JDialog {
     private void abrirCrearDiagnostico() {
         CrearDiagnostico dialogo = new CrearDiagnostico();
         dialogo.setVisible(true);
-        
         
         Diagnostico diag = dialogo.getDiagnosticoCreado();
         if(diag != null) {
@@ -280,6 +276,11 @@ public class RealizarConsulta extends JDialog {
     private void realizarConsulta() {
         if(cbxCita.getSelectedIndex() <= 0) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una cita.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if(txtSintomas.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar los síntomas.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
@@ -297,17 +298,14 @@ public class RealizarConsulta extends JDialog {
         Cita cita = Clinica.getInstancia().buscarCitaXId(codigo);
         
         if(cita != null) {
-            
             Consulta consulta = Clinica.getInstancia().realizarConsulta(cita);
             
             if(consulta != null) {
-                
                 consulta.setSintomas(txtSintomas.getText());
                 consulta.setDiagnostico(diagnosticoActual);
                 consulta.setTratamiento(txtTratamiento.getText());
                 consulta.setObservaciones(txtObservaciones.getText());
                 consulta.setEsImportante(chckEsImportante.isSelected());
-                
                 
                 if(chckEsImportante.isSelected()) {
                     cita.getPaciente().getResumen().add(consulta);
