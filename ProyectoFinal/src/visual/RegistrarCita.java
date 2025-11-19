@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -39,6 +40,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
+import javax.swing.JComboBox;
 
 public class RegistrarCita extends JDialog {
 
@@ -48,10 +50,10 @@ public class RegistrarCita extends JDialog {
 	private JTextField txtIdCita;
 	private JTextField txtNomPac;
 	private JTextField txtNomDoc;
+	private JTextArea txtASintomas;
 	private Cita auxCita;
 	private Paciente auxPaciente;
 	private Doctor auxDoctor;
-	private JTextArea txtASintomas;
 	private JSpinner spnFecha;
 	private JLabel lblWarnPat;
 	private JLabel lblWarnDoc;
@@ -180,23 +182,7 @@ public class RegistrarCita extends JDialog {
 			lblFecha.setBounds(367, 45, 78, 30);
 			panel.add(lblFecha);
 
-			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(31, 245, 576, 67);
-			panel.add(panel_1);
-			panel_1.setLayout(new BorderLayout(0, 0));
-
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			panel_1.add(scrollPane, BorderLayout.CENTER);
-
-			txtASintomas = new JTextArea();
-			txtASintomas.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
-			txtASintomas.setBorder(new LineBorder(new Color(65, 105, 225)));
-			scrollPane.setViewportView(txtASintomas);
-			txtASintomas.setLineWrap(true);
-			txtASintomas.setWrapStyleWord(true);
-
-			JLabel lblMotivo = new JLabel("S\u00EDntomas:");
+			JLabel lblMotivo = new JLabel("Motivo:");
 			lblMotivo.setForeground(new Color(0, 0, 128));
 			lblMotivo.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblMotivo.setBounds(31, 210, 113, 30);
@@ -229,6 +215,12 @@ public class RegistrarCita extends JDialog {
 			lblWarnDoc.setVisible(false);
 			lblWarnDoc.setBounds(129, 129, 89, 20);
 			panel.add(lblWarnDoc);
+			
+		
+			JComboBox<String> cbxMotivo = new JComboBox<>();
+			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "Entrega de resultados", "Consulta"}));
+			cbxMotivo.setBounds(31, 255, 244, 22);
+			panel.add(cbxMotivo);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -274,12 +266,12 @@ public class RegistrarCita extends JDialog {
 	}
 	
 	private boolean infoCorrecta() {
-		boolean correcto = true;
-		
-		if(lblWarnPat.isVisible() || lblWarnDoc.isVisible() || txtASintomas.getText().trim() == "")
-			correcto = false;
-		
-		return correcto;
+	    boolean correcto = true;
+	    
+	    if(lblWarnPat.isVisible() || lblWarnDoc.isVisible() || txtASintomas.getText().trim().isEmpty())
+	        correcto = false;
+	    
+	    return correcto;
 	}
 	
 	private void checkEmptyFields() {
