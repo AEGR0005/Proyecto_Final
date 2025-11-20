@@ -175,7 +175,7 @@ public class Clinica {
     	genCodigoPacientes++;
     	pacientes.add(paciente);
     	
-    	crearDoctorPrueba();
+    	//crearDoctorPrueba();
     }
 
 }

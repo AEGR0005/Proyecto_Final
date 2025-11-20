@@ -18,6 +18,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
@@ -29,12 +31,18 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableModel;
+
+import logico.Clinica;
+import logico.Doctor;
+import logico.Paciente;
+
 import javax.swing.event.PopupMenuEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -44,20 +52,20 @@ import javax.swing.JTable;
 public class MostrarConsulta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JComboBox cbxSearchOpcs;
-	private JTextField txtIdDoctor;
+	private JTextField txtPaciente;
 	private JComboBox cbxDoctores;
 	private boolean showDoctores = false;
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
+	private Doctor doctor;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			MostrarConsulta dialog = new MostrarConsulta();
+			MostrarConsulta dialog = new MostrarConsulta(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -68,11 +76,12 @@ public class MostrarConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public MostrarConsulta() {
-		setBounds(100, 100, 816, 577);
+	public MostrarConsulta(Doctor selectDoctor) {
+		setBounds(100, 100, 619, 577);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
-
+		doctor = selectDoctor;
+		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
@@ -96,121 +105,78 @@ public class MostrarConsulta extends JDialog {
 
 		JPanel panelBarra = new JPanel();
 		panelBarra.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
-		panelBarra.setBounds(15, 16, 766, 116);
+		panelBarra.setBounds(15, 16, 568, 116);
 		getContentPane().add(panelBarra);
 		panelBarra.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Doctor:");
-		lblNewLabel.setBounds(15, 50, 69, 20);
+		JLabel lblNewLabel = new JLabel("Paciente:");
+		lblNewLabel.setBounds(15, 49, 69, 20);
 		panelBarra.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-
-		cbxSearchOpcs = new JComboBox();
-
-
-		cbxSearchOpcs.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbxSearchOpcs.setBounds(84, 50, 123, 26);
-		panelBarra.add(cbxSearchOpcs);
 
 		DefaultComboBoxModel mainModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "C\u00F3digo", "Lista"});
 		DefaultComboBoxModel codigoModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "", "Lista"});
 		DefaultComboBoxModel doctoresModel = new DefaultComboBoxModel(new String[] {"<Elegir>", "A", "B"});
-		cbxSearchOpcs.setModel(mainModel);
-
-		cbxSearchOpcs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if(cbxSearchOpcs.getSelectedIndex() != -1) {
 
 
-					if(cbxSearchOpcs.getModel() == mainModel) {
+		
+		Clinica.getInstancia().crearPacientePrueba("Cristina Rodríguez Fernández", "0315400566");
+		Clinica.getInstancia().crearPacientePrueba("Altagracia Rodríguez Fernández", "0315400566");
+		Clinica.getInstancia().crearPacientePrueba("María Alejandra Rodríguez Fernández", "0315400566");
+		Clinica.getInstancia().crearDoctorPrueba();
+		doctor = Clinica.getInstancia().getDoctores().get(0);
+		doctor.setPacientes(Clinica.getInstancia().getPacientes());
+		
 
-
-						if (cbxSearchOpcs.getSelectedIndex() == 1) {
-
-							cbxSearchOpcs.setModel(codigoModel);
-							cbxSearchOpcs.setSelectedIndex(1);
-							cbxSearchOpcs.setEditable(true);
-
-							cbxSearchOpcs.addPopupMenuListener(new PopupMenuListener() {
-								public void popupMenuCanceled(PopupMenuEvent e) {
-								}
-								public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-								}
-								public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-									if(cbxSearchOpcs.getModel() == codigoModel) {
-										cbxSearchOpcs.setModel(mainModel);
-										cbxSearchOpcs.setSelectedIndex(0);
-									}
-									
-								}
-							});
-
-
-						}else if (cbxSearchOpcs.getSelectedIndex() == 2) {
-
-							if(txtIdDoctor.isVisible())
-								txtIdDoctor.setVisible(false);
-							
-							cbxSearchOpcs.setModel(doctoresModel);	
-							cbxSearchOpcs.setSelectedIndex(0);
-						}
-
-					}else if(cbxSearchOpcs.getModel() == doctoresModel) {
-						if(cbxSearchOpcs.getSelectedIndex() > 0) {
-							cbxSearchOpcs.setModel(mainModel);
-							cbxSearchOpcs.setSelectedIndex(0);
-						}
-					}
-
-				}
-
-
+		txtPaciente = new JTextField();
+		txtPaciente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				listarPacientes(new String (""+e.getKeyChar()));
+				//listarPacientes(txtPaciente.getText());
+				
 			}
 		});
-
-
-
-		txtIdDoctor = new JTextField();
-		txtIdDoctor.setBounds(84, 72, 123, 26);
-		panelBarra.add(txtIdDoctor);
-		txtIdDoctor.setVisible(false);
-		txtIdDoctor.setColumns(10);
+		//txtPaciente.setText("Mar\u00EDa Alejandra Rodr\u00EDguez Fern\u00E1ndez (0315400566)");
+		txtPaciente.setBounds(94, 46, 455, 26);
+		panelBarra.add(txtPaciente);
+		txtPaciente.setVisible(true);
+		txtPaciente.setColumns(10);
 		
 		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
 		lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaInicio.setBounds(247, 50, 96, 20);
+		lblFechaInicio.setBounds(15, 80, 96, 20);
 		panelBarra.add(lblFechaInicio);
 		
 		JLabel lblFechaFin = new JLabel("Fecha Fin:");
 		lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaFin.setBounds(517, 50, 96, 20);
+		lblFechaFin.setBounds(319, 80, 96, 20);
 		panelBarra.add(lblFechaFin);
 		
 		JSpinner spnFecIni = new JSpinner();
 		spnFecIni.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnFecIni.setModel(new SpinnerDateModel(new Date(1763265600000L), new Date(1763265600000L), null, Calendar.DAY_OF_YEAR));
-		spnFecIni.setBounds(339, 50, 150, 26);
+		spnFecIni.setBounds(117, 78, 150, 26);
 		panelBarra.add(spnFecIni);
 		
 		JSpinner spnFecFin = new JSpinner();
 		spnFecFin.setModel(new SpinnerDateModel(new Date(1763265600000L), new Date(1763265600000L), null, Calendar.DAY_OF_YEAR));
 		spnFecFin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		spnFecFin.setBounds(589, 50, 150, 26);
+		spnFecFin.setBounds(399, 78, 150, 26);
 		panelBarra.add(spnFecFin);
 		
-		JLabel lblPaciente = new JLabel("Paciente:");
-		lblPaciente.setBounds(15, 14, 78, 20);
-		panelBarra.add(lblPaciente);
-		lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 15));
+		JLabel lblDoctor = new JLabel("Doctor:");
+		lblDoctor.setBounds(15, 14, 78, 20);
+		panelBarra.add(lblDoctor);
+		lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lblNomPac = new JLabel("Liz Marie Torres");
 		lblNomPac.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNomPac.setBounds(101, 14, 388, 20);
+		lblNomPac.setBounds(84, 14, 388, 20);
 		panelBarra.add(lblNomPac);
 		
 		JPanel panelTable = new JPanel();
-		panelTable.setBounds(15, 135, 766, 344);
+		panelTable.setBounds(15, 135, 568, 344);
 		getContentPane().add(panelTable);
 		panelTable.setLayout(new BorderLayout(0, 0));
 		
@@ -218,9 +184,34 @@ public class MostrarConsulta extends JDialog {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		
-		scrollPane.setViewportView(table);
+		
 		model = new DefaultTableModel();
 		table = new JTable();
+		String[] headers = {"Nombre","Cédula"};
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(table);
 
+	}
+	
+	private void listarPacientes(String nombre) {
+		
+			model.setRowCount(0);
+			row = new Object[model.getColumnCount()];
+			
+			for (Paciente paciente : doctor.getPacientes()) {
+				System.out.println(nombre);
+				if(paciente.getNombre().indexOf(nombre)!= -1) {
+					//System.out.println("Alright");
+					row[0] = paciente.getNombre();
+					row[1] = paciente.getCedula();
+					
+					model.addRow(row);
+				}
+				
+			}
+
+		
 	}
 }
