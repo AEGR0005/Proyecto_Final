@@ -10,6 +10,10 @@ public class Paciente {
 	private String cedula;
 	private String telefono;
 	private Date fecNacim;
+	private float peso;
+	private float estatura;
+	private String tipoSangre;
+    private String[] enfermedadesHereditarias;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
@@ -92,6 +96,38 @@ public class Paciente {
 
 	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
 		this.historialClinico = historialClinico;
+	}
+
+	public float getPeso() {
+		return peso;
+	}
+
+	public void setPeso(float peso) {
+		this.peso = peso;
+	}
+
+	public float getEstatura() {
+		return estatura;
+	}
+
+	public void setEstatura(float estatura) {
+		this.estatura = estatura;
+	}
+
+	public String getTipoSangre() {
+		return tipoSangre;
+	}
+
+	public void setTipoSangre(String tipoSangre) {
+		this.tipoSangre = tipoSangre;
+	}
+
+	public String[] getEnfermedadesHereditarias() {
+		return enfermedadesHereditarias;
+	}
+
+	public void setEnfermedadesHereditarias(String[] enfermedadesHereditarias) {
+		this.enfermedadesHereditarias = enfermedadesHereditarias;
 	}
 	
 	/*
