@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logico.Clinica;
+import logico.Doctor;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -19,11 +20,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 
 public class Main extends JFrame {
 
 	private JPanel contentPane;
-
+	private Doctor auxDoctor = null;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,14 @@ public class Main extends JFrame {
 	 * @return 
 	 */
 	public Main() {
-		
+		if(auxDoctor == null) {
+			Clinica.getInstancia().crearDoctorPrueba();
+			auxDoctor = Clinica.getInstancia().getDoctores().get(0);
+			Clinica.getInstancia().crearPacientePrueba("Cristina Garcia Hernandez", "0315400566");
+			Clinica.getInstancia().crearPacientePrueba("Altagracia Rodríguez Fernandez", "0315400566");
+			Clinica.getInstancia().crearPacientePrueba("Maria Antonieta De las Nieves", "0315400566");
+			auxDoctor.setPacientes(Clinica.getInstancia().getPacientes());
+		}
 		setTitle("Clinica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 547);
@@ -138,14 +147,42 @@ public class Main extends JFrame {
 		mntmNewMenuItem_3.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
 		mnNewMenu_1.add(mntmNewMenuItem_3);
 		
+		JMenuBar menuBar_2 = new JMenuBar();
+		menuBar_2.setBackground(Color.DARK_GRAY);
+		menuBar_2.setBounds(0, 104, 226, 52);
+		panel.add(menuBar_2);
+		
+		JMenu mnListado = new JMenu("Listado");
+		mnListado.setPreferredSize(new Dimension(226, 52));
+		mnListado.setForeground(Color.WHITE);
+		mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 24));
+		mnListado.setBackground(Color.DARK_GRAY);
+		menuBar_2.add(mnListado);
+		
+		JMenuItem mntmListarConsultas = new JMenuItem("Listar consultas");
+		mntmListarConsultas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MostrarConsulta mostrarconsulta = new MostrarConsulta(auxDoctor);
+				mostrarconsulta.setModal(true);
+				mostrarconsulta.setVisible(true);
+			}
+		});
+		mntmListarConsultas.setPreferredSize(new Dimension(226, 40));
+		mntmListarConsultas.setForeground(Color.WHITE);
+		mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
+		mntmListarConsultas.setBackground(Color.DARK_GRAY);
+		mnListado.add(mntmListarConsultas);
+		
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(228, 0, 523, 500);
+		/*
 		ImageIcon icon = new ImageIcon("recursos/PRECIOUS.jpg");
 		Image img = icon.getImage();
 		Image imgScale = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(imgScale);
 		lblNewLabel.setIcon(scaledIcon);
+		*/
 		contentPane.add(lblNewLabel);
 		
 	}

@@ -1,7 +1,7 @@
 package logico;
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -104,10 +104,10 @@ public class Clinica {
     }
     
     
-    public Cita crearCita(Paciente paciente, Doctor doctor, Date fechaHora, String sintomas) {
+    public Cita crearCita(Paciente paciente, Doctor doctor, Date fecha, String motivo) {
         
         String idCita = "C-" + genCodigoCitas;
-        Cita nuevaCita = new Cita(idCita, paciente, doctor, fechaHora, sintomas);
+        Cita nuevaCita = new Cita(idCita, paciente, doctor, fecha, motivo);
         regCita(nuevaCita);
         genCodigoCitas++;
         return nuevaCita; 
@@ -151,6 +151,18 @@ public class Clinica {
             }
         }
         return contador;
+    }
+    
+    public ArrayList<Consulta> getConsultasXDoctor(Doctor doctor) {
+        ArrayList<Consulta> consultasDoctor = new ArrayList<>();
+        
+        for(Consulta consulta : consultas) {
+            if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+                consultasDoctor.add(consulta);
+            }
+        }
+        
+        return consultasDoctor;
     }
     
 
