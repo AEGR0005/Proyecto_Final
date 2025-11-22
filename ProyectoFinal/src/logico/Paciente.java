@@ -13,7 +13,6 @@ public class Paciente {
 	private float peso;
 	private float estatura;
 	private String tipoSangre;
-    private String[] enfermedadesHereditarias;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
@@ -122,19 +121,6 @@ public class Paciente {
 		this.tipoSangre = tipoSangre;
 	}
 
-	public String[] getEnfermedadesHereditarias() {
-		return enfermedadesHereditarias;
-	}
-
-	public void setEnfermedadesHereditarias(String[] enfermedadesHereditarias) {
-		this.enfermedadesHereditarias = enfermedadesHereditarias;
-	}
 	
-	/*
-	public void mostrarHistorialXDoctor(Doctor doctor) {
-		
-		
-		
-	}*/
 
 }

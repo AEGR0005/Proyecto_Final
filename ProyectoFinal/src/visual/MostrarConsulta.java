@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JCheckBox;
 
 public class MostrarConsulta extends JDialog {
 
@@ -45,6 +46,7 @@ public class MostrarConsulta extends JDialog {
 	private JSpinner spnFecIni;
 	private JSpinner spnFecFin;
 	private JTextField txtFiltroPaciente;
+	private JCheckBox chkSoloImportantes;
 	
 
 	/**
@@ -78,8 +80,8 @@ public class MostrarConsulta extends JDialog {
 			);
 		}
 		
-		setTitle("Listado de Consultas");
-		setBounds(100, 100, 900, 577);
+		setTitle("Listado de Consultas - Dr. " + selectDoctor.getNombre());
+		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
 		doctor = selectDoctor;
@@ -87,28 +89,10 @@ public class MostrarConsulta extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
-		
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(0, 0, 0, 0);
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
 
 		JPanel panelBarra = new JPanel();
 		panelBarra.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
-		panelBarra.setBounds(15, 16, 853, 130);
+		panelBarra.setBounds(15, 16, 853, 160);
 		getContentPane().add(panelBarra);
 		panelBarra.setLayout(null);
 		
@@ -163,6 +147,16 @@ public class MostrarConsulta extends JDialog {
 		spnFecFin.setBounds(370, 88, 150, 26);
 		panelBarra.add(spnFecFin);
 		
+		chkSoloImportantes = new JCheckBox("Solo consultas importantes");
+		chkSoloImportantes.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chkSoloImportantes.setBounds(15, 125, 250, 23);
+		chkSoloImportantes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aplicarFiltros();
+			}
+		});
+		panelBarra.add(chkSoloImportantes);
+		
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -177,7 +171,8 @@ public class MostrarConsulta extends JDialog {
 		btnMostrarTodas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtFiltroPaciente.setText("");
-				listarConsultas(null, null, "");
+				chkSoloImportantes.setSelected(false);
+				listarConsultas(null, null, "", false);
 			}
 		});
 		btnMostrarTodas.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -185,13 +180,12 @@ public class MostrarConsulta extends JDialog {
 		panelBarra.add(btnMostrarTodas);
 		
 		JPanel panelTable = new JPanel();
-		panelTable.setBounds(15, 150, 853, 330);
+		panelTable.setBounds(15, 180, 853, 300);
 		getContentPane().add(panelTable);
 		panelTable.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panelTable.add(scrollPane, BorderLayout.CENTER);
-		
 		model = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -205,6 +199,7 @@ public class MostrarConsulta extends JDialog {
 			"Paciente", 
 			"Fecha", 
 			"Diagnóstico", 
+			"Tipo",
 			"Importante"
 		};
 		model.setColumnIdentifiers(headers);
@@ -214,10 +209,12 @@ public class MostrarConsulta extends JDialog {
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(80);  
-		table.getColumnModel().getColumn(1).setPreferredWidth(200); 
-		table.getColumnModel().getColumn(2).setPreferredWidth(100); 
-		table.getColumnModel().getColumn(3).setPreferredWidth(300); 
-		table.getColumnModel().getColumn(4).setPreferredWidth(80);  
+		table.getColumnModel().getColumn(1).setPreferredWidth(180); 
+		table.getColumnModel().getColumn(2).setPreferredWidth(90); 
+		table.getColumnModel().getColumn(3).setPreferredWidth(250); 
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(80);  
+		
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2) {
@@ -264,57 +261,55 @@ public class MostrarConsulta extends JDialog {
 		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelBotones.add(btnCerrar);
 		
-		listarConsultas(null, null, "");
+		listarConsultas(null, null, "", false);
 	}
 	
 	private void aplicarFiltros() {
 		Date fechaInicio = (Date) spnFecIni.getValue();
 		Date fechaFin = (Date) spnFecFin.getValue();
 		String nombrePaciente = txtFiltroPaciente.getText().trim();
-		listarConsultas(fechaInicio, fechaFin, nombrePaciente);
+		boolean soloImportantes = chkSoloImportantes.isSelected();
+		listarConsultas(fechaInicio, fechaFin, nombrePaciente, soloImportantes);
 	}
 	
-	private void listarConsultas(Date fechaInicio, Date fechaFin, String nombrePaciente) {
+	private void listarConsultas(Date fechaInicio, Date fechaFin, String nombrePaciente, boolean soloImportantes) {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 		
-		ArrayList<Consulta> consultas = getConsultasXDoctor(doctor);
+		ArrayList<Consulta> consultas = Clinica.getInstancia().getConsultasVisiblesXDoctor(doctor);
 		
 		for(Consulta consulta : consultas) {
+			boolean cumpleFiltros = true;
+			
 			if(fechaInicio != null && fechaFin != null) {
 				if(!dentroDelRango(consulta.getFecha(), fechaInicio, fechaFin)) {
-					continue;
+					cumpleFiltros = false;
 				}
 			}
 			
-			if(nombrePaciente != null && !nombrePaciente.isEmpty()) {
+			if(cumpleFiltros && nombrePaciente != null && !nombrePaciente.isEmpty()) {
 				String nombreConsulta = consulta.getPaciente().getNombre().toLowerCase();
 				if(!nombreConsulta.contains(nombrePaciente.toLowerCase())) {
-					continue;
+					cumpleFiltros = false;
 				}
 			}
 			
-			row[0] = consulta.getId();
-			row[1] = consulta.getPaciente().getNombre();
-			row[2] = formatearFecha(consulta.getFecha());
-			row[3] = obtenerResumenDiagnostico(consulta);
-			row[4] = consulta.getEsImportante() ? "Sí" : "No";
-			model.addRow(row);
-		}
-	}
-	
-	private ArrayList<Consulta> getConsultasXDoctor(Doctor doctor) {
-		ArrayList<Consulta> consultasDoctor = new ArrayList<>();
-		
-		for(Paciente paciente : doctor.getPacientes()) {
-			for(Consulta consulta : paciente.getHistorialClinico()) {
-				if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
-					consultasDoctor.add(consulta);
+			if(cumpleFiltros && soloImportantes) {
+				if(!consulta.getEsImportante()) {
+					cumpleFiltros = false;
 				}
 			}
+			
+			if(cumpleFiltros) {
+				row[0] = consulta.getId();
+				row[1] = consulta.getPaciente().getNombre();
+				row[2] = formatearFecha(consulta.getFecha());
+				row[3] = obtenerResumenDiagnostico(consulta);
+				row[4] = determinarTipoConsulta(consulta);
+				row[5] = consulta.getEsImportante() ? "Sí" : "No";
+				model.addRow(row);
+			}
 		}
-		
-		return consultasDoctor;
 	}
 	
 	private boolean dentroDelRango(Date fecha, Date inicio, Date fin) {
@@ -335,30 +330,26 @@ public class MostrarConsulta extends JDialog {
 		if(consulta.getDiagnostico() != null) {
 			String desc = consulta.getDiagnostico().getDescripcion();
 			if(desc != null && !desc.isEmpty()) {
-				return desc.length() > 50 ? 
-					desc.substring(0, 50) + "..." : desc;
+				return desc.length() > 40 ? 
+					desc.substring(0, 40) + "..." : desc;
 			}
 		}
 		return "Sin diagnóstico";
 	}
 	
+	private String determinarTipoConsulta(Consulta consulta) {
+		if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+			return "Propia";
+		}
+		return "Pública";
+	}
+	
 	private void mostrarDetalleConsulta(String codigo) {
-		Consulta consulta = buscarConsultaPorCodigo(codigo);
+		Consulta consulta = Clinica.getInstancia().buscarConsultaXId(codigo);
 		if(consulta != null) {
 			DetalleConsulta dialogo = new DetalleConsulta(consulta);
 			dialogo.setModal(true);
 			dialogo.setVisible(true);
 		}
-	}
-	
-	private Consulta buscarConsultaPorCodigo(String codigo) {
-		for(Paciente paciente : doctor.getPacientes()) {
-			for(Consulta consulta : paciente.getHistorialClinico()) {
-				if(consulta.getId().equals(codigo)) {
-					return consulta;
-				}
-			}
-		}
-		return null;
 	}
 }

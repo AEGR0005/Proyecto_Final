@@ -13,11 +13,15 @@ public class Clinica {
     public static int genCodigoDiagnosticos = 1;
     public static int genCodigoPacientes = 1;
     public static int genCodigoDoctores = 1;
+    public static int genCodigoVacuna = 1;
+    public static int genCodigoEnfermedad = 1;
 
     private ArrayList<Cita> citas;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Doctor> doctores;
     private ArrayList<Consulta> consultas;
+    private ArrayList<Enfermedad> enfermedades;
+    private ArrayList<Vacuna> vacunas;
     
     
     private static Clinica instancia = null;
@@ -27,6 +31,8 @@ public class Clinica {
     	pacientes = new ArrayList<Paciente>();
     	doctores = new ArrayList<Doctor>();
     	consultas = new ArrayList<Consulta>();
+    	enfermedades = new ArrayList<Enfermedad>();
+    	vacunas = new ArrayList<Vacuna>();
     }
     
     public static Clinica getInstancia() {
@@ -92,7 +98,7 @@ public class Clinica {
     	
     	return auxDoctor;
     }
-    
+
     public void regPaciente(Paciente paciente) {
     	crearDoctorPrueba();
     	pacientes.add(paciente);
@@ -188,6 +194,51 @@ public class Clinica {
     	pacientes.add(paciente);
     	
     	//crearDoctorPrueba();
+    }
+    
+    public Consulta buscarConsultaXId(String id) {
+        Consulta auxConsulta = null;
+        int i = 0;
+        
+        while(auxConsulta == null && i < consultas.size()) {
+            if(consultas.get(i).getId().equals(id)) {
+                auxConsulta = consultas.get(i);
+            }
+            i++;
+        }
+        
+        return auxConsulta;
+    }
+
+
+    public ArrayList<Consulta> getConsultasVisiblesXDoctor(Doctor doctor) {
+        ArrayList<Consulta> consultasVisibles = new ArrayList<>();
+        
+        for(Consulta consulta : consultas) {
+            if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+                consultasVisibles.add(consulta);
+            }
+        }
+        
+
+        for(Paciente paciente : pacientes) {
+            for(Consulta consultaImportante : paciente.getResumen()) {
+                boolean yaExiste = false;
+                int i = 0;
+                while(i < consultasVisibles.size() && !yaExiste) {
+                    if(consultasVisibles.get(i).getId().equals(consultaImportante.getId())) {
+                        yaExiste = true;
+                    }
+                    i++;
+                }
+                
+                if(!yaExiste) {
+                    consultasVisibles.add(consultaImportante);
+                }
+            }
+        }
+        
+        return consultasVisibles;
     }
 
 }
