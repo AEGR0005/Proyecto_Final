@@ -1,6 +1,6 @@
 package logico;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class Paciente {
@@ -22,13 +22,17 @@ public class Paciente {
     private ArrayList<Enfermedad> enfermedades;
     
 
-	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date fecNacim) {
+	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date date, 
+			float peso, float estatura, String tipoSangre) {
 		super();
 		this.idPaciente = idPaciente;
 		this.nombre = nombre;
 		this.cedula = cedula;
 		this.telefono = telefono;
-		this.fecNacim = fecNacim;
+		this.fecNacim = date;
+		this.peso = peso;
+		this.estatura = estatura;
+		this.tipoSangre = tipoSangre;
 
 		vacunas = new ArrayList<>();
 		resumen = new ArrayList<>();

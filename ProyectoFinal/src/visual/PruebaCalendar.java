@@ -16,11 +16,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 
 public class PruebaCalendar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtFecha;
+	private JSpinner spnDate;
 
 	/**
 	 * Launch the application.
@@ -77,12 +80,25 @@ public class PruebaCalendar extends JDialog {
 		txtFecha.setBounds(295, 38, 122, 26);
 		contentPanel.add(txtFecha);
 		txtFecha.setColumns(10);
+		
+		spnDate = new JSpinner();
+		spnDate.setModel(new SpinnerDateModel(new Date(1763870400000L), null, null, Calendar.DAY_OF_YEAR));
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(spnDate, "dd/MM/yyyy");
+		spnDate.setEditor(editor);
+		spnDate.setBounds(32, 68, 115, 26);
+		contentPanel.add(spnDate);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Date fecha = (Date)spnDate.getValue();
+						System.out.println(fecha);
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
