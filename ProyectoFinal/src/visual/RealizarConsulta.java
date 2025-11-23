@@ -172,7 +172,6 @@ public class RealizarConsulta extends JDialog {
         chckEnfermedadVigilancia.setFont(new Font("Tahoma", Font.BOLD, 12));
         chckEnfermedadVigilancia.setBounds(100, 135, 250, 23);
         panelConsulta.add(chckEnfermedadVigilancia);
-
         
         JLabel lblTratamiento = new JLabel("Tratamiento:");
         lblTratamiento.setForeground(Color.WHITE);
@@ -208,7 +207,7 @@ public class RealizarConsulta extends JDialog {
         chckEsImportante.setBackground(Color.DARK_GRAY);
         chckEsImportante.setForeground(Color.WHITE);
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-        chckEsImportante.setBounds(100, 310, 494, 23);
+        chckEsImportante.setBounds(100, 330, 494, 23);
         panelConsulta.add(chckEsImportante);
         
         
