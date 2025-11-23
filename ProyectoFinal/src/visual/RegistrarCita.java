@@ -101,9 +101,9 @@ public class RegistrarCita extends JDialog {
 			txtFiltroPaciente.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 			txtFiltroPaciente.setBorder(new LineBorder(new Color(65, 105, 225)));
 			txtFiltroPaciente.setBounds(154, 98, 453, 26);
+			/*
 			txtFiltroPaciente.addKeyListener(new KeyAdapter() {
 				@Override
-<<<<<<< HEAD
 				public void focusLost(FocusEvent e) {
 					auxPaciente = Clinica.getInstancia().buscarPacienteXId(txtIdPaciente.getText());
 					
@@ -115,12 +115,13 @@ public class RegistrarCita extends JDialog {
 					}else {
 						txtNomPac.setText(auxPaciente.getNombre());
 					}
-=======
+				}
+
 				public void keyReleased(KeyEvent e) {
 					filtrarPacientes(txtFiltroPaciente.getText());
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
+
 				}
-			});
+			});*/
 			panel.add(txtFiltroPaciente);
 			txtFiltroPaciente.setColumns(10);
 
@@ -204,8 +205,8 @@ public class RegistrarCita extends JDialog {
 			lblMotivo.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblMotivo.setBounds(31, 270, 113, 30);
 			panel.add(lblMotivo);
-<<<<<<< HEAD
-			
+
+			/*
 			txtNomPac = new JTextField();
 			txtNomPac.setEditable(false);
 			txtNomPac.setBounds(290, 98, 317, 26);
@@ -217,6 +218,7 @@ public class RegistrarCita extends JDialog {
 			txtNomDoc.setColumns(10);
 			txtNomDoc.setBounds(290, 148, 317, 26);
 			panel.add(txtNomDoc);
+			*/
 			
 			lblWarnPat = new JLabel("");
 			lblWarnPat.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -226,13 +228,11 @@ public class RegistrarCita extends JDialog {
 			panel.add(lblWarnPat);
 			
 			Clinica.getInstancia().createPaciente("Liz Marie", "031019");
-=======
 
 			cbxMotivo = new JComboBox<>();
 			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "Entrega de resultados", "Consulta"}));
 			cbxMotivo.setBounds(31, 310, 244, 22);
 			panel.add(cbxMotivo);
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 		}
 		{
 			JPanel buttonPane = new JPanel();
