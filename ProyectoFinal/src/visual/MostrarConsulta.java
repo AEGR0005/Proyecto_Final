@@ -7,29 +7,22 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
 import java.awt.Font;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.SystemColor;
-import javax.swing.border.MatteBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import logico.Consulta;
@@ -38,21 +31,31 @@ import logico.Paciente;
 import javax.swing.event.PopupMenuEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+=======
+import logico.Clinica;
+import logico.Consulta;
+import logico.Doctor;
+import logico.Paciente;
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+<<<<<<< HEAD
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+=======
+import javax.swing.JCheckBox;
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 
 public class MostrarConsulta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+<<<<<<< HEAD
 	private JComboBox cbxSearchOpcs;
 	private DefaultComboBoxModel mainModel;
 	private DefaultComboBoxModel codigoModel;
@@ -61,9 +64,17 @@ public class MostrarConsulta extends JDialog {
 	private JComboBox cbxDoctores;
 	private boolean showDoctores = false;
 	private Paciente auxPaciente;
+=======
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
+	private Doctor doctor;
+	private JSpinner spnFecIni;
+	private JSpinner spnFecFin;
+	private JTextField txtFiltroPaciente;
+	private JCheckBox chkSoloImportantes;
+	
 
 	/**
 	 * Launch the application.
@@ -81,39 +92,44 @@ public class MostrarConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+<<<<<<< HEAD
 	public MostrarConsulta(Paciente paciente) {
 		auxPaciente = paciente;
 		//auxPaciente = null;
 		setBounds(100, 100, 825, 577);
+=======
+	public MostrarConsulta(Doctor selectDoctor) {
+		
+		if(selectDoctor == null) {
+			ArrayList<String> especialidades = new ArrayList<>();
+			especialidades.add("Pediatría");
+			especialidades.add("Dermatología");
+			
+			selectDoctor = new Doctor(
+				"DOC-"+ 1,
+				"Liz Marie Torres",
+				20,
+				especialidades
+			);
+		}
+		
+		setTitle("Listado de Consultas - Dr. " + selectDoctor.getNombre());
+		setBounds(100, 100, 900, 600);
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
-
+		doctor = selectDoctor;
+		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(0, 0, 0, 0);
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
 
 		JPanel panelBarra = new JPanel();
 		panelBarra.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
-		panelBarra.setBounds(15, 16, 766, 116);
+		panelBarra.setBounds(15, 16, 853, 160);
 		getContentPane().add(panelBarra);
 		panelBarra.setLayout(null);
+<<<<<<< HEAD
 
 		JLabel lblNewLabel = new JLabel("Doctor:");
 		lblNewLabel.setBounds(15, 50, 69, 20);
@@ -192,66 +208,192 @@ public class MostrarConsulta extends JDialog {
 				}
 
 
+=======
+		
+		JLabel lblDoctor = new JLabel("Doctor:");
+		lblDoctor.setBounds(15, 14, 78, 20);
+		panelBarra.add(lblDoctor);
+		lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 15));
+		
+		JLabel lblNomDoc = new JLabel(selectDoctor.getNombre());
+		lblNomDoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNomDoc.setBounds(84, 14, 388, 20);
+		panelBarra.add(lblNomDoc);
+		
+		JLabel lblPaciente = new JLabel("Paciente:");
+		lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPaciente.setBounds(15, 50, 96, 20);
+		panelBarra.add(lblPaciente);
+		
+		txtFiltroPaciente = new JTextField();
+		txtFiltroPaciente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtFiltroPaciente.setBounds(117, 48, 403, 26);
+		txtFiltroPaciente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				aplicarFiltros();
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 			}
 		});
-
-
-
-		txtIdDoctor = new JTextField();
-		txtIdDoctor.setBounds(84, 72, 123, 26);
-		panelBarra.add(txtIdDoctor);
-		txtIdDoctor.setVisible(false);
-		txtIdDoctor.setColumns(10);
+		panelBarra.add(txtFiltroPaciente);
+		txtFiltroPaciente.setColumns(10);
 		
 		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
 		lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaInicio.setBounds(247, 50, 96, 20);
+		lblFechaInicio.setBounds(15, 90, 96, 20);
 		panelBarra.add(lblFechaInicio);
 		
 		JLabel lblFechaFin = new JLabel("Fecha Fin:");
 		lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaFin.setBounds(517, 50, 96, 20);
+		lblFechaFin.setBounds(290, 90, 96, 20);
 		panelBarra.add(lblFechaFin);
 		
-		JSpinner spnFecIni = new JSpinner();
+		spnFecIni = new JSpinner();
 		spnFecIni.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		spnFecIni.setModel(new SpinnerDateModel(new Date(1763265600000L), new Date(1763265600000L), null, Calendar.DAY_OF_YEAR));
-		spnFecIni.setBounds(339, 50, 150, 26);
+		spnFecIni.setModel(new SpinnerDateModel(new Date(1704085200000L), new Date(1704085200000L), null, Calendar.DAY_OF_YEAR));
+		spnFecIni.setEditor(new JSpinner.DateEditor(spnFecIni, "dd/MM/yyyy"));
+		spnFecIni.setBounds(117, 88, 150, 26);
 		panelBarra.add(spnFecIni);
 		
-		JSpinner spnFecFin = new JSpinner();
-		spnFecFin.setModel(new SpinnerDateModel(new Date(1763265600000L), new Date(1763265600000L), null, Calendar.DAY_OF_YEAR));
+		spnFecFin = new JSpinner();
+		spnFecFin.setModel(new SpinnerDateModel(new Date(), new Date(1704085200000L), null, Calendar.DAY_OF_YEAR));
 		spnFecFin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		spnFecFin.setBounds(589, 50, 150, 26);
+		spnFecFin.setEditor(new JSpinner.DateEditor(spnFecFin, "dd/MM/yyyy"));
+		spnFecFin.setBounds(370, 88, 150, 26);
 		panelBarra.add(spnFecFin);
 		
-		JLabel lblPaciente = new JLabel("Paciente:");
-		lblPaciente.setBounds(15, 14, 78, 20);
-		panelBarra.add(lblPaciente);
-		lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chkSoloImportantes = new JCheckBox("Solo consultas importantes");
+		chkSoloImportantes.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chkSoloImportantes.setBounds(15, 125, 250, 23);
+		chkSoloImportantes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aplicarFiltros();
+			}
+		});
+		panelBarra.add(chkSoloImportantes);
 		
+<<<<<<< HEAD
 		JLabel lblNomPac = new JLabel(auxPaciente.getNombre());
 		lblNomPac.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNomPac.setBounds(101, 14, 388, 20);
 		panelBarra.add(lblNomPac);
+=======
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aplicarFiltros();
+			}
+		});
+		btnFiltrar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnFiltrar.setBounds(550, 88, 100, 26);
+		panelBarra.add(btnFiltrar);
+		
+		JButton btnMostrarTodas = new JButton("Mostrar Todas");
+		btnMostrarTodas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtFiltroPaciente.setText("");
+				chkSoloImportantes.setSelected(false);
+				listarConsultas(null, null, "", false);
+			}
+		});
+		btnMostrarTodas.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnMostrarTodas.setBounds(670, 88, 150, 26);
+		panelBarra.add(btnMostrarTodas);
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 		
 		JPanel panelTable = new JPanel();
-		panelTable.setBounds(15, 135, 766, 344);
+		panelTable.setBounds(15, 180, 853, 300);
 		getContentPane().add(panelTable);
 		panelTable.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panelTable.add(scrollPane, BorderLayout.CENTER);
+		model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false; 
+			}
+		};
 		
+		table = new JTable();
+		String[] headers = {
+			"Código", 
+			"Paciente", 
+			"Fecha", 
+			"Diagnóstico", 
+			"Tipo",
+			"Importante"
+		};
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(80);  
+		table.getColumnModel().getColumn(1).setPreferredWidth(180); 
+		table.getColumnModel().getColumn(2).setPreferredWidth(90); 
+		table.getColumnModel().getColumn(3).setPreferredWidth(250); 
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(80);  
+		
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					int row = table.getSelectedRow();
+					if(row >= 0) {
+						String codigoConsulta = (String) table.getValueAt(row, 0);
+						mostrarDetalleConsulta(codigoConsulta);
+					}
+				}
+			}
+		});
 		
 		scrollPane.setViewportView(table);
 		
+<<<<<<< HEAD
 		model = new DefaultTableModel();
 		table = new JTable();
 		//model.setColumnIdentifiers();
 
+=======
+		JPanel panelBotones = new JPanel();
+		panelBotones.setBounds(15, 485, 853, 40);
+		getContentPane().add(panelBotones);
+		panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		JButton btnVerDetalle = new JButton("Ver Detalle");
+		btnVerDetalle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row >= 0) {
+					String codigoConsulta = (String) table.getValueAt(row, 0);
+					mostrarDetalleConsulta(codigoConsulta);
+				} else {
+					javax.swing.JOptionPane.showMessageDialog(null, 
+						"Debe seleccionar una consulta.", 
+						"Información", 
+						javax.swing.JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnVerDetalle.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelBotones.add(btnVerDetalle);
+		
+		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelBotones.add(btnCerrar);
+		
+		listarConsultas(null, null, "", false);
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 	}
 	
+<<<<<<< HEAD
 	private String[] getDoctoresModel(ArrayList<String> doctores) {
 		String[] opciones = new String[doctores.size()+1];
 		opciones[0] = "<Elegir>";
@@ -265,3 +407,94 @@ public class MostrarConsulta extends JDialog {
 	
 
 }
+=======
+	private void aplicarFiltros() {
+		Date fechaInicio = (Date) spnFecIni.getValue();
+		Date fechaFin = (Date) spnFecFin.getValue();
+		String nombrePaciente = txtFiltroPaciente.getText().trim();
+		boolean soloImportantes = chkSoloImportantes.isSelected();
+		listarConsultas(fechaInicio, fechaFin, nombrePaciente, soloImportantes);
+	}
+	
+	private void listarConsultas(Date fechaInicio, Date fechaFin, String nombrePaciente, boolean soloImportantes) {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		
+		ArrayList<Consulta> consultas = Clinica.getInstancia().getConsultasVisiblesXDoctor(doctor);
+		
+		for(Consulta consulta : consultas) {
+			boolean cumpleFiltros = true;
+			
+			if(fechaInicio != null && fechaFin != null) {
+				if(!dentroDelRango(consulta.getFecha(), fechaInicio, fechaFin)) {
+					cumpleFiltros = false;
+				}
+			}
+			
+			if(cumpleFiltros && nombrePaciente != null && !nombrePaciente.isEmpty()) {
+				String nombreConsulta = consulta.getPaciente().getNombre().toLowerCase();
+				if(!nombreConsulta.contains(nombrePaciente.toLowerCase())) {
+					cumpleFiltros = false;
+				}
+			}
+			
+			if(cumpleFiltros && soloImportantes) {
+				if(!consulta.getEsImportante()) {
+					cumpleFiltros = false;
+				}
+			}
+			
+			if(cumpleFiltros) {
+				row[0] = consulta.getId();
+				row[1] = consulta.getPaciente().getNombre();
+				row[2] = formatearFecha(consulta.getFecha());
+				row[3] = obtenerResumenDiagnostico(consulta);
+				row[4] = determinarTipoConsulta(consulta);
+				row[5] = consulta.getEsImportante() ? "Sí" : "No";
+				model.addRow(row);
+			}
+		}
+	}
+	
+	private boolean dentroDelRango(Date fecha, Date inicio, Date fin) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		int fechaInt = Integer.parseInt(sdf.format(fecha));
+		int inicioInt = Integer.parseInt(sdf.format(inicio));
+		int finInt = Integer.parseInt(sdf.format(fin));
+		
+		return fechaInt >= inicioInt && fechaInt <= finInt;
+	}
+	
+	private String formatearFecha(Date fecha) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(fecha);
+	}
+	
+	private String obtenerResumenDiagnostico(Consulta consulta) {
+		if(consulta.getDiagnostico() != null) {
+			String desc = consulta.getDiagnostico().getDescripcion();
+			if(desc != null && !desc.isEmpty()) {
+				return desc.length() > 40 ? 
+					desc.substring(0, 40) + "..." : desc;
+			}
+		}
+		return "Sin diagnóstico";
+	}
+	
+	private String determinarTipoConsulta(Consulta consulta) {
+		if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+			return "Propia";
+		}
+		return "Pública";
+	}
+	
+	private void mostrarDetalleConsulta(String codigo) {
+		Consulta consulta = Clinica.getInstancia().buscarConsultaXId(codigo);
+		if(consulta != null) {
+			DetalleConsulta dialogo = new DetalleConsulta(consulta);
+			dialogo.setModal(true);
+			dialogo.setVisible(true);
+		}
+	}
+}
+>>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git

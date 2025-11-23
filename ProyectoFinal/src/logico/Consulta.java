@@ -14,13 +14,12 @@ public class Consulta {
     //Que tenga el doctor sobre la consulta.
     private boolean esImportante;
     // LAS IMPORTANTES VAN DENTRO DE LA HISTORIA CLINICA DEL PACIENTE
-    private String motivoConsulta;
     
-    public Consulta(String id, Cita cita) {
+    public Consulta(String id, Paciente paciente, Doctor doctor, Date fecha) {
         this.id = id;
-        this.paciente = cita.getPaciente();
-        this.doctor = cita.getDoctor();
-        this.fecha = cita.getFechaHora();
+        this.paciente = paciente;
+        this.doctor = doctor;
+        this.fecha = fecha;
         this.esImportante = false;
     }
     
@@ -96,12 +95,5 @@ public class Consulta {
         this.esImportante = esImportante;
     }
     
-    public String getMotivoConsulta() {
-        return motivoConsulta;
-    }
-    
-    public void setMotivoConsulta(String motivoConsulta) {
-        this.motivoConsulta = motivoConsulta;
-    }
     
 }

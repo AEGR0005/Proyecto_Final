@@ -7,16 +7,16 @@ public class Cita {
     private Paciente paciente;
     private Doctor doctor;
     private Date fechaHora;
-    private String sintomas;
+    private String motivo;
     private EstadoCita estado;
     private Consulta consultaGenerada;
     
-    public Cita(String id, Paciente paciente, Doctor doctor, Date fechaHora, String sintomas) {
+    public Cita(String id, Paciente paciente, Doctor doctor, Date fechaHora, String motivo) {
         this.id = id;
         this.paciente = paciente;
         this.doctor = doctor;
         this.fechaHora = fechaHora;
-        this.sintomas = sintomas;
+        this.motivo = motivo;
         this.estado = EstadoCita.PROGRAMADA;
         this.consultaGenerada = null;
     }
@@ -54,11 +54,11 @@ public class Cita {
     }
     
     public String getSintomas() {
-		return sintomas;
+		return motivo;
 	}
 
-	public void setSintomas(String sintomas) {
-		this.sintomas = sintomas;
+	public void setSintomas(String motivo) {
+		this.motivo = motivo;
 	}
 
 	public EstadoCita getEstado() {

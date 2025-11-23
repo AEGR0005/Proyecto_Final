@@ -1,7 +1,7 @@
 package logico;
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -12,11 +12,16 @@ public class Clinica {
     public static int genCodigoCitas = 1;
     public static int genCodigoConsultas = 1;
     public static int genCodigoDiagnosticos = 1;
+    public static int genCodigoDoctores = 1;
+    public static int genCodigoVacuna = 1;
+    public static int genCodigoEnfermedad = 1;
 
     private ArrayList<Cita> citas;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Doctor> doctores;
     private ArrayList<Consulta> consultas;
+    private ArrayList<Enfermedad> enfermedades;
+    private ArrayList<Vacuna> vacunas;
     
     
     private static Clinica instancia = null;
@@ -26,6 +31,8 @@ public class Clinica {
     	pacientes = new ArrayList<Paciente>();
     	doctores = new ArrayList<Doctor>();
     	consultas = new ArrayList<Consulta>();
+    	enfermedades = new ArrayList<Enfermedad>();
+    	vacunas = new ArrayList<Vacuna>();
     }
     
     public static Clinica getInstancia() {
@@ -35,6 +42,7 @@ public class Clinica {
         return instancia;
     }
     
+
     public Paciente createPaciente(String nombre, String cedula) {
     	
     	Paciente auxPaciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, null, null);
@@ -42,23 +50,36 @@ public class Clinica {
     	pacientes.add(auxPaciente);
     	
     	return auxPaciente;
+}
+
+    public ArrayList<Cita> getCitas() {
+        return citas;
     }
+
+    public ArrayList<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+
+    public ArrayList<Doctor> getDoctores() {
+        return doctores;
+    }
+    
     
     public Paciente buscarPacienteXId(String id) {
     	Paciente auxPaciente = null;
     	int i = 0;
     	
-    	
     	while(auxPaciente == null && i < pacientes.size()) {
-    		
-    		if(pacientes.get(i).getIdPaciente().equals(id)) 
+    		if(pacientes.get(i).getIdPaciente().equals(id))
     			auxPaciente = pacientes.get(i);
-    		
+    		i++;
     	}
     	
     	
     	return auxPaciente;
     }
+    
     public Cita buscarCitaXId(String id) {
     	Cita auxCita = null;
     	int i = 0;
@@ -75,78 +96,58 @@ public class Clinica {
     	return auxCita;
 	}
     
-    public ArrayList<Cita> getCitas() {
-        return citas;
-    }
-
-    public ArrayList<Paciente> getPacientes() {
-        return pacientes;
-    }
-
-    public ArrayList<Doctor> getDoctores() {
-        return doctores;
-    }
-    
     public Doctor buscarDoctorXId(String id) {
     	Doctor auxDoctor = null;
     	int i = 0;
     	
     	while(auxDoctor == null && i < doctores.size()) {
     		
-    		//if(doctores.get(i).get)
+    		if(doctores.get(i).getIdDoctor().equals(id))
+    			auxDoctor = doctores.get(i);
+    		i++;
     		
     	}
     	
     	return auxDoctor;
+    }
+
+    public void regPaciente(Paciente paciente) {
+    	//crearDoctorPrueba();
+    	pacientes.add(paciente);
+    	genCodigoPacientes++;
     }
     
     private void regCita(Cita cita) {
     	citas.add(cita);
     }
     
-    public Cita crearCita(Paciente paciente, Doctor doctor, Date fechaHora, String sintomas) {
+    
+    public Cita crearCita(Paciente paciente, Doctor doctor, Date fecha, String motivo) {
         
         String idCita = "C-" + genCodigoCitas;
-        Cita nuevaCita = new Cita(idCita, paciente, doctor, fechaHora, sintomas);
+        Cita nuevaCita = new Cita(idCita, paciente, doctor, fecha, motivo);
         regCita(nuevaCita);
         genCodigoCitas++;
         return nuevaCita; 
     }
     
     public Consulta realizarConsulta(Cita cita) {
-    	
         if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
             return null; 
         }
         
         String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = new Consulta(idConsulta,cita);
+        Consulta nuevaConsulta = new Consulta(idConsulta, cita.getPaciente(), cita.getDoctor(), cita.getFechaHora());
         consultas.add(nuevaConsulta);
         cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
         cita.getPaciente().addConsultaToResumen(nuevaConsulta);
         cita.setConsultaGenerada(nuevaConsulta);
         cita.completar();
         genCodigoConsultas++;
-        genCodigoDiagnosticos++;
         
         return nuevaConsulta;
     }
-    
-    private HorarioDisponible buscarHorarioXDia(Doctor doctor, int diaCalendar) {
-        HorarioDisponible horarioEncontrado = null;
-        int i = 0;
-        
-        while(horarioEncontrado == null && i < doctor.getHorariosDisponibles().size()) {
-            HorarioDisponible horario = doctor.getHorariosDisponibles().get(i);
-            
-            if(horario.getDiaSemana() == diaCalendar) {
-                horarioEncontrado = horario;
-            }
-            i++;
-        }
-        
-        return horarioEncontrado;
-    }
+
     
     private int contarCitasXDia(Doctor doctor, Date fecha) {
         Calendar calendFecha = Calendar.getInstance();
@@ -171,6 +172,120 @@ public class Clinica {
         return contador;
     }
     
+
+    public ArrayList<Consulta> getConsultasXDoctor(Doctor doctor) {
+        ArrayList<Consulta> consultasDoctor = new ArrayList<>();
+        
+        for(Consulta consulta : consultas) {
+            if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+                consultasDoctor.add(consulta);
+            }
+        }
+        
+        return consultasDoctor;
+    }
     
 
+    public void crearDoctorPrueba() {
+        ArrayList<String> especialidades = new ArrayList<>();
+        especialidades.add("Pediatría");
+        especialidades.add("Dermatología");
+        
+        Doctor doctorPrueba = new Doctor(
+            "DOC"+ genCodigoDoctores,
+            "El tejas",
+            20,
+            especialidades
+        );
+        
+        doctores.add(doctorPrueba);
+    }
+    
+    public void crearPacientePrueba(String nombre, String cedula) {
+    	
+    	Paciente paciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, null, null);
+    	genCodigoPacientes++;
+    	pacientes.add(paciente);
+    	
+    	//crearDoctorPrueba();
+    }
+    
+    public Consulta buscarConsultaXId(String id) {
+        Consulta auxConsulta = null;
+        int i = 0;
+        
+        while(auxConsulta == null && i < consultas.size()) {
+            if(consultas.get(i).getId().equals(id)) {
+                auxConsulta = consultas.get(i);
+            }
+            i++;
+        }
+        
+        return auxConsulta;
+    }
+
+
+    public ArrayList<Consulta> getConsultasVisiblesXDoctor(Doctor doctor) {
+        ArrayList<Consulta> consultasVisibles = new ArrayList<>();
+        
+        for(Consulta consulta : consultas) {
+            if(consulta.getDoctor().getIdDoctor().equals(doctor.getIdDoctor())) {
+                consultasVisibles.add(consulta);
+            }
+        }
+        
+
+        for(Paciente paciente : pacientes) {
+            for(Consulta consultaImportante : paciente.getResumen()) {
+                boolean yaExiste = false;
+                int i = 0;
+                while(i < consultasVisibles.size() && !yaExiste) {
+                    if(consultasVisibles.get(i).getId().equals(consultaImportante.getId())) {
+                        yaExiste = true;
+                    }
+                    i++;
+                }
+                
+                if(!yaExiste) {
+                    consultasVisibles.add(consultaImportante);
+                }
+            }
+        }
+        
+        return consultasVisibles;
+    }
+    
+    public void registrarEnfermedad(Enfermedad enfermedad) {
+        enfermedades.add(enfermedad);
+        genCodigoEnfermedad++;
+    }
+    
+    public void registrarEnfermedadBajoVigilancia(Enfermedad enfermedad) {
+        enfermedad.activarVigilancia();
+        enfermedades.add(enfermedad);
+        genCodigoEnfermedad++;
+    }
+    
+    public Enfermedad buscarEnfermedadXId(String id) {
+        Enfermedad aux = null;
+        int i = 0;
+
+        while(aux == null && i < enfermedades.size()) {
+            if(enfermedades.get(i).getId().equals(id)) {
+                aux = enfermedades.get(i);
+            }
+            i++;
+        }
+
+        return aux;
+    }
+    
+    public void reportarCasoEnfermedad(String id) {
+        Enfermedad enf = buscarEnfermedadXId(id);
+        if(enf != null) {
+            enf.reportarCaso();
+        }
+    }
+    
+    
 }

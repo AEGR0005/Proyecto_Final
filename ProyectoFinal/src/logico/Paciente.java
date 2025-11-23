@@ -1,5 +1,6 @@
 package logico;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Paciente {
@@ -8,15 +9,20 @@ public class Paciente {
 	private String nombre;
 	private String cedula;
 	private String telefono;
-	private String fecNacim;
+	private Date fecNacim;
+	private float peso;
+	private float estatura;
+	private String tipoSangre;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
 	// Son las consultas que cada doctor elige como importantes. Todos los doctores las pueden ver.
 	private ArrayList<Consulta> historialClinico; 
 	// Guarda todas las consultas que el paciente a tenido. Al mostrar las de cada doctor, se puede hacer revisando a qué doctor pertenece cada consulta.
+    private ArrayList<Enfermedad> enfermedades;
+    
 
-	public Paciente(String idPaciente, String nombre, String cedula, String telefono, String fecNacim) {
+	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date fecNacim) {
 		super();
 		this.idPaciente = idPaciente;
 		this.nombre = nombre;
@@ -27,6 +33,7 @@ public class Paciente {
 		vacunas = new ArrayList<>();
 		resumen = new ArrayList<>();
 		historialClinico = new ArrayList<>();
+		enfermedades = new ArrayList<>();
 	}
 
 	public String getIdPaciente() {
@@ -61,11 +68,11 @@ public class Paciente {
 		this.telefono = telefono;
 	}
 
-	public String getFecNacim() {
+	public Date getFecNacim() {
 		return fecNacim;
 	}
 
-	public void setFecNacim(String fecNacim) {
+	public void setFecNacim(Date fecNacim) {
 		this.fecNacim = fecNacim;
 	}
 
@@ -92,6 +99,30 @@ public class Paciente {
 	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
 		this.historialClinico = historialClinico;
 	}
+
+	public float getPeso() {
+		return peso;
+	}
+
+	public void setPeso(float peso) {
+		this.peso = peso;
+	}
+
+	public float getEstatura() {
+		return estatura;
+	}
+
+	public void setEstatura(float estatura) {
+		this.estatura = estatura;
+	}
+
+	public String getTipoSangre() {
+		return tipoSangre;
+	}
+
+	public void setTipoSangre(String tipoSangre) {
+		this.tipoSangre = tipoSangre;
+	}
 	
 	public void addConsultaToResumen(Consulta consulta) {
 		if(consulta.getEsImportante())
@@ -113,12 +144,46 @@ public class Paciente {
 		
 		return doctores;
 	}
-	
-	/*
+
 	public void mostrarHistorialXDoctor(Doctor doctor) {
 		
 		
 		
-	}*/
+	}
 
+	public ArrayList<Enfermedad> getEnfermedades() {
+	    return enfermedades;
+	}
+
+	public void setEnfermedades(ArrayList<Enfermedad> enfermedades) {
+	    this.enfermedades = enfermedades;
+	}
+	
+	public void agregarEnfermedad(Enfermedad e) {
+        if(!enfermedades.contains(e)) {
+            enfermedades.add(e);
+        }
+    }
+
+	
+    public Enfermedad buscarEnfermedadPorId(String id) {
+        for (Enfermedad e : enfermedades) {
+            if (e.getId().equalsIgnoreCase(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+    
+
+    public ArrayList<Enfermedad> getEnfermedadesBajoVigilancia() {
+        ArrayList<Enfermedad> lista = new ArrayList<>();
+        for (Enfermedad e : enfermedades) {
+            if (e.isVigilancia()) {
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
+    
 }
