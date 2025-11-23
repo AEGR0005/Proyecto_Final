@@ -85,7 +85,7 @@ public class Enfermedad {
 	}
 
 	public void reportarCaso() {
-	        casosReportados++;
-	        fechaUltimoCaso = LocalDate.now();
-	}
+        casosReportados++;
+        fechaUltimoCaso = LocalDate.now();
+   }
 }
