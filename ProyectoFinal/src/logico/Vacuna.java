@@ -81,4 +81,13 @@ public class Vacuna {
         return !aplicada;
         
 	}
+	
+	public String infoHistorial() {
+	    if (!aplicada) {
+	        return nombre + " (Pendiente)";
+	    }
+	    return nombre + " - Aplicada el " + fechaAplicacion;
+	}
+	
+	
 }

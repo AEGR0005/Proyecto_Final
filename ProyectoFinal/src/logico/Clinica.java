@@ -54,7 +54,15 @@ public class Clinica {
         return doctores;
     }
     
-    public Paciente buscarPacienteXId(String id) {
+    public ArrayList<Vacuna> getVacunas() {
+		return vacunas;
+	}
+
+	public void setVacunas(ArrayList<Vacuna> vacunas) {
+		this.vacunas = vacunas;
+	}
+
+	public Paciente buscarPacienteXId(String id) {
     	Paciente auxPaciente = null;
     	int i = 0;
     	
@@ -273,5 +281,8 @@ public class Clinica {
         }
     }
     
-    
+    public ArrayList<Enfermedad> getEnfermedades() {
+        return enfermedades;
+    }
+
 }

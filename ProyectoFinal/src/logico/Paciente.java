@@ -165,5 +165,57 @@ public class Paciente {
         }
         return lista;
     }
+    
+    public void agregarVacuna(Vacuna v) {
+        if (v != null && !vacunas.contains(v)) {
+            vacunas.add(v);
+        }
+    }
+    
+    public Vacuna buscarVacunaPorId(String id) {
+        for (Vacuna v : vacunas) {
+            if (v.getId().equalsIgnoreCase(id)) {
+                return v;
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<Vacuna> getVacunasAplicadas() {
+        ArrayList<Vacuna> lista = new ArrayList<>();
+        for (Vacuna v : vacunas) {
+            if (v.isAplicada()) {
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+    
+    public ArrayList<Vacuna> getVacunasPendientes() {
+        ArrayList<Vacuna> lista = new ArrayList<>();
+        for (Vacuna v : vacunas) {
+            if (!v.isAplicada()) {
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+    
+    public boolean aplicarVacuna(String idVacuna, String doctor) {
+        Vacuna v = buscarVacunaPorId(idVacuna);
+        if (v != null && !v.isAplicada()) {
+            v.aplicarVacuna(doctor);
+            return true;
+        }
+        return false;
+    }
+    
+    public ArrayList<Boolean> getEstadosVacunas() {
+        ArrayList<Boolean> estados = new ArrayList<>();
+        for (Vacuna v : vacunas) {
+            estados.add(v.isAplicada());
+        }
+        return estados;
+    }
 
 }
