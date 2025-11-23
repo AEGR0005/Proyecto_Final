@@ -136,12 +136,29 @@ public class Main extends JFrame {
 				realizarConsulta.setVisible(true);
 			}
 		});
+		
 		mntmNewMenuItem_2.setPreferredSize(new java.awt.Dimension(226, 40)); 
 		mntmNewMenuItem_2.setBackground(Color.DARK_GRAY);    
 		mntmNewMenuItem_2.setForeground(Color.WHITE);
 		mntmNewMenuItem_2.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
+		
+		JMenuItem mntmRegistrarVacuna = new JMenuItem("Vacuna");
+        mntmRegistrarVacuna.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManejoVacuna manejoVacuna = new ManejoVacuna();
+                manejoVacuna.setModal(true);
+                manejoVacuna.setVisible(true);
+            }
+        });
+        mntmRegistrarVacuna.setPreferredSize(new Dimension(226, 40));
+        mntmRegistrarVacuna.setBackground(Color.DARK_GRAY);
+        mntmRegistrarVacuna.setForeground(Color.WHITE);
+        mntmRegistrarVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
+        mnNewMenu.add(mntmRegistrarVacuna);
+        
+        
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar_1.setBackground(Color.DARK_GRAY);
 		menuBar_1.setBounds(0, 0, 226, 52);
