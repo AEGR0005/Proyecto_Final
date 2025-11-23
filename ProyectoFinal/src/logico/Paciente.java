@@ -19,6 +19,8 @@ public class Paciente {
 	// Son las consultas que cada doctor elige como importantes. Todos los doctores las pueden ver.
 	private ArrayList<Consulta> historialClinico; 
 	// Guarda todas las consultas que el paciente a tenido. Al mostrar las de cada doctor, se puede hacer revisando a qué doctor pertenece cada consulta.
+    private ArrayList<Enfermedad> enfermedades;
+    
 
 	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date fecNacim) {
 		super();
@@ -31,6 +33,7 @@ public class Paciente {
 		vacunas = new ArrayList<>();
 		resumen = new ArrayList<>();
 		historialClinico = new ArrayList<>();
+		enfermedades = new ArrayList<>();
 	}
 
 	public String getIdPaciente() {
@@ -120,7 +123,38 @@ public class Paciente {
 	public void setTipoSangre(String tipoSangre) {
 		this.tipoSangre = tipoSangre;
 	}
-
 	
+	public ArrayList<Enfermedad> getEnfermedades() {
+	    return enfermedades;
+	}
+
+	public void setEnfermedades(ArrayList<Enfermedad> enfermedades) {
+	    this.enfermedades = enfermedades;
+	}
+	
+	public void agregarEnfermedad(Enfermedad e) {
+        if(!enfermedades.contains(e)) {
+            enfermedades.add(e);
+        }
+    }
+
+    public Enfermedad buscarEnfermedadPorId(String id) {
+        for (Enfermedad e : enfermedades) {
+            if (e.getId().equalsIgnoreCase(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Enfermedad> getEnfermedadesBajoVigilancia() {
+        ArrayList<Enfermedad> lista = new ArrayList<>();
+        for (Enfermedad e : enfermedades) {
+            if (e.isVigilancia()) {
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
 
 }

@@ -240,5 +240,38 @@ public class Clinica {
         
         return consultasVisibles;
     }
+    
+    public void registrarEnfermedad(Enfermedad enfermedad) {
+        enfermedades.add(enfermedad);
+        genCodigoEnfermedad++;
+    }
+    
+    public void registrarEnfermedadBajoVigilancia(Enfermedad enfermedad) {
+        enfermedad.activarVigilancia();
+        enfermedades.add(enfermedad);
+        genCodigoEnfermedad++;
+    }
+    
+    public Enfermedad buscarEnfermedadXId(String id) {
+        Enfermedad aux = null;
+        int i = 0;
 
+        while(aux == null && i < enfermedades.size()) {
+            if(enfermedades.get(i).getId().equals(id)) {
+                aux = enfermedades.get(i);
+            }
+            i++;
+        }
+
+        return aux;
+    }
+    
+    public void reportarCasoEnfermedad(String id) {
+        Enfermedad enf = buscarEnfermedadXId(id);
+        if(enf != null) {
+            enf.reportarCaso();
+        }
+    }
+    
+    
 }
