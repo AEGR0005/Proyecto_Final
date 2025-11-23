@@ -39,7 +39,8 @@ public class RealizarConsulta extends JDialog {
     private JTextArea txtObservaciones;
     private JCheckBox chckEsImportante;
     private Diagnostico diagnosticoActual;
-    
+    private JCheckBox chckEnfermedadVigilancia;
+
     
     public static void main(String[] args) {
         try {
@@ -164,14 +165,23 @@ public class RealizarConsulta extends JDialog {
         btnCrearDiagnostico.setBounds(454, 106, 140, 23);
         panelConsulta.add(btnCrearDiagnostico);
         
+        chckEnfermedadVigilancia = new JCheckBox("Enfermedad bajo vigilancia");
+        //chckEnfermedadVigilancia.setEnabled(false);
+        chckEnfermedadVigilancia.setForeground(Color.WHITE);
+        chckEnfermedadVigilancia.setBackground(Color.DARK_GRAY);
+        chckEnfermedadVigilancia.setFont(new Font("Tahoma", Font.BOLD, 12));
+        chckEnfermedadVigilancia.setBounds(100, 135, 250, 23);
+        panelConsulta.add(chckEnfermedadVigilancia);
+
+        
         JLabel lblTratamiento = new JLabel("Tratamiento:");
         lblTratamiento.setForeground(Color.WHITE);
         lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblTratamiento.setBounds(10, 145, 80, 14);
+        lblTratamiento.setBounds(10, 170, 80, 14);
         panelConsulta.add(lblTratamiento);
         
         JScrollPane scrollTratamiento = new JScrollPane();
-        scrollTratamiento.setBounds(100, 145, 494, 70);
+        scrollTratamiento.setBounds(100, 170, 494, 70);
         panelConsulta.add(scrollTratamiento);
         
         txtTratamiento = new JTextArea();
@@ -182,11 +192,11 @@ public class RealizarConsulta extends JDialog {
         JLabel lblObservaciones = new JLabel("Observaciones:");
         lblObservaciones.setForeground(Color.WHITE);
         lblObservaciones.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblObservaciones.setBounds(10, 230, 90, 14);
+        lblObservaciones.setBounds(10, 255, 90, 14);
         panelConsulta.add(lblObservaciones);
         
         JScrollPane scrollObservaciones = new JScrollPane();
-        scrollObservaciones.setBounds(100, 230, 494, 70);
+        scrollObservaciones.setBounds(100, 255, 494, 70);
         panelConsulta.add(scrollObservaciones);
         
         txtObservaciones = new JTextArea();
@@ -270,6 +280,10 @@ public class RealizarConsulta extends JDialog {
         if(diag != null) {
             diagnosticoActual = diag;
             txtDiagnostico.setText(diag.getCodigoDiagnostico() + " - " + diag.getDescripcion().substring(0, Math.min(30, diag.getDescripcion().length())) + "...");
+            
+            if(diag.getEnfermedadDiagnosticada() != null) {
+                chckEnfermedadVigilancia.setSelected(diag.getEnfermedadDiagnosticada().isVigilancia());
+          }
         }
     }
     
@@ -336,5 +350,7 @@ public class RealizarConsulta extends JDialog {
         txtObservaciones.setText("");
         chckEsImportante.setSelected(false);
         diagnosticoActual = null;
+        chckEnfermedadVigilancia.setSelected(false);
+
     }
 }
