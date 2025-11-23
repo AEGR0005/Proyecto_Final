@@ -5,6 +5,8 @@ import java.time.LocalDate;
 public class Enfermedad {
 	private String id;
 	private String nombre;
+	private String sintomas;
+	private String descripcion;
     private boolean esContagiosa;
 	private boolean vigilancia;
     private int casosReportados;
@@ -12,7 +14,7 @@ public class Enfermedad {
     private LocalDate fechaInicioVigilancia;
     
 	
-	public Enfermedad(String id, String nombre, boolean vigilancia, boolean esContagiosa) {
+	public Enfermedad(String id, String nombre, boolean vigilancia, boolean esContagiosa, String sintomas, String descripcion) {
 		super();
 		
 		this.id = id;
@@ -21,6 +23,8 @@ public class Enfermedad {
         this.vigilancia = false;
         this.casosReportados = 0;
         this.fechaUltimoCaso = null;
+        this.sintomas = sintomas;
+        this.descripcion = descripcion;
 	}
 	
 	public String getId() {
@@ -35,11 +39,28 @@ public class Enfermedad {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public String getSintomas() {
+		return sintomas;
+	}
+
+	public void setSintomas(String sintomas) {
+		this.sintomas = sintomas;
+	}
+	
 	public boolean isVigilancia() {
 		return vigilancia;
 	}
 	public void setVigilancia(boolean vigilancia) {
 		this.vigilancia = vigilancia;
+	}
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public boolean isEsContagiosa() {
@@ -88,4 +109,5 @@ public class Enfermedad {
         casosReportados++;
         fechaUltimoCaso = LocalDate.now();
    }
+
 }

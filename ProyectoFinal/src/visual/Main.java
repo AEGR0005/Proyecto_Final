@@ -114,6 +114,20 @@ public class Main extends JFrame {
 		mntmNewMenuItem_1.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
+		JMenuItem mntmRegistrarEnfermedad = new JMenuItem("Enfermedad");
+		mntmRegistrarEnfermedad.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent arg0) {
+		        RegEnfermedad regEnfermedad = new RegEnfermedad();
+		        regEnfermedad.setModal(true);
+		        regEnfermedad.setVisible(true);
+		    }
+		});
+		mntmRegistrarEnfermedad.setPreferredSize(new java.awt.Dimension(226, 40)); 
+		mntmRegistrarEnfermedad.setBackground(Color.DARK_GRAY);    
+		mntmRegistrarEnfermedad.setForeground(Color.WHITE);
+		mntmRegistrarEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
+		mnNewMenu.add(mntmRegistrarEnfermedad);
+		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Consulta");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

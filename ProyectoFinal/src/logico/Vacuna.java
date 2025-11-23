@@ -9,6 +9,9 @@ public class Vacuna {
 	private String nombre;
 	private Enfermedad enfermedad;
 	private int edadMinima;
+	private boolean aplicada;           
+	private Date fechaAplicacion;
+    private String fabricante;
 	
 	public Vacuna(String id, String nombre, Enfermedad enfermedad, int edadMinima) {
 		super();
@@ -16,6 +19,8 @@ public class Vacuna {
 		this.nombre = nombre;
 		this.enfermedad = enfermedad;
 		this.edadMinima = edadMinima;
+		this.aplicada = false;          
+        this.fechaAplicacion = null;
 	}
 	
 	public String getId() {
@@ -42,7 +47,38 @@ public class Vacuna {
 	public void setEdadMinima(int edadMinima) {
 		this.edadMinima = edadMinima;
 	}
+
+	public boolean isAplicada() {
+		return aplicada;
+	}
+
+	public void setAplicada(boolean aplicada) {
+		this.aplicada = aplicada;
+	}
+
+	public Date getFechaAplicacion() {
+		return fechaAplicacion;
+	}
+
+	public void setFechaAplicacion(Date fechaAplicacion) {
+		this.fechaAplicacion = fechaAplicacion;
+	}
 	
+	public String getFabricante() {
+		return fabricante;
+	}
+
+	public void setFabricante(String fabricante) {
+		this.fabricante = fabricante;
+	}
 	
+	public void aplicarVacuna(String doctor) {
+	    this.aplicada = true;
+	    this.fechaAplicacion = new Date();
+    }
 	
+	public boolean estaPendiente() {
+        return !aplicada;
+        
+	}
 }

@@ -13,6 +13,7 @@ public class Paciente {
 	private float peso;
 	private float estatura;
 	private String tipoSangre;
+	private String sexo;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
@@ -130,6 +131,14 @@ public class Paciente {
 
 	public void setEnfermedades(ArrayList<Enfermedad> enfermedades) {
 	    this.enfermedades = enfermedades;
+	}
+	
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 	
 	public void agregarEnfermedad(Enfermedad e) {
