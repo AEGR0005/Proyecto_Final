@@ -22,6 +22,8 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import javax.swing.UIManager;
 import logico.Clinica;
 import logico.Paciente;
+import utilidad.Formato;
+
 import java.util.Date;
 import java.text.ParseException;
 
@@ -37,18 +39,18 @@ import java.util.Calendar;
 public class RegistrarPaciente extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JTextField txtNombre;
-    private JTextField txtCedula;
     private JTextField txtTelefono;
+    private JTextField txtCedula;
     private JSpinner spinnerDia;
     private JComboBox<String> cbxMes;
     private JSpinner spinnerAnio;
     private JTextField txtPeso;
     private JTextField txtEstatura;
     private JSpinner spnFecha;
-    private JComboBox comboBox;
+    private JComboBox cbxSexo;
     private JComboBox cbxTipoSangre;
     private JSpinner spnFechaNacim;
-    private SpinnerDateModel dateModel;
+    private JTextArea txtDireccion;
     
     /**
      * Launch the application.
@@ -71,7 +73,6 @@ public class RegistrarPaciente extends JDialog {
         setBounds(100, 100, 631, 450);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBackground(new Color(72, 209, 204));
-        //contentPanel.setBackground(Color.DARK_GRAY);
         contentPanel.setForeground(Color.WHITE);
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -103,10 +104,10 @@ public class RegistrarPaciente extends JDialog {
         lblCedula.setFont(new Font("Tahoma", Font.BOLD, 13));
         panel.add(lblCedula);
         
-        txtCedula = new JTextField();
-        txtCedula.setBounds(447, 118, 118, 20);
-        panel.add(txtCedula);
-        txtCedula.setColumns(10);
+        txtTelefono = new JTextField();
+        txtTelefono.setBounds(447, 118, 118, 20);
+        panel.add(txtTelefono);
+        txtTelefono.setColumns(10);
         
         JLabel lblTelefono = new JLabel("Teléfono:");
         lblTelefono.setBounds(382, 118, 60, 20);
@@ -114,10 +115,10 @@ public class RegistrarPaciente extends JDialog {
         lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 13));
         panel.add(lblTelefono);
         
-        txtTelefono = new JTextField();
-        txtTelefono.setBounds(447, 91, 118, 20);
-        panel.add(txtTelefono);
-        txtTelefono.setColumns(10);
+        txtCedula = new JTextField();
+        txtCedula.setBounds(447, 91, 118, 20);
+        panel.add(txtCedula);
+        txtCedula.setColumns(10);
         
         JLabel lblSexo = new JLabel("Sexo:");
         lblSexo.setBounds(258, 104, 43, 20);
@@ -125,10 +126,10 @@ public class RegistrarPaciente extends JDialog {
         lblSexo.setFont(new Font("Tahoma", Font.BOLD, 13));
         panel.add(lblSexo);
         
-        comboBox = new JComboBox();
-        comboBox.setBounds(302, 101, 43, 26);
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"F", "M"}));
-        panel.add(comboBox);
+        cbxSexo = new JComboBox();
+        cbxSexo.setBounds(302, 101, 43, 26);
+        cbxSexo.setModel(new DefaultComboBoxModel(new String[] {"F", "M"}));
+        panel.add(cbxSexo);
         
         JLabel lblFechaNacimiento = new JLabel("<html>Fecha de<br>Nacimiento:<html>");
         lblFechaNacimiento.setBounds(12, 100, 92, 29);
@@ -137,19 +138,29 @@ public class RegistrarPaciente extends JDialog {
         lblFechaNacimiento.setFont(new Font("Tahoma", Font.BOLD, 13));
         
         JLabel lblDireccion = new JLabel("Direcci\u00F3n:");
-        lblDireccion.setBounds(12, 169, 80, 20);
+        lblDireccion.setBounds(12, 159, 80, 20);
         lblDireccion.setForeground(Color.WHITE);
         lblDireccion.setFont(new Font("Tahoma", Font.BOLD, 13));
         panel.add(lblDireccion);
         
         spnFechaNacim = new JSpinner();
-        //spnFechaNacim.setModel(new SpinnerDateModel(new Date(974260800000L), new Date(-1576697400000L), new Date(1767153600000L), Calendar.DAY_OF_YEAR));
-        dateModel = new SpinnerDateModel(new Date(974260800000L), new Date(-1576697400000L), new Date(1767153600000L), Calendar.DAY_OF_YEAR);
-        spnFechaNacim.setModel(dateModel);
-        JSpinner.DateEditor editor = new JSpinner.DateEditor(spnFechaNacim, "dd/MM/yyyy");
-        spnFechaNacim.setEditor(editor);
+        spnFechaNacim.setModel(new SpinnerDateModel(new Date(974260800000L), new Date(-1576697400000L), new Date(1767153600000L), Calendar.DAY_OF_YEAR));
+        Formato.setSpinner(spnFechaNacim);
         spnFechaNacim.setBounds(97, 101, 107, 26);
         panel.add(spnFechaNacim);
+        
+        JPanel panelDireccion = new JPanel();
+        panelDireccion.setBounds(97, 159, 468, 49);
+        panel.add(panelDireccion);
+        panelDireccion.setLayout(new BorderLayout(0, 0));
+        
+        JScrollPane scrollDireccion = new JScrollPane();
+        panelDireccion.add(scrollDireccion, BorderLayout.CENTER);
+        
+        txtDireccion = new JTextArea();
+        txtDireccion.setLineWrap(true);
+        txtDireccion.setWrapStyleWord(true);
+        scrollDireccion.setViewportView(txtDireccion);
 
         
         JPanel panelCondición = new JPanel();
@@ -206,45 +217,7 @@ public class RegistrarPaciente extends JDialog {
         
         
         int anioActual = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
-        
-        //No se puede hacer por separado porque la cantidad de días de cada mes cambia.
-        /*
-        JPanel miniPanelFecha = new JPanel();
-        miniPanelFecha.setBounds(176, 135, 238, 54);
-        miniPanelFecha.setBackground(Color.DARK_GRAY);
-        panel.add(miniPanelFecha);
-        miniPanelFecha.setLayout(null);
-        
-        
-        spinnerDia = new JSpinner();
-        spinnerDia.setBounds(15, 16, 50, 20);
-        miniPanelFecha.add(spinnerDia);
-        spinnerDia.setModel(new SpinnerNumberModel(1, 1, 31, 1));
-        
-        JLabel lblBarra1 = new JLabel("/");
-        lblBarra1.setBounds(69, 16, 10, 20);
-        miniPanelFecha.add(lblBarra1);
-        lblBarra1.setForeground(Color.WHITE);
-        lblBarra1.setFont(new Font("Tahoma", Font.BOLD, 16));
-        
-        cbxMes = new JComboBox<>();
-        cbxMes.setBounds(82, 16, 50, 20);
-        miniPanelFecha.add(cbxMes);
-        cbxMes.setModel(new DefaultComboBoxModel<>(new String[] {
-            "01", "02", "03", "04", "05", "06", 
-            "07", "08", "09", "10", "11", "12"
-        }));
-        
-        JLabel lblBarra2 = new JLabel("/");
-        lblBarra2.setBounds(138, 16, 10, 20);
-        miniPanelFecha.add(lblBarra2);
-        lblBarra2.setForeground(Color.WHITE);
-        lblBarra2.setFont(new Font("Tahoma", Font.BOLD, 16));
-        spinnerAnio = new JSpinner();
-        spinnerAnio.setBounds(147, 16, 70, 20);
-        miniPanelFecha.add(spinnerAnio);
-        spinnerAnio.setModel(new SpinnerNumberModel(2000, 1900, anioActual, 1));
-        */
+
         {
             JPanel buttonPane = new JPanel();
             buttonPane.setBackground(new Color(112, 128, 144));
@@ -277,63 +250,58 @@ public class RegistrarPaciente extends JDialog {
     }
     
     private void registrarPaciente() {
-        if(txtNombre.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre del paciente.", 
-                "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if(txtCedula.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar la cédula del paciente.", 
-                "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if(txtTelefono.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el teléfono del paciente.", 
-                "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if(txtPeso.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el peso del paciente.", 
-                "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if(txtEstatura.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el estatura del paciente.", 
-                "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        /*
-        int dia = (int) spinnerDia.getValue();
-        int mes = cbxMes.getSelectedIndex() + 1;
-        int año = (int) spinnerAnio.getValue();
-        
-        String fechaStr = String.format("%04d-%02d-%02d", año, mes, dia);
-        Date fechaNacimiento = Date.valueOf(fechaStr);
-        */  
+    	
+    	if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente."))
+        	return;
+    	
+    	if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar el cédula del paciente."))
+        	return;
+
+        if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente."))
+        	return;
+
+        if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", 
+        		"El teléfono no puede contener caracteres.")) {
+        	return;
+    	}
+    	
+    	if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar el dirección del paciente."))
+        	return;
+
+    	if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente."))
+        	return;
+    	
+    	if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", 
+        		"El peso no puede contener caracteres.")) {
+        	return;
+    	}
+    	if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar el estatura del paciente."))
+        	return;
+    	
+    	if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", 
+        		"El peso no puede contener caracteres.")) {
+        	return;
+    	}
+    	
+    	if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", 
+        		"La estatura no puede contener caracteres.")) {
+        	return;
+    	}
+    	
         
         String idPaciente = "PAC-" + Clinica.genCodigoPacientes;
-
-        
-        Date fecha = (Date)spnFechaNacim.getValue();
-        
-        if(fecha != null)
-        	System.out.println(fecha);
         
         Paciente paciente = new Paciente(
-            idPaciente,
-            txtNombre.getText().trim(),
-            txtCedula.getText().trim(),
-            txtTelefono.getText().trim(),
-            (Date)spnFechaNacim.getValue(),
-            new Float(txtPeso.getText().trim()),
-            new Float(txtEstatura.getText().trim()),
-            cbxTipoSangre.getSelectedItem().toString()
-        );
+        	idPaciente, 
+        	txtNombre.getText().trim(), 
+        	txtCedula.getText().trim(), 
+        	txtTelefono.getText().trim(), 
+        	(Date)spnFechaNacim.getValue(), 
+        	(String)cbxSexo.getSelectedItem(), 
+        	new Float(txtPeso.getText().trim()), 
+        	new Float(txtEstatura.getText().trim()), 
+        	cbxTipoSangre.getSelectedItem().toString(), 
+        	txtDireccion.getText().trim());
         
         Clinica.getInstancia().regPaciente(paciente);
         
@@ -345,17 +313,15 @@ public class RegistrarPaciente extends JDialog {
         limpiarCampos();
     }
     
+    
     private void limpiarCampos() {
         txtNombre.setText("");
         txtCedula.setText("");
         txtTelefono.setText("");
+        txtDireccion.setText("");
         txtPeso.setText("");
         txtEstatura.setText("");
         cbxTipoSangre.setSelectedIndex(0);
-        /*
-        spinnerDia.setValue(1);
-        cbxMes.setSelectedIndex(0);
-        spinnerAnio.setValue(2000);
-        */
+
     }
 }

@@ -41,16 +41,6 @@ public class Clinica {
         }
         return instancia;
     }
-    
-
-    public Paciente createPaciente(String nombre, String cedula) {
-    	
-    	Paciente auxPaciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, null, null);
-    	genCodigoPacientes++;
-    	pacientes.add(auxPaciente);
-    	
-    	return auxPaciente;
-}
 
     public ArrayList<Cita> getCitas() {
         return citas;
@@ -201,15 +191,15 @@ public class Clinica {
         doctores.add(doctorPrueba);
     }
     
-    public void crearPacientePrueba(String nombre, String cedula) {
+    public Paciente crearPacientePrueba(String nombre, String cedula) {
     	
-    	Paciente paciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, null, null);
+    	Paciente auxPaciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, "849", null, "U", (float)100, (float)5.2, "A+", null);
     	genCodigoPacientes++;
-    	pacientes.add(paciente);
+    	pacientes.add(auxPaciente);
     	
-    	//crearDoctorPrueba();
+    	return auxPaciente;
     }
-    
+
     public Consulta buscarConsultaXId(String id) {
         Consulta auxConsulta = null;
         int i = 0;
@@ -286,6 +276,13 @@ public class Clinica {
             enf.reportarCaso();
         }
     }
+    
+    public String getDateString(Date fecha) {
+		Calendar calen = Calendar.getInstance();
+		calen.setTime(fecha);
+		
+		return calen.get(Calendar.DAY_OF_MONTH)+"/"+(calen.get(Calendar.MONTH)+1)+"/"+calen.get(Calendar.YEAR);
+	}
     
     
 }

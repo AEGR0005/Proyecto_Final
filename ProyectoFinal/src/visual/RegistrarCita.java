@@ -10,6 +10,7 @@ import logico.Cita;
 import logico.Clinica;
 import logico.Doctor;
 import logico.Paciente;
+import utilidad.Formato;
 
 import java.awt.Font;
 import java.awt.LayoutManager;
@@ -191,6 +192,7 @@ public class RegistrarCita extends JDialog {
 			spnFecha.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
 			spnFecha.setBorder(new LineBorder(new Color(65, 105, 225)));
 			spnFecha.setModel(new SpinnerDateModel(new Date(1762574400000L), null, null, Calendar.DAY_OF_YEAR));
+			Formato.setSpinner(spnFecha);
 			spnFecha.setBounds(443, 48, 164, 26);
 			panel.add(spnFecha);
 
@@ -227,7 +229,7 @@ public class RegistrarCita extends JDialog {
 			lblWarnPat.setBounds(129, 82, 192, 10);
 			panel.add(lblWarnPat);
 			
-			Clinica.getInstancia().createPaciente("Liz Marie", "031019");
+			Clinica.getInstancia().crearPacientePrueba("Liz Marie", "031019");
 
 			cbxMotivo = new JComboBox<>();
 			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "Entrega de resultados", "Consulta"}));

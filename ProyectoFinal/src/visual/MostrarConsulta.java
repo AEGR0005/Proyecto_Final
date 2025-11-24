@@ -22,21 +22,10 @@ import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-<<<<<<< HEAD
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import logico.Consulta;
-import logico.Paciente;
-
-import javax.swing.event.PopupMenuEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-=======
 import logico.Clinica;
 import logico.Consulta;
 import logico.Doctor;
 import logico.Paciente;
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.text.SimpleDateFormat;
@@ -45,27 +34,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-<<<<<<< HEAD
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-=======
 import javax.swing.JCheckBox;
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 
 public class MostrarConsulta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-<<<<<<< HEAD
-	private JComboBox cbxSearchOpcs;
-	private DefaultComboBoxModel mainModel;
-	private DefaultComboBoxModel codigoModel;
-	private DefaultComboBoxModel doctoresModel;
-	private JTextField txtIdDoctor;
-	private JComboBox cbxDoctores;
-	private boolean showDoctores = false;
-	private Paciente auxPaciente;
-=======
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
@@ -92,12 +65,6 @@ public class MostrarConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-<<<<<<< HEAD
-	public MostrarConsulta(Paciente paciente) {
-		auxPaciente = paciente;
-		//auxPaciente = null;
-		setBounds(100, 100, 825, 577);
-=======
 	public MostrarConsulta(Doctor selectDoctor) {
 		
 		if(selectDoctor == null) {
@@ -115,7 +82,6 @@ public class MostrarConsulta extends JDialog {
 		
 		setTitle("Listado de Consultas - Dr. " + selectDoctor.getNombre());
 		setBounds(100, 100, 900, 600);
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
 		doctor = selectDoctor;
@@ -129,86 +95,6 @@ public class MostrarConsulta extends JDialog {
 		panelBarra.setBounds(15, 16, 853, 160);
 		getContentPane().add(panelBarra);
 		panelBarra.setLayout(null);
-<<<<<<< HEAD
-
-		JLabel lblNewLabel = new JLabel("Doctor:");
-		lblNewLabel.setBounds(15, 50, 69, 20);
-		panelBarra.add(lblNewLabel);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-
-		cbxSearchOpcs = new JComboBox();
-
-		cbxSearchOpcs.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbxSearchOpcs.setBounds(84, 50, 123, 26);
-		panelBarra.add(cbxSearchOpcs);
-
-		mainModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "C\u00F3digo", "Lista"});
-		codigoModel = new DefaultComboBoxModel(new String[] {"<B\u00FAsqueda>", "", "Lista"});
-		doctoresModel = new DefaultComboBoxModel(getDoctoresModel(auxPaciente.getDoctores()));
-		getDoctoresModel(auxPaciente.getDoctores());
-		//DefaultComboBoxModel doctoresModel = new DefaultComboBoxModel(new String[] {"<Elegir>", "A", "B", "C", "D", "E", "G"});
-		cbxSearchOpcs.setModel(mainModel);
-		cbxSearchOpcs.setMaximumRowCount(3);
-
-		cbxSearchOpcs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if(cbxSearchOpcs.getSelectedIndex() != -1) {
-
-
-					if(cbxSearchOpcs.getModel() == mainModel) {
-
-
-						if (cbxSearchOpcs.getSelectedIndex() == 1) {
-
-							cbxSearchOpcs.setModel(codigoModel);
-							cbxSearchOpcs.setSelectedIndex(1);
-							cbxSearchOpcs.setEditable(true);
-							
-							cbxSearchOpcs.addFocusListener(new FocusAdapter() {
-								@Override
-								public void focusLost(FocusEvent e) {
-									//Buscar Doctor por Código
-									//Hacer función en Clínica
-								}
-							});
-
-							cbxSearchOpcs.addPopupMenuListener(new PopupMenuListener() {
-								public void popupMenuCanceled(PopupMenuEvent e) {
-								}
-								public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-								}
-								public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-									if(cbxSearchOpcs.getModel() == codigoModel) {
-										cbxSearchOpcs.setModel(mainModel);
-										cbxSearchOpcs.setSelectedIndex(0);
-										cbxSearchOpcs.setEditable(false);
-									}
-									
-								}
-							});
-
-
-						}else if (cbxSearchOpcs.getSelectedIndex() == 2) {
-
-							if(txtIdDoctor.isVisible())
-								txtIdDoctor.setVisible(false);
-							
-							cbxSearchOpcs.setModel(doctoresModel);	
-							cbxSearchOpcs.setSelectedIndex(0);
-						}
-
-					}else if(cbxSearchOpcs.getModel() == doctoresModel) {
-						if(cbxSearchOpcs.getSelectedIndex() > 0) {
-							cbxSearchOpcs.setModel(mainModel);
-							cbxSearchOpcs.setSelectedIndex(0);
-						}
-					}
-
-				}
-
-
-=======
 		
 		JLabel lblDoctor = new JLabel("Doctor:");
 		lblDoctor.setBounds(15, 14, 78, 20);
@@ -232,7 +118,6 @@ public class MostrarConsulta extends JDialog {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				aplicarFiltros();
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 			}
 		});
 		panelBarra.add(txtFiltroPaciente);
@@ -272,12 +157,6 @@ public class MostrarConsulta extends JDialog {
 		});
 		panelBarra.add(chkSoloImportantes);
 		
-<<<<<<< HEAD
-		JLabel lblNomPac = new JLabel(auxPaciente.getNombre());
-		lblNomPac.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNomPac.setBounds(101, 14, 388, 20);
-		panelBarra.add(lblNomPac);
-=======
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -299,7 +178,6 @@ public class MostrarConsulta extends JDialog {
 		btnMostrarTodas.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnMostrarTodas.setBounds(670, 88, 150, 26);
 		panelBarra.add(btnMostrarTodas);
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 		
 		JPanel panelTable = new JPanel();
 		panelTable.setBounds(15, 180, 853, 300);
@@ -351,12 +229,6 @@ public class MostrarConsulta extends JDialog {
 		
 		scrollPane.setViewportView(table);
 		
-<<<<<<< HEAD
-		model = new DefaultTableModel();
-		table = new JTable();
-		//model.setColumnIdentifiers();
-
-=======
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBounds(15, 485, 853, 40);
 		getContentPane().add(panelBotones);
@@ -390,24 +262,8 @@ public class MostrarConsulta extends JDialog {
 		panelBotones.add(btnCerrar);
 		
 		listarConsultas(null, null, "", false);
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git
 	}
 	
-<<<<<<< HEAD
-	private String[] getDoctoresModel(ArrayList<String> doctores) {
-		String[] opciones = new String[doctores.size()+1];
-		opciones[0] = "<Elegir>";
-		
-		for(int i = 0; i < doctores.size(); i++) {
-			opciones[i+1] = doctores.get(i);
-		}
-
-		return opciones;
-	}
-	
-
-}
-=======
 	private void aplicarFiltros() {
 		Date fechaInicio = (Date) spnFecIni.getValue();
 		Date fechaFin = (Date) spnFecFin.getValue();
@@ -497,4 +353,3 @@ public class MostrarConsulta extends JDialog {
 		}
 	}
 }
->>>>>>> branch 'master' of https://github.com/AEGR0005/Proyecto_Final.git

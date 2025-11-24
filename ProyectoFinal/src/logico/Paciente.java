@@ -10,9 +10,11 @@ public class Paciente {
 	private String cedula;
 	private String telefono;
 	private Date fecNacim;
+	private String sexo;
 	private float peso;
 	private float estatura;
 	private String tipoSangre;
+	private String direccion;
 
 	private ArrayList<Vacuna> vacunas;
 	private ArrayList<Consulta> resumen; 
@@ -22,17 +24,19 @@ public class Paciente {
     private ArrayList<Enfermedad> enfermedades;
     
 
-	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date date, 
-			float peso, float estatura, String tipoSangre) {
+	public Paciente(String idPaciente, String nombre, String cedula, String telefono, Date fecNacim,  
+			String sexo, float peso, float estatura, String tipoSangre, String direccion) {
 		super();
 		this.idPaciente = idPaciente;
 		this.nombre = nombre;
 		this.cedula = cedula;
 		this.telefono = telefono;
-		this.fecNacim = date;
+		this.fecNacim = fecNacim;
+		this.sexo = sexo;
 		this.peso = peso;
 		this.estatura = estatura;
 		this.tipoSangre = tipoSangre;
+		this.direccion = direccion;
 
 		vacunas = new ArrayList<>();
 		resumen = new ArrayList<>();
@@ -40,6 +44,7 @@ public class Paciente {
 		enfermedades = new ArrayList<>();
 	}
 
+	
 	public String getIdPaciente() {
 		return idPaciente;
 	}
@@ -80,28 +85,12 @@ public class Paciente {
 		this.fecNacim = fecNacim;
 	}
 
-	public ArrayList<Vacuna> getVacunas() {
-		return vacunas;
+	public String getSexo() {
+		return sexo;
 	}
 
-	public void setVacunas(ArrayList<Vacuna> vacunas) {
-		this.vacunas = vacunas;
-	}
-
-	public ArrayList<Consulta> getResumen() {
-		return resumen;
-	}
-
-	public void setResumen(ArrayList<Consulta> resumen) {
-		this.resumen = resumen;
-	}
-
-	public ArrayList<Consulta> getHistorialClinico() {
-		return historialClinico;
-	}
-
-	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
-		this.historialClinico = historialClinico;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	public float getPeso() {
@@ -127,7 +116,39 @@ public class Paciente {
 	public void setTipoSangre(String tipoSangre) {
 		this.tipoSangre = tipoSangre;
 	}
-	
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public ArrayList<Vacuna> getVacunas() {
+		return vacunas;
+	}
+
+	public void setVacunas(ArrayList<Vacuna> vacunas) {
+		this.vacunas = vacunas;
+	}
+
+	public ArrayList<Consulta> getResumen() {
+		return resumen;
+	}
+
+	public void setResumen(ArrayList<Consulta> resumen) {
+		this.resumen = resumen;
+	}
+
+	public ArrayList<Consulta> getHistorialClinico() {
+		return historialClinico;
+	}
+
+	public void setHistorialClinico(ArrayList<Consulta> historialClinico) {
+		this.historialClinico = historialClinico;
+	}
+
 	public void addConsultaToResumen(Consulta consulta) {
 		if(consulta.getEsImportante())
 			resumen.add(consulta);
