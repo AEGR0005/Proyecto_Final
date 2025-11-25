@@ -172,9 +172,9 @@ public class Main extends JFrame {
 		mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
 		mntmEnfermedad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//RegEnfermedad regEnfermedad = new RegEnfermedad();
-				//regEnfermedad.setModal(true);
-				//regEnfermedad.setVisible(true);
+				RegEnfermedad regEnfermedad = new RegEnfermedad();
+				regEnfermedad.setModal(true);
+				regEnfermedad.setVisible(true);
 			}
 		});
 		mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
