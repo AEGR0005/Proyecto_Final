@@ -1,32 +1,38 @@
 package visual;
-
 import java.awt.EventQueue;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import logico.Clinica;
 import logico.Doctor;
-
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
-import javax.swing.JTextField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.BorderLayout;
+import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
-
 	private JPanel contentPane;
 	private Doctor auxDoctor = null;
-
+	private JLabel lblImagen;
+	private JPanel panelLateral;
+	private Dimension dim;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -42,10 +48,9 @@ public class Main extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
-	 * @return 
 	 */
 	public Main() {
 		if(auxDoctor == null) {
@@ -56,110 +61,177 @@ public class Main extends JFrame {
 			Clinica.getInstancia().crearPacientePrueba("Maria Antonieta De las Nieves", "0315400566");
 			auxDoctor.setPacientes(Clinica.getInstancia().getPacientes());
 		}
-		setTitle("Clinica");
+		
+		setTitle("Sistema de Gestión Clínica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 769, 547);
+		dim = getToolkit().getScreenSize();
+		setSize(dim.width - 40, dim.height - 60);
+		setLocationRelativeTo(null);
+		
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setBackground(new Color(25, 24, 59));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout());
+
+		panelLateral = new JPanel();
+		panelLateral.setBackground(new Color(30, 30, 100));
+		panelLateral.setPreferredSize(new Dimension(280, dim.height));
+		panelLateral.setBorder(new LineBorder(new Color(100, 100, 150), 2));
+		contentPane.add(panelLateral, BorderLayout.WEST);
+		panelLateral.setLayout(null);
+
+		JLabel lblTitulo = new JLabel("CLÍNICA");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 28));
+		lblTitulo.setForeground(new Color(100, 200, 255));
+		lblTitulo.setBounds(0, 20, 280, 40);
+		panelLateral.add(lblTitulo);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.DARK_GRAY);
-		panel.setBounds(0, 0, 226, 500);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
+		lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		lblSubtitulo.setForeground(new Color(180, 180, 200));
+		lblSubtitulo.setBounds(0, 60, 280, 20);
+		panelLateral.add(lblSubtitulo);
+
+		JMenuBar menuBarAdmin = new JMenuBar();
+		menuBarAdmin.setBackground(new Color(40, 40, 80));
+		menuBarAdmin.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarAdmin.setBounds(20, 110, 240, 52);
+		panelLateral.add(menuBarAdmin);
 		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.DARK_GRAY);
-		menuBar.setBounds(0, 52, 226, 52);
-		panel.add(menuBar);
+		JMenu mnAdmin = new JMenu("  Administración");
+		mnAdmin.setIcon(cargarIcono("recursos/admin.png", 40, 40));
+		mnAdmin.setBackground(new Color(40, 40, 80));
+		mnAdmin.setForeground(Color.WHITE);
+		mnAdmin.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+		mnAdmin.setPreferredSize(new Dimension(240, 52));
+		mnAdmin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		mnAdmin.setHorizontalTextPosition(SwingConstants.RIGHT);
+		mnAdmin.setIconTextGap(10);
+		menuBarAdmin.add(mnAdmin);
 		
-		JMenu mnNewMenu = new JMenu("Registro");
-		mnNewMenu.setBackground(Color.DARK_GRAY);
-		menuBar.add(mnNewMenu);
-		mnNewMenu.setForeground(Color.WHITE);
-		mnNewMenu.setFont(new Font("Bahnschrift", Font.BOLD, 24));
-		mnNewMenu.setBounds(0, 52, 226, 52);
-		mnNewMenu.setPreferredSize(new java.awt.Dimension(226, 52));
+		JMenuItem mntmSignOut = new JMenuItem("  Cerrar sesión");
+		mntmSignOut.setIcon(cargarIcono("recursos/signout.png", 24, 24));
+		mntmSignOut.setPreferredSize(new Dimension(240, 40));
+		mntmSignOut.setBackground(new Color(40, 40, 80));
+		mntmSignOut.setForeground(Color.WHITE);
+		mntmSignOut.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnAdmin.add(mntmSignOut);
 		
+		JMenuBar menuBarReg = new JMenuBar();
+		menuBarReg.setBackground(new Color(40, 40, 80));
+		menuBarReg.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarReg.setBounds(20, 175, 240, 52);
+		panelLateral.add(menuBarReg);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		JMenu mnRegistro = new JMenu("  Registro");
+		mnRegistro.setIcon(cargarIcono("recursos/registro.png", 40, 40));
+		mnRegistro.setBackground(new Color(40, 40, 80));
+		mnRegistro.setForeground(Color.WHITE);
+		mnRegistro.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+		mnRegistro.setPreferredSize(new Dimension(240, 52));
+		mnRegistro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		mnRegistro.setHorizontalTextPosition(SwingConstants.RIGHT);
+		mnRegistro.setIconTextGap(10);
+		menuBarReg.add(mnRegistro);
+		
+		JMenuItem mntmPaciente = new JMenuItem("  Paciente");
+		mntmPaciente.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
+		mntmPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				RegistrarPaciente regPaciente = new RegistrarPaciente();
 				regPaciente.setModal(true);
 				regPaciente.setVisible(true);
 			}
 		});
-		mntmNewMenuItem.setPreferredSize(new java.awt.Dimension(226, 40)); 
-		mntmNewMenuItem.setBackground(Color.DARK_GRAY);    
-		mntmNewMenuItem.setForeground(Color.WHITE);
-		mntmNewMenuItem.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
-		mnNewMenu.add(mntmNewMenuItem);
+		mntmPaciente.setPreferredSize(new Dimension(240, 40));
+		mntmPaciente.setBackground(new Color(40, 40, 80));
+		mntmPaciente.setForeground(Color.WHITE);
+		mntmPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnRegistro.add(mntmPaciente);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Cita");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		JMenuItem mntmCita = new JMenuItem("  Cita");
+		mntmCita.setIcon(cargarIcono("recursos/cita.png", 24, 24));
+		mntmCita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				RegistrarCita regCita = new RegistrarCita();
 				regCita.setModal(true);
 				regCita.setVisible(true);
 			}
 		});
-		mntmNewMenuItem_1.setPreferredSize(new java.awt.Dimension(226, 40)); 
-		mntmNewMenuItem_1.setBackground(Color.DARK_GRAY);    
-		mntmNewMenuItem_1.setForeground(Color.WHITE);
-		mntmNewMenuItem_1.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mntmCita.setPreferredSize(new Dimension(240, 40));
+		mntmCita.setBackground(new Color(40, 40, 80));
+		mntmCita.setForeground(Color.WHITE);
+		mntmCita.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnRegistro.add(mntmCita);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Consulta");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		JMenuItem mntmEnfermedad = new JMenuItem("  Enfermedad");
+		mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
+		mntmEnfermedad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//RegEnfermedad regEnfermedad = new RegEnfermedad();
+				//regEnfermedad.setModal(true);
+				//regEnfermedad.setVisible(true);
+			}
+		});
+		mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
+		mntmEnfermedad.setBackground(new Color(40, 40, 80));
+		mntmEnfermedad.setForeground(Color.WHITE);
+		mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnRegistro.add(mntmEnfermedad);
+		
+		JMenuItem mntmConsulta = new JMenuItem("  Consulta");
+		mntmConsulta.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
+		mntmConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RealizarConsulta realizarConsulta = new RealizarConsulta();
 				realizarConsulta.setModal(true);
 				realizarConsulta.setVisible(true);
 			}
 		});
-		mntmNewMenuItem_2.setPreferredSize(new java.awt.Dimension(226, 40)); 
-		mntmNewMenuItem_2.setBackground(Color.DARK_GRAY);    
-		mntmNewMenuItem_2.setForeground(Color.WHITE);
-		mntmNewMenuItem_2.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
-		mnNewMenu.add(mntmNewMenuItem_2);
+		mntmConsulta.setPreferredSize(new Dimension(240, 40));
+		mntmConsulta.setBackground(new Color(40, 40, 80));
+		mntmConsulta.setForeground(Color.WHITE);
+		mntmConsulta.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnRegistro.add(mntmConsulta);
 		
-		JMenuBar menuBar_1 = new JMenuBar();
-		menuBar_1.setBackground(Color.DARK_GRAY);
-		menuBar_1.setBounds(0, 0, 226, 52);
-		panel.add(menuBar_1);
+		JMenuItem mntmVacuna = new JMenuItem("  Vacuna");
+		mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
+		mntmVacuna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//ManejoVacuna manejoVacuna = new ManejoVacuna();
+				//manejoVacuna.setModal(true);
+				//manejoVacuna.setVisible(true);
+			}
+		});
+		mntmVacuna.setPreferredSize(new Dimension(240, 40));
+		mntmVacuna.setBackground(new Color(40, 40, 80));
+		mntmVacuna.setForeground(Color.WHITE);
+		mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mnRegistro.add(mntmVacuna);
 		
-		JMenu mnNewMenu_1 = new JMenu("Administraci\u00F3n");
-		menuBar_1.add(mnNewMenu_1);
-		mnNewMenu_1.setBackground(Color.DARK_GRAY);
-		mnNewMenu_1.setForeground(Color.WHITE);
-		mnNewMenu_1.setFont(new Font("Bahnschrift", Font.BOLD, 24));
-		mnNewMenu_1.setPreferredSize(new java.awt.Dimension(226, 52));
+		JMenuBar menuBarList = new JMenuBar();
+		menuBarList.setBackground(new Color(40, 40, 80));
+		menuBarList.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarList.setBounds(20, 240, 240, 52);
+		panelLateral.add(menuBarList);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Algo");
-		mntmNewMenuItem_3.setPreferredSize(new java.awt.Dimension(226, 40)); 
-		mntmNewMenuItem_3.setBackground(Color.DARK_GRAY);    
-		mntmNewMenuItem_3.setForeground(Color.WHITE);
-		mntmNewMenuItem_3.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
-		mnNewMenu_1.add(mntmNewMenuItem_3);
-		
-		JMenuBar menuBar_2 = new JMenuBar();
-		menuBar_2.setBackground(Color.DARK_GRAY);
-		menuBar_2.setBounds(0, 104, 226, 52);
-		panel.add(menuBar_2);
-		
-		JMenu mnListado = new JMenu("Listado");
-		mnListado.setPreferredSize(new Dimension(226, 52));
+		JMenu mnListado = new JMenu("  Listado");
+		mnListado.setIcon(cargarIcono("recursos/listado.png", 40, 40));
+		mnListado.setPreferredSize(new Dimension(240, 52));
 		mnListado.setForeground(Color.WHITE);
-		mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 24));
-		mnListado.setBackground(Color.DARK_GRAY);
-		menuBar_2.add(mnListado);
+		mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+		mnListado.setBackground(new Color(40, 40, 80));
+		mnListado.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		mnListado.setHorizontalTextPosition(SwingConstants.RIGHT);
+		mnListado.setIconTextGap(10);
+		menuBarList.add(mnListado);
 		
-		JMenuItem mntmListarConsultas = new JMenuItem("Listar consultas");
+		JMenuItem mntmListarConsultas = new JMenuItem("  Listar Consultas");
+		mntmListarConsultas.setIcon(cargarIcono("recursos/lista_consultas.png", 24, 24));
 		mntmListarConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MostrarConsulta mostrarconsulta = new MostrarConsulta(auxDoctor);
@@ -167,23 +239,60 @@ public class Main extends JFrame {
 				mostrarconsulta.setVisible(true);
 			}
 		});
-		mntmListarConsultas.setPreferredSize(new Dimension(226, 40));
+		mntmListarConsultas.setPreferredSize(new Dimension(240, 40));
 		mntmListarConsultas.setForeground(Color.WHITE);
-		mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
-		mntmListarConsultas.setBackground(Color.DARK_GRAY);
+		mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mntmListarConsultas.setBackground(new Color(40, 40, 80));
 		mnListado.add(mntmListarConsultas);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(25, 24, 59));
+		panel_1.setLayout(new BorderLayout());
+		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(228, 0, 523, 500);
-		/*
-		ImageIcon icon = new ImageIcon("recursos/PRECIOUS.jpg");
-		Image img = icon.getImage();
-		Image imgScale = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(imgScale);
-		lblNewLabel.setIcon(scaledIcon);
-		*/
-		contentPane.add(lblNewLabel);
-		
+		lblImagen = new JLabel("");
+		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblImagen, BorderLayout.CENTER);
+
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				//cargarImagenCentral();
+			}
+		});
+
+		//cargarImagenCentral();
+	}
+	
+	private ImageIcon cargarIcono(String ruta, int ancho, int alto) {
+		try {
+			ImageIcon icon = new ImageIcon(ruta);
+			Image img = icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+			return new ImageIcon(img);
+		} catch (Exception e) {
+			System.out.println("No se pudo cargar el icono: " + ruta);
+			return null;
+		}
+	}
+	
+	private void cargarImagenCentral() {
+		try {
+			ImageIcon icon = new ImageIcon("recursos/PRECIOUS.jpg");
+			if (icon.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
+				int ancho = getWidth() - panelLateral.getWidth() - 40;
+				int alto = getHeight() - 40;
+				
+				Image img = icon.getImage();
+				Image imgScale = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+				ImageIcon scaledIcon = new ImageIcon(imgScale);
+				lblImagen.setIcon(scaledIcon);
+				lblImagen.setText(""); 
+			}
+		} catch (Exception e) {
+			lblImagen.setIcon(null); 
+			lblImagen.setText("Bienvenido al Sistema de Gestión Clínica");
+			lblImagen.setFont(new Font("Bahnschrift", Font.BOLD, 24));
+			lblImagen.setForeground(new Color(100, 200, 255));
+		}
 	}
 }
