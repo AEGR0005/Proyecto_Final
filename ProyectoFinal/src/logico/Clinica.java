@@ -2,12 +2,19 @@ package logico;
 
 
 import java.util.Date;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class Clinica {
+public class Clinica implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2147265011502063886L;
+	
+	public static Usuario loginUsuario;
 	public static int genCodigoPacientes = 1;
     public static int genCodigoCitas = 1;
     public static int genCodigoConsultas = 1;
@@ -16,6 +23,7 @@ public class Clinica {
     public static int genCodigoVacuna = 1;
     public static int genCodigoEnfermedad = 1;
 
+    private ArrayList<Usuario> usuarios;
     private ArrayList<Cita> citas;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Doctor> doctores;
@@ -33,6 +41,7 @@ public class Clinica {
     	consultas = new ArrayList<Consulta>();
     	enfermedades = new ArrayList<Enfermedad>();
     	vacunas = new ArrayList<Vacuna>();
+    	usuarios = new ArrayList<Usuario>();
     }
     
     public static Clinica getInstancia() {
@@ -54,7 +63,28 @@ public class Clinica {
     public ArrayList<Doctor> getDoctores() {
         return doctores;
     }
+     
+    public boolean confirmLogin(String nombre, String password) {
+    	boolean login = false;
+    	int i = 0;
+    	
+    	while(!login && i < usuarios.size()) {
+    		Usuario usuario = usuarios.get(i);
+    		
+    		if(usuario.getNombre().equals(nombre) && usuario.getPassword().equals(password)) {
+    			loginUsuario = usuario;
+    			login = true;
+    		}
+    	}
+    	
+    	
+    	return login;
+    }
     
+    public void setClinica(Clinica auxClinica) {
+    	if(auxClinica != null)
+    		instancia = auxClinica;
+    }
     
     public Paciente buscarPacienteXId(String id) {
     	Paciente auxPaciente = null;
