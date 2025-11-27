@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -83,15 +83,18 @@ public class MostrarConsulta extends JDialog {
 		setTitle("Listado de Consultas - Dr. " + selectDoctor.getNombre());
 		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(240, 248, 255));
 		contentPanel.setBounds(0, 0, 0, 0);
 		doctor = selectDoctor;
 		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBackground(new Color(240, 248, 255));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 
 		JPanel panelBarra = new JPanel();
-		panelBarra.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
+		panelBarra.setBackground(Color.WHITE);
+		panelBarra.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		panelBarra.setBounds(15, 16, 853, 160);
 		getContentPane().add(panelBarra);
 		panelBarra.setLayout(null);
@@ -99,20 +102,25 @@ public class MostrarConsulta extends JDialog {
 		JLabel lblDoctor = new JLabel("Doctor:");
 		lblDoctor.setBounds(15, 14, 78, 20);
 		panelBarra.add(lblDoctor);
-		lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblDoctor.setFont(new Font("Bahnschrift", Font.BOLD, 15));
+		lblDoctor.setForeground(new Color(70, 130, 180));
 		
 		JLabel lblNomDoc = new JLabel(selectDoctor.getNombre());
-		lblNomDoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNomDoc.setFont(new Font("Bahnschrift", Font.PLAIN, 15));
+		lblNomDoc.setForeground(new Color(70, 130, 180));
 		lblNomDoc.setBounds(84, 14, 388, 20);
 		panelBarra.add(lblNomDoc);
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
-		lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPaciente.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblPaciente.setForeground(new Color(70, 130, 180));
 		lblPaciente.setBounds(15, 50, 96, 20);
 		panelBarra.add(lblPaciente);
 		
 		txtFiltroPaciente = new JTextField();
-		txtFiltroPaciente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtFiltroPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		txtFiltroPaciente.setBackground(new Color(224, 247, 250));
+		txtFiltroPaciente.setBorder(new LineBorder(new Color(173, 216, 230), 1));
 		txtFiltroPaciente.setBounds(117, 48, 403, 26);
 		txtFiltroPaciente.addKeyListener(new KeyAdapter() {
 			@Override
@@ -124,17 +132,20 @@ public class MostrarConsulta extends JDialog {
 		txtFiltroPaciente.setColumns(10);
 		
 		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFechaInicio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblFechaInicio.setForeground(new Color(70, 130, 180));
 		lblFechaInicio.setBounds(15, 90, 96, 20);
 		panelBarra.add(lblFechaInicio);
 		
 		JLabel lblFechaFin = new JLabel("Fecha Fin:");
-		lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFechaFin.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblFechaFin.setForeground(new Color(70, 130, 180));
 		lblFechaFin.setBounds(290, 90, 96, 20);
 		panelBarra.add(lblFechaFin);
 		
 		spnFecIni = new JSpinner();
-		spnFecIni.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnFecIni.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		spnFecIni.setBackground(new Color(224, 247, 250));
 		spnFecIni.setModel(new SpinnerDateModel(new Date(1704085200000L), new Date(1704085200000L), null, Calendar.DAY_OF_YEAR));
 		spnFecIni.setEditor(new JSpinner.DateEditor(spnFecIni, "dd/MM/yyyy"));
 		spnFecIni.setBounds(117, 88, 150, 26);
@@ -142,13 +153,16 @@ public class MostrarConsulta extends JDialog {
 		
 		spnFecFin = new JSpinner();
 		spnFecFin.setModel(new SpinnerDateModel(new Date(), new Date(1704085200000L), null, Calendar.DAY_OF_YEAR));
-		spnFecFin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnFecFin.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		spnFecFin.setBackground(new Color(224, 247, 250));
 		spnFecFin.setEditor(new JSpinner.DateEditor(spnFecFin, "dd/MM/yyyy"));
 		spnFecFin.setBounds(370, 88, 150, 26);
 		panelBarra.add(spnFecFin);
 		
 		chkSoloImportantes = new JCheckBox("Solo consultas importantes");
-		chkSoloImportantes.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chkSoloImportantes.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		chkSoloImportantes.setForeground(new Color(70, 130, 180));
+		chkSoloImportantes.setBackground(Color.WHITE);
 		chkSoloImportantes.setBounds(15, 125, 250, 23);
 		chkSoloImportantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,7 +177,11 @@ public class MostrarConsulta extends JDialog {
 				aplicarFiltros();
 			}
 		});
-		btnFiltrar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnFiltrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnFiltrar.setBackground(new Color(176, 224, 230));
+		btnFiltrar.setForeground(new Color(70, 130, 180));
+		btnFiltrar.setFocusPainted(false);
+		btnFiltrar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		btnFiltrar.setBounds(550, 88, 100, 26);
 		panelBarra.add(btnFiltrar);
 		
@@ -175,16 +193,22 @@ public class MostrarConsulta extends JDialog {
 				listarConsultas(null, null, "", false);
 			}
 		});
-		btnMostrarTodas.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnMostrarTodas.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnMostrarTodas.setBackground(new Color(176, 224, 230));
+		btnMostrarTodas.setForeground(new Color(70, 130, 180));
+		btnMostrarTodas.setFocusPainted(false);
+		btnMostrarTodas.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		btnMostrarTodas.setBounds(670, 88, 150, 26);
 		panelBarra.add(btnMostrarTodas);
 		
 		JPanel panelTable = new JPanel();
+		panelTable.setBackground(new Color(240, 248, 255));
 		panelTable.setBounds(15, 180, 853, 300);
 		getContentPane().add(panelTable);
 		panelTable.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		model = new DefaultTableModel() {
 			@Override
@@ -205,8 +229,14 @@ public class MostrarConsulta extends JDialog {
 		model.setColumnIdentifiers(headers);
 		table.setModel(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
+		table.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
+		table.setBackground(Color.WHITE);
+		table.setSelectionBackground(new Color(176, 224, 230));
+		table.setSelectionForeground(new Color(70, 130, 180));
+		table.setGridColor(new Color(173, 216, 230));
+		table.getTableHeader().setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		table.getTableHeader().setBackground(new Color(135, 206, 235));
+		table.getTableHeader().setForeground(new Color(70, 130, 180));
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(80);  
 		table.getColumnModel().getColumn(1).setPreferredWidth(180); 
@@ -230,6 +260,7 @@ public class MostrarConsulta extends JDialog {
 		scrollPane.setViewportView(table);
 		
 		JPanel panelBotones = new JPanel();
+		panelBotones.setBackground(new Color(240, 248, 255));
 		panelBotones.setBounds(15, 485, 853, 40);
 		getContentPane().add(panelBotones);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -249,7 +280,11 @@ public class MostrarConsulta extends JDialog {
 				}
 			}
 		});
-		btnVerDetalle.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnVerDetalle.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnVerDetalle.setBackground(new Color(176, 224, 230));
+		btnVerDetalle.setForeground(new Color(70, 130, 180));
+		btnVerDetalle.setFocusPainted(false);
+		btnVerDetalle.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		panelBotones.add(btnVerDetalle);
 		
 		JButton btnCerrar = new JButton("Cerrar");
@@ -258,7 +293,11 @@ public class MostrarConsulta extends JDialog {
 				dispose();
 			}
 		});
-		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCerrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnCerrar.setBackground(new Color(176, 224, 230));
+		btnCerrar.setForeground(new Color(70, 130, 180));
+		btnCerrar.setFocusPainted(false);
+		btnCerrar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		panelBotones.add(btnCerrar);
 		
 		listarConsultas(null, null, "", false);

@@ -70,42 +70,42 @@ public class Main extends JFrame {
 		
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
-		contentPane.setBackground(new Color(25, 24, 59));
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
 
 		panelLateral = new JPanel();
-		panelLateral.setBackground(new Color(30, 30, 100));
+		panelLateral.setBackground(new Color(176, 224, 230));
 		panelLateral.setPreferredSize(new Dimension(280, dim.height));
-		panelLateral.setBorder(new LineBorder(new Color(100, 100, 150), 2));
+		panelLateral.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		contentPane.add(panelLateral, BorderLayout.WEST);
 		panelLateral.setLayout(null);
 
 		JLabel lblTitulo = new JLabel("CLÍNICA");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 28));
-		lblTitulo.setForeground(new Color(100, 200, 255));
+		lblTitulo.setForeground(new Color(70, 130, 180));
 		lblTitulo.setBounds(0, 20, 280, 40);
 		panelLateral.add(lblTitulo);
 		
 		JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
 		lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-		lblSubtitulo.setForeground(new Color(180, 180, 200));
+		lblSubtitulo.setForeground(new Color(100, 149, 237));
 		lblSubtitulo.setBounds(0, 60, 280, 20);
 		panelLateral.add(lblSubtitulo);
 
 		JMenuBar menuBarAdmin = new JMenuBar();
-		menuBarAdmin.setBackground(new Color(40, 40, 80));
-		menuBarAdmin.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarAdmin.setBackground(new Color(224, 247, 250));
+		menuBarAdmin.setBorder(new LineBorder(new Color(173, 216, 230), 1)); 
 		menuBarAdmin.setBounds(20, 110, 240, 52);
 		panelLateral.add(menuBarAdmin);
 		
 		JMenu mnAdmin = new JMenu("  Administración");
 		mnAdmin.setIcon(cargarIcono("recursos/admin.png", 40, 40));
-		mnAdmin.setBackground(new Color(40, 40, 80));
-		mnAdmin.setForeground(Color.WHITE);
+		mnAdmin.setBackground(Color.WHITE);
+		mnAdmin.setForeground(new Color(70, 130, 180));
 		mnAdmin.setFont(new Font("Bahnschrift", Font.BOLD, 18));
 		mnAdmin.setPreferredSize(new Dimension(240, 52));
 		mnAdmin.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -116,21 +116,21 @@ public class Main extends JFrame {
 		JMenuItem mntmSignOut = new JMenuItem("  Cerrar sesión");
 		mntmSignOut.setIcon(cargarIcono("recursos/signout.png", 24, 24));
 		mntmSignOut.setPreferredSize(new Dimension(240, 40));
-		mntmSignOut.setBackground(new Color(40, 40, 80));
-		mntmSignOut.setForeground(Color.WHITE);
+		mntmSignOut.setBackground(Color.WHITE);
+		mntmSignOut.setForeground(new Color(70, 130, 180));
 		mntmSignOut.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnAdmin.add(mntmSignOut);
 		
 		JMenuBar menuBarReg = new JMenuBar();
-		menuBarReg.setBackground(new Color(40, 40, 80));
-		menuBarReg.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarReg.setBackground(new Color(224, 247, 250)); 
+		menuBarReg.setBorder(new LineBorder(new Color(173, 216, 230), 1)); 
 		menuBarReg.setBounds(20, 175, 240, 52);
 		panelLateral.add(menuBarReg);
 		
 		JMenu mnRegistro = new JMenu("  Registro");
 		mnRegistro.setIcon(cargarIcono("recursos/registro.png", 40, 40));
-		mnRegistro.setBackground(new Color(40, 40, 80));
-		mnRegistro.setForeground(Color.WHITE);
+		mnRegistro.setBackground(Color.WHITE);
+		mnRegistro.setForeground(new Color(70, 130, 180)); 
 		mnRegistro.setFont(new Font("Bahnschrift", Font.BOLD, 18));
 		mnRegistro.setPreferredSize(new Dimension(240, 52));
 		mnRegistro.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -148,8 +148,8 @@ public class Main extends JFrame {
 			}
 		});
 		mntmPaciente.setPreferredSize(new Dimension(240, 40));
-		mntmPaciente.setBackground(new Color(40, 40, 80));
-		mntmPaciente.setForeground(Color.WHITE);
+		mntmPaciente.setBackground(Color.WHITE);
+		mntmPaciente.setForeground(new Color(70, 130, 180));
 		mntmPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnRegistro.add(mntmPaciente);
 		
@@ -163,8 +163,8 @@ public class Main extends JFrame {
 			}
 		});
 		mntmCita.setPreferredSize(new Dimension(240, 40));
-		mntmCita.setBackground(new Color(40, 40, 80));
-		mntmCita.setForeground(Color.WHITE);
+		mntmCita.setBackground(Color.WHITE);
+		mntmCita.setForeground(new Color(70, 130, 180));
 		mntmCita.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnRegistro.add(mntmCita);
 		
@@ -178,8 +178,8 @@ public class Main extends JFrame {
 			}
 		});
 		mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
-		mntmEnfermedad.setBackground(new Color(40, 40, 80));
-		mntmEnfermedad.setForeground(Color.WHITE);
+		mntmEnfermedad.setBackground(Color.WHITE);
+		mntmEnfermedad.setForeground(new Color(70, 130, 180)); 
 		mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnRegistro.add(mntmEnfermedad);
 		
@@ -193,8 +193,8 @@ public class Main extends JFrame {
 			}
 		});
 		mntmConsulta.setPreferredSize(new Dimension(240, 40));
-		mntmConsulta.setBackground(new Color(40, 40, 80));
-		mntmConsulta.setForeground(Color.WHITE);
+		mntmConsulta.setBackground(Color.WHITE);
+		mntmConsulta.setForeground(new Color(70, 130, 180)); 
 		mntmConsulta.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnRegistro.add(mntmConsulta);
 		
@@ -208,23 +208,23 @@ public class Main extends JFrame {
 			}
 		});
 		mntmVacuna.setPreferredSize(new Dimension(240, 40));
-		mntmVacuna.setBackground(new Color(40, 40, 80));
-		mntmVacuna.setForeground(Color.WHITE);
+		mntmVacuna.setBackground(Color.WHITE);
+		mntmVacuna.setForeground(new Color(70, 130, 180)); 
 		mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
 		mnRegistro.add(mntmVacuna);
 		
 		JMenuBar menuBarList = new JMenuBar();
-		menuBarList.setBackground(new Color(40, 40, 80));
-		menuBarList.setBorder(new LineBorder(new Color(100, 100, 150), 1));
+		menuBarList.setBackground(new Color(224, 247, 250)); 
+		menuBarList.setBorder(new LineBorder(new Color(173, 216, 230), 1)); 
 		menuBarList.setBounds(20, 240, 240, 52);
 		panelLateral.add(menuBarList);
 		
 		JMenu mnListado = new JMenu("  Listado");
 		mnListado.setIcon(cargarIcono("recursos/listado.png", 40, 40));
 		mnListado.setPreferredSize(new Dimension(240, 52));
-		mnListado.setForeground(Color.WHITE);
+		mnListado.setForeground(new Color(70, 130, 180)); // Steel Blue
 		mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 18));
-		mnListado.setBackground(new Color(40, 40, 80));
+		mnListado.setBackground(Color.WHITE);
 		mnListado.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		mnListado.setHorizontalTextPosition(SwingConstants.RIGHT);
 		mnListado.setIconTextGap(10);
@@ -240,13 +240,13 @@ public class Main extends JFrame {
 			}
 		});
 		mntmListarConsultas.setPreferredSize(new Dimension(240, 40));
-		mntmListarConsultas.setForeground(Color.WHITE);
+		mntmListarConsultas.setForeground(new Color(70, 130, 180)); 
 		mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mntmListarConsultas.setBackground(new Color(40, 40, 80));
+		mntmListarConsultas.setBackground(Color.WHITE);
 		mnListado.add(mntmListarConsultas);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(25, 24, 59));
+		panel_1.setBackground(new Color(240, 248, 255)); 
 		panel_1.setLayout(new BorderLayout());
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
@@ -257,11 +257,11 @@ public class Main extends JFrame {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				//cargarImagenCentral();
+				cargarImagenCentral();
 			}
 		});
 
-		//cargarImagenCentral();
+		cargarImagenCentral();
 	}
 	
 	private ImageIcon cargarIcono(String ruta, int ancho, int alto) {
@@ -277,7 +277,7 @@ public class Main extends JFrame {
 	
 	private void cargarImagenCentral() {
 		try {
-			ImageIcon icon = new ImageIcon("recursos/PRECIOUS.jpg");
+			ImageIcon icon = new ImageIcon("recursos/fondo_clinica.png");
 			if (icon.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
 				int ancho = getWidth() - panelLateral.getWidth() - 40;
 				int alto = getHeight() - 40;
@@ -292,7 +292,7 @@ public class Main extends JFrame {
 			lblImagen.setIcon(null); 
 			lblImagen.setText("Bienvenido al Sistema de Gestión Clínica");
 			lblImagen.setFont(new Font("Bahnschrift", Font.BOLD, 24));
-			lblImagen.setForeground(new Color(100, 200, 255));
+			lblImagen.setForeground(new Color(70, 130, 180)); 
 		}
 	}
 }
