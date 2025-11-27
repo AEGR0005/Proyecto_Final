@@ -19,6 +19,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -53,14 +59,35 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		if(auxDoctor == null) {
-			Clinica.getInstancia().crearDoctorPrueba();
-			auxDoctor = Clinica.getInstancia().getDoctores().get(0);
-			Clinica.getInstancia().crearPacientePrueba("Cristina Garcia Hernandez", "0315400566");
-			Clinica.getInstancia().crearPacientePrueba("Altagracia Rodríguez Fernandez", "0315400566");
-			Clinica.getInstancia().crearPacientePrueba("Maria Antonieta De las Nieves", "0315400566");
-			auxDoctor.setPacientes(Clinica.getInstancia().getPacientes());
-		}
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				FileOutputStream writeFile;
+				ObjectOutputStream writeObjeto;
+				
+				try {
+					writeFile = new FileOutputStream("clinica.dat");
+					writeObjeto = new ObjectOutputStream(writeFile);
+					
+					Clinica.getInstancia().guardarContadores();
+					writeObjeto.writeObject(Clinica.getInstancia());
+					
+					writeFile.close();
+					writeObjeto.close();
+					
+				} catch (FileNotFoundException e2) {
+					e2.printStackTrace();
+					
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+				
+			}
+		});
+		
+
+
 		
 		setTitle("Sistema de Gestión Clínica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
