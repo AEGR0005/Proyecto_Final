@@ -8,17 +8,23 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logico.Clinica;
+import logico.Doctor;
+import logico.Usuario;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
@@ -46,7 +52,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		/*
+		
 		EventQueue.invokeLater(new Runnable() {
 			
 			public void run() {
@@ -60,22 +66,41 @@ public class Login extends JFrame {
 					readClass = new ObjectInputStream(readClinica);
 					
 					Clinica.getInstancia().setClinica((Clinica)readClass.readObject());
+					Clinica.getInstancia().asignarContadores();
 					
 					readClass.close();
 					readClinica.close();
+					
 				} catch (Exception e) {
-					// TODO: handle exception
+					try {
+						writeClinica = new FileOutputStream("clinica.dat");
+						writeClass = new ObjectOutputStream(writeClinica);
+						
+						Usuario usuario = new Usuario("admin", "admin", "Administrador");
+						Clinica.getInstancia().regUsuario(usuario);
+						Clinica.getInstancia().initInfo();
+						
+						writeClass.writeObject(Clinica.getInstancia());
+						writeClass.close();
+						writeClinica.close();
+						
+					} catch (FileNotFoundException e2) {
+						e2.printStackTrace();
+						
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
 				}
 				
 			}
 			
-		});*/
+		});
 		
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 612, 395);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(176, 196, 222));
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -105,8 +130,18 @@ public class Login extends JFrame {
 		contentPane.add(txtPassword);
 		
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main main = new Main();
+				
+				dispose();
+				main.setVisible(true);
+			}
+		});
 		btnNewButton.setBackground(new Color(245, 222, 179));
 		btnNewButton.setBounds(60, 244, 232, 29);
 		contentPane.add(btnNewButton);
 	}
+	
 }

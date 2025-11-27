@@ -1,8 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Enfermedad {
+public class Enfermedad implements Serializable{
+	
+	private static final long serialVersionUID = -1798792587237642015L;
+	
 	private String id;
 	private String nombre;
 	private String sintomas;

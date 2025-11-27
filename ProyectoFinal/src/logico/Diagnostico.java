@@ -1,9 +1,13 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Diagnostico {
-    private String id;
+public class Diagnostico implements Serializable{
+    
+	private static final long serialVersionUID = -2057383297139900046L;
+	
+	private String id;
     private String descripcion;
     private String codigoDiagnostico;
     private Enfermedad enfermedadDiagnosticada;

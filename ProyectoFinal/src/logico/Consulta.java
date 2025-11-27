@@ -1,9 +1,13 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Consulta {
-    private String id;
+public class Consulta implements Serializable{
+   
+	private static final long serialVersionUID = 675187258451876275L;
+	
+	private String id;
     private Paciente paciente;
     private Doctor doctor;
     private Date fecha;

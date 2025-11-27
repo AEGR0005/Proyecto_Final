@@ -13,7 +13,7 @@ public class Usuario implements Serializable{
 	private String password;
 	private String tipo;
 	
-	public Usuario(String nombre, String password) {
+	public Usuario(String nombre, String password, String tipo) {
 		super();
 		this.nombre = nombre;
 		this.password = password;

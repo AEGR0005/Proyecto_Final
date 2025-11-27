@@ -1,9 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Doctor {
+public class Doctor implements Serializable{
+	
+	private static final long serialVersionUID = 8080695571362501743L;
 	
 	private String idDoctor;
 	private String nombre;

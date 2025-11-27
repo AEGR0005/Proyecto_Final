@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Calendar;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -85,7 +86,8 @@ public class RegistrarCita extends JDialog {
 			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNewLabel.setBounds(31, 45, 78, 30);
 			panel.add(lblNewLabel);
-
+			
+			
 			JLabel lblPaciente = new JLabel("Paciente:");
 			lblPaciente.setForeground(new Color(0, 0, 128));
 			lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -102,27 +104,17 @@ public class RegistrarCita extends JDialog {
 			txtFiltroPaciente.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 			txtFiltroPaciente.setBorder(new LineBorder(new Color(65, 105, 225)));
 			txtFiltroPaciente.setBounds(154, 98, 453, 26);
-			/*
+			
 			txtFiltroPaciente.addKeyListener(new KeyAdapter() {
 				@Override
-				public void focusLost(FocusEvent e) {
-					auxPaciente = Clinica.getInstancia().buscarPacienteXId(txtIdPaciente.getText());
-					
-					if(auxPaciente == null) {
-						//JOptionPane.showMessageDialog(null, "El paciente ingresado no existe.", "Paciente", JOptionPane.ERROR_MESSAGE);
-						lblWarnPat.setText("*Paciente no existe.");
-						lblWarnPat.setVisible(true);
-						txtIdPaciente.setText(" ");
-					}else {
-						txtNomPac.setText(auxPaciente.getNombre());
-					}
-				}
-
 				public void keyReleased(KeyEvent e) {
 					filtrarPacientes(txtFiltroPaciente.getText());
 
 				}
-			});*/
+			});
+			
+			
+			
 			panel.add(txtFiltroPaciente);
 			txtFiltroPaciente.setColumns(10);
 
@@ -207,20 +199,6 @@ public class RegistrarCita extends JDialog {
 			lblMotivo.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblMotivo.setBounds(31, 270, 113, 30);
 			panel.add(lblMotivo);
-
-			/*
-			txtNomPac = new JTextField();
-			txtNomPac.setEditable(false);
-			txtNomPac.setBounds(290, 98, 317, 26);
-			panel.add(txtNomPac);
-			txtNomPac.setColumns(10);
-			
-			txtNomDoc = new JTextField();
-			txtNomDoc.setEditable(false);
-			txtNomDoc.setColumns(10);
-			txtNomDoc.setBounds(290, 148, 317, 26);
-			panel.add(txtNomDoc);
-			*/
 			
 			lblWarnPat = new JLabel("");
 			lblWarnPat.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -228,8 +206,6 @@ public class RegistrarCita extends JDialog {
 			lblWarnPat.setVisible(false);
 			lblWarnPat.setBounds(129, 82, 192, 10);
 			panel.add(lblWarnPat);
-			
-			Clinica.getInstancia().crearPacientePrueba("Liz Marie", "031019");
 
 			cbxMotivo = new JComboBox<>();
 			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "Entrega de resultados", "Consulta"}));
