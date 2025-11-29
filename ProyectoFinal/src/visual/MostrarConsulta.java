@@ -25,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 import logico.Clinica;
 import logico.Consulta;
 import logico.Doctor;
-import logico.Paciente;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.text.SimpleDateFormat;

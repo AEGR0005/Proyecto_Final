@@ -293,6 +293,21 @@ public class Main extends JFrame {
 		mntmListarConsultas.setBackground(Color.WHITE);
 		mnListado.add(mntmListarConsultas);
 
+		JMenuItem mntmListarPacientes = new JMenuItem(" Listar Pacientes");
+		mntmListarPacientes.setIcon(cargarIcono("recursos/paciente.png", 24, 24)); 
+		mntmListarPacientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MostrarPaciente mostrarPacientes = new MostrarPaciente();
+				mostrarPacientes.setModal(true);
+				mostrarPacientes.setVisible(true);
+			}
+		});
+		mntmListarPacientes.setPreferredSize(new Dimension(240, 40));
+		mntmListarPacientes.setForeground(new Color(70, 130, 180));
+		mntmListarPacientes.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		mntmListarPacientes.setBackground(Color.WHITE);
+		mnListado.add(mntmListarPacientes);
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(240, 248, 255));
 		panel_1.setLayout(new BorderLayout());
@@ -365,7 +380,7 @@ public class Main extends JFrame {
 			}
 
 			SalidaSocket.flush();
-			
+
 			if (EntradaSocket != null) {
 				EntradaSocket.close();
 			}
@@ -424,7 +439,7 @@ public class Main extends JFrame {
 		int resultado = fileChooser.showOpenDialog(null);
 		if (resultado != JFileChooser.APPROVE_OPTION) 
 			return;
-		
+
 
 		File archivo = fileChooser.getSelectedFile();
 		String nombre = archivo.getName();
