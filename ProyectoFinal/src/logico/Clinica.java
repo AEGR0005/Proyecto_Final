@@ -404,5 +404,9 @@ public class Clinica implements Serializable{
 	public ArrayList<Enfermedad> getEnfermedades() {
 		return enfermedades;
 	}
+	
+	public static Usuario getUsuarioActual() {
+	    return loginUsuario;
+	}
 
 }

@@ -5,5 +5,4 @@ public enum EstadoCita {
     COMPLETADA,
     CANCELADA,
     NO_ASISTIO
-    //CON ESTO SE VA A MANEJAR TODAS LAS CITAS
 }
