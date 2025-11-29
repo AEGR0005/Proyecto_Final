@@ -49,7 +49,8 @@ public class RegistrarCita extends JDialog {
 	private JComboBox<String> cbxPaciente;
 	private JComboBox<String> cbxDoctor;
 	private JComboBox<String> cbxMotivo;
-	private JTextField txtFiltroPaciente;
+	private JTextField txtNombrePersona;
+	private JTextField txtIdPersona;
 
 	/**
 	 * Launch the application.
@@ -69,55 +70,62 @@ public class RegistrarCita extends JDialog {
 	 */
 	public RegistrarCita() {
 		setTitle("Registrar: Cita");
-		setBounds(100, 100, 693, 540);
+		setBounds(100, 100, 789, 615);
+		setLocationRelativeTo(null);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBackground(new Color(240, 248, 255));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
+		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Registrar Cita", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 128)));
-			contentPanel.add(panel, BorderLayout.CENTER);
+			panel.setBounds(35, 28, 695, 463);
+			
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Registrar Cita", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(70, 130, 180)));
+			contentPanel.add(panel);
 			panel.setLayout(null);
-			panel.setBackground(new Color(240, 248, 255));
+			panel.setBackground(Color.WHITE);
 
 			JLabel lblNewLabel = new JLabel("C\u00F3digo:");
-			lblNewLabel.setForeground(new Color(0, 0, 128));
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+			lblNewLabel.setForeground(new Color(70, 130, 180));
+			lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblNewLabel.setBounds(31, 45, 78, 30);
 			panel.add(lblNewLabel);
 			
 			
-			JLabel lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setForeground(new Color(0, 0, 128));
-			lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblPaciente.setBounds(31, 95, 113, 30);
+			JLabel lblPaciente = new JLabel("Nombre:");
+			lblPaciente.setForeground(new Color(70, 130, 180));
+			lblPaciente.setFont(new Font("Verdana", Font.BOLD, 14));
+			lblPaciente.setBounds(31, 128, 113, 30);
 			panel.add(lblPaciente);
 
 			JLabel lblDoctor = new JLabel("Doctor:");
-			lblDoctor.setForeground(new Color(0, 0, 128));
-			lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblDoctor.setBounds(31, 180, 113, 30);
+			lblDoctor.setForeground(new Color(70, 130, 180));
+			lblDoctor.setFont(new Font("Verdana", Font.BOLD, 14));
+			lblDoctor.setBounds(31, 263, 113, 30);
 			panel.add(lblDoctor);
 
-			txtFiltroPaciente = new JTextField();
-			txtFiltroPaciente.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-			txtFiltroPaciente.setBorder(new LineBorder(new Color(65, 105, 225)));
-			txtFiltroPaciente.setBounds(154, 98, 453, 26);
+			txtNombrePersona = new JTextField();
+			txtNombrePersona.setFont(new Font("Verdana", Font.PLAIN, 14));
+			txtNombrePersona.setBackground(new Color(224, 247, 250));
+			txtNombrePersona.setBorder(new LineBorder(new Color(70, 130, 180)));
+			txtNombrePersona.setBounds(154, 132, 453, 22);
 			
-			txtFiltroPaciente.addKeyListener(new KeyAdapter() {
+			txtNombrePersona.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
-					filtrarPacientes(txtFiltroPaciente.getText());
+					//filtrarPacientes(txtFiltroPaciente.getText());
 
 				}
 			});
 			
 			
 			
-			panel.add(txtFiltroPaciente);
-			txtFiltroPaciente.setColumns(10);
-
+			panel.add(txtNombrePersona);
+			txtNombrePersona.setColumns(10);
+			
+			/*
 			cbxPaciente = new JComboBox<>();
 			cbxPaciente.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 			cbxPaciente.setBorder(new LineBorder(new Color(65, 105, 225)));
@@ -128,20 +136,21 @@ public class RegistrarCita extends JDialog {
 				}
 			});
 			panel.add(cbxPaciente);
+			cargarPacientes();
+			*/
 
 			lblWarnPat = new JLabel("Debe seleccionar un paciente.");
 			lblWarnPat.setFont(new Font("Tahoma", Font.PLAIN, 10));
 			lblWarnPat.setForeground(Color.RED);
 			lblWarnPat.setVisible(false);
-			lblWarnPat.setBounds(154, 159, 192, 10);
-			panel.add(lblWarnPat);
-
-			cargarPacientes();
+			lblWarnPat.setBounds(154, 125, 192, 10);
+			//panel.add(lblWarnPat);
 
 			txtFiltroDoctor = new JTextField();
-			txtFiltroDoctor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-			txtFiltroDoctor.setBorder(new LineBorder(new Color(65, 105, 225)));
-			txtFiltroDoctor.setBounds(154, 183, 453, 26);
+			txtFiltroDoctor.setFont(new Font("Verdana", Font.PLAIN, 14));
+			txtFiltroDoctor.setBackground(new Color(224, 247, 250));
+			txtFiltroDoctor.setBorder(new LineBorder(new Color(70, 130, 180)));
+			txtFiltroDoctor.setBounds(154, 267, 453, 22);
 			txtFiltroDoctor.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -152,9 +161,10 @@ public class RegistrarCita extends JDialog {
 			txtFiltroDoctor.setColumns(10);
 
 			cbxDoctor = new JComboBox<>();
-			cbxDoctor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-			cbxDoctor.setBorder(new LineBorder(new Color(65, 105, 225)));
-			cbxDoctor.setBounds(154, 215, 453, 26);
+			cbxDoctor.setFont(new Font("Verdana", Font.PLAIN, 14));
+			cbxDoctor.setBackground(new Color(240, 248, 255));
+			cbxDoctor.setBorder(new LineBorder(new Color(70, 130, 180)));
+			cbxDoctor.setBounds(154, 289, 453, 26);
 			cbxDoctor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					seleccionarDoctor();
@@ -166,54 +176,76 @@ public class RegistrarCita extends JDialog {
 			lblWarnDoc.setForeground(Color.RED);
 			lblWarnDoc.setFont(new Font("Tahoma", Font.PLAIN, 10));
 			lblWarnDoc.setVisible(false);
-			lblWarnDoc.setBounds(154, 244, 192, 10);
-			panel.add(lblWarnDoc);
+			lblWarnDoc.setBounds(154, 281, 192, 10);
+			//panel.add(lblWarnDoc);
 
 			cargarDoctores();
 
 			txtIdCita = new JTextField();
-			txtIdCita.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
+			txtIdCita.setEnabled(false);
 			txtIdCita.setEditable(false);
+			txtIdCita.setFont(new Font("Verdana", Font.PLAIN, 16));
+			txtIdCita.setBackground(Color.WHITE);
 			txtIdCita.setForeground(new Color(0, 0, 0));
-			txtIdCita.setBounds(129, 48, 146, 26);
+			txtIdCita.setBounds(106, 46, 146, 26);
 			txtIdCita.setText("CI-"+Clinica.genCodigoCitas);
 			panel.add(txtIdCita);
 			txtIdCita.setColumns(10);
 
 			spnFecha = new JSpinner();
-			spnFecha.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-			spnFecha.setBorder(new LineBorder(new Color(65, 105, 225)));
+			spnFecha.setFont(new Font("Verdana", Font.PLAIN, 16));
+			spnFecha.setBorder(new LineBorder(new Color(70, 130, 180)));
 			spnFecha.setModel(new SpinnerDateModel(new Date(1762574400000L), null, null, Calendar.DAY_OF_YEAR));
 			Formato.setSpinner(spnFecha);
-			spnFecha.setBounds(443, 48, 164, 26);
+			Formato.colorSpinner(spnFecha, new Color(240, 248, 255));
+			spnFecha.setBounds(505, 47, 164, 26);
 			panel.add(spnFecha);
 
 			JLabel lblFecha = new JLabel("Fecha:");
-			lblFecha.setForeground(new Color(0, 0, 128));
-			lblFecha.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblFecha.setBounds(367, 45, 78, 30);
+			lblFecha.setForeground(new Color(70, 130, 180));
+			lblFecha.setFont(new Font("Verdana", Font.BOLD, 14));
+			lblFecha.setBounds(411, 45, 78, 30);
 			panel.add(lblFecha);
 
 			JLabel lblMotivo = new JLabel("Motivo:");
-			lblMotivo.setForeground(new Color(0, 0, 128));
-			lblMotivo.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblMotivo.setBounds(31, 270, 113, 30);
+			lblMotivo.setForeground(new Color(70, 130, 180));
+			lblMotivo.setFont(new Font("Verdana", Font.BOLD, 14));
+			lblMotivo.setBounds(31, 379, 113, 30);
 			panel.add(lblMotivo);
 			
 			lblWarnPat = new JLabel("");
-			lblWarnPat.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			lblWarnPat.setFont(new Font("Verdana", Font.PLAIN, 10));
 			lblWarnPat.setForeground(Color.RED);
 			lblWarnPat.setVisible(false);
 			lblWarnPat.setBounds(129, 82, 192, 10);
 			panel.add(lblWarnPat);
 
 			cbxMotivo = new JComboBox<>();
-			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "Entrega de resultados", "Consulta"}));
-			cbxMotivo.setBounds(31, 310, 244, 22);
+			cbxMotivo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione el motivo>", "Entrega de resultados", "Consulta"}));
+			cbxMotivo.setFont(new Font("Verdana", Font.PLAIN, 14));
+			cbxMotivo.setBackground(new Color(240, 248, 255));
+			cbxMotivo.setBorder(new LineBorder(new Color(70, 130, 180)));
+			cbxMotivo.setBounds(154, 383, 244, 22);
 			panel.add(cbxMotivo);
+			
+			JLabel lblIdentificacin = new JLabel("Identificaci\u00F3n:");
+			lblIdentificacin.setForeground(new Color(70, 130, 180));
+			lblIdentificacin.setFont(new Font("Verdana", Font.BOLD, 14));
+			lblIdentificacin.setBounds(31, 162, 129, 30);
+			panel.add(lblIdentificacin);
+			
+			txtIdPersona = new JTextField();
+			txtIdPersona.setFont(new Font("Verdana", Font.PLAIN, 14));
+			txtIdPersona.setColumns(10);
+			txtIdPersona.setBorder(new LineBorder(new Color(70, 130, 180)));
+			txtIdPersona.setBackground(new Color(224, 247, 250));
+			txtIdPersona.setBounds(154, 166, 224, 22);
+			panel.add(txtIdPersona);
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(Color.WHITE);
+			buttonPane.setBorder(new LineBorder(new Color(70, 130, 180)));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -236,7 +268,9 @@ public class RegistrarCita extends JDialog {
 						
 					}
 				});
-				okButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+				okButton.setFont(new Font("Verdana", Font.BOLD, 14));
+				okButton.setBackground(new Color(224, 247, 250));
+				okButton.setForeground(new Color(70, 130, 180));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -248,13 +282,16 @@ public class RegistrarCita extends JDialog {
 						dispose();
 					}
 				});
-				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+				cancelButton.setFont(new Font("Verdana", Font.BOLD, 14));
+				cancelButton.setBackground(new Color(224, 247, 250));
+				cancelButton.setForeground(new Color(70, 130, 180));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
 	
+	/*
 	private void cargarPacientes() {
 		cbxPaciente.removeAllItems();
 		cbxPaciente.addItem("<Seleccione un paciente>");
@@ -262,7 +299,7 @@ public class RegistrarCita extends JDialog {
 		for(Paciente p : Clinica.getInstancia().getPacientes()) {
 			cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
 		}
-	}
+	}*/
 	
 	private void cargarDoctores() {
 		cbxDoctor.removeAllItems();
@@ -273,24 +310,32 @@ public class RegistrarCita extends JDialog {
 		}
 	}
 	
+	/*
 	private void filtrarPacientes(String filtro) {
+		
 		cbxPaciente.removeAllItems();
 		cbxPaciente.addItem("<Seleccione un paciente>");
 		
 		String filtroLower = filtro.toLowerCase().trim();
 		
-		for(Paciente p : Clinica.getInstancia().getPacientes()) {
-			String nombreCompleto = (p.getNombre() + " - " + p.getCedula()).toLowerCase();
-			
-			if(filtroLower.isEmpty() || nombreCompleto.contains(filtroLower)) {
-				cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
+		if(!filtroLower.isEmpty()) {
+			for(Paciente p : Clinica.getInstancia().getPacientes()) {
+				String nombreCompleto = (p.getNombre() + " - " + p.getCedula()).toLowerCase();
+				
+				
+				//if(filtroLower.isEmpty() || nombreCompleto.contains(filtroLower)) {
+					//cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
+				//}
+				if(nombreCompleto.contains(filtroLower)) {
+					cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
+				}
 			}
 		}
 		
 		if(cbxPaciente.getItemCount() > 1) {
 			cbxPaciente.setSelectedIndex(1);
 		}
-	}
+	}*/
 	
 	private void filtrarDoctores(String filtro) {
 		cbxDoctor.removeAllItems();
