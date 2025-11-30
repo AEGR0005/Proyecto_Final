@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -53,27 +54,30 @@ public class RealizarConsulta extends JDialog {
     
     public RealizarConsulta() {
         setTitle("Realizar Consulta");
-        setBounds(100, 100, 650, 630);
+        setBounds(100, 100, 773, 683);
+        setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
-        contentPanel.setBackground(Color.DARK_GRAY);
+        contentPanel.setBackground(new Color(240, 248, 255));
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
         
         JPanel panelCita = new JPanel();
-        panelCita.setBackground(Color.DARK_GRAY);
-        panelCita.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n de la Cita", TitledBorder.CENTER, TitledBorder.TOP, null, Color.WHITE));
-        panelCita.setBounds(10, 11, 614, 150);
+        panelCita.setBackground(Color.WHITE);
+        panelCita.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n de la Cita", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(70, 130, 180)));
+        panelCita.setBounds(34, 16, 622, 150);
         contentPanel.add(panelCita);
         panelCita.setLayout(null);
         
         JLabel lblCita = new JLabel("Cita:");
-        lblCita.setForeground(Color.WHITE);
-        lblCita.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblCita.setForeground(new Color(70, 130, 180));
+		lblCita.setFont(new Font("Verdana", Font.BOLD, 14));
         lblCita.setBounds(10, 30, 80, 14);
         panelCita.add(lblCita);
         
         cbxCita = new JComboBox();
+        cbxCita.setBackground(new Color(224, 247, 250));
+        cbxCita.setBorder(new LineBorder(new Color(70, 130, 180)));
         cbxCita.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cargarDatosCita();
@@ -84,132 +88,152 @@ public class RealizarConsulta extends JDialog {
         panelCita.add(cbxCita);
         
         JLabel lblPaciente = new JLabel("Paciente:");
-        lblPaciente.setForeground(Color.WHITE);
-        lblPaciente.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblPaciente.setBounds(10, 65, 80, 14);
+        lblPaciente.setForeground(new Color(70, 130, 180));
+		lblPaciente.setFont(new Font("Verdana", Font.BOLD, 13));
+        lblPaciente.setBounds(10, 65, 80, 13);
         panelCita.add(lblPaciente);
         
         txtPaciente = new JTextField();
         txtPaciente.setEditable(false);
         txtPaciente.setBounds(100, 62, 494, 20);
+        txtPaciente.setBackground(new Color(224, 247, 250));
+        txtPaciente.setBorder(new LineBorder(new Color(70, 130, 180)));
         panelCita.add(txtPaciente);
         txtPaciente.setColumns(10);
         
         JLabel lblDoctor = new JLabel("Doctor:");
-        lblDoctor.setForeground(Color.WHITE);
-        lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblDoctor.setForeground(new Color(70, 130, 180));
+		lblDoctor.setFont(new Font("Verdana", Font.BOLD, 13));
         lblDoctor.setBounds(10, 95, 80, 14);
         panelCita.add(lblDoctor);
         
         txtDoctor = new JTextField();
         txtDoctor.setEditable(false);
         txtDoctor.setBounds(100, 92, 494, 20);
+        txtDoctor.setBackground(new Color(224, 247, 250));
+        txtDoctor.setBorder(new LineBorder(new Color(70, 130, 180)));
         panelCita.add(txtDoctor);
         txtDoctor.setColumns(10);
         
         JLabel lblFechaCita = new JLabel("Fecha/Hora:");
-        lblFechaCita.setForeground(Color.WHITE);
-        lblFechaCita.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblFechaCita.setForeground(new Color(70, 130, 180));
+		lblFechaCita.setFont(new Font("Verdana", Font.BOLD, 13));
         lblFechaCita.setBounds(10, 120, 80, 14);
         panelCita.add(lblFechaCita);
         
         txtFechaCita = new JTextField();
         txtFechaCita.setEditable(false);
         txtFechaCita.setBounds(100, 117, 494, 20);
+        txtFechaCita.setBackground(new Color(224, 247, 250));
+        txtFechaCita.setBorder(new LineBorder(new Color(70, 130, 180)));
         panelCita.add(txtFechaCita);
         txtFechaCita.setColumns(10);
         
        
         JPanel panelConsulta = new JPanel();
-        panelConsulta.setBackground(Color.DARK_GRAY);
-        panelConsulta.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de la Consulta", TitledBorder.CENTER, TitledBorder.TOP, null, Color.WHITE));
-        panelConsulta.setBounds(10, 172, 614, 360);
+        panelConsulta.setBackground(new Color(255, 255, 255));
+        panelConsulta.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de la Consulta", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(70, 130, 180)));
+        panelConsulta.setBounds(34, 170, 680, 402);
         contentPanel.add(panelConsulta);
         panelConsulta.setLayout(null);
         
         JLabel lblSintomas = new JLabel("Síntomas:");
-        lblSintomas.setForeground(Color.WHITE);
-        lblSintomas.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblSintomas.setBounds(10, 25, 80, 14);
+        lblSintomas.setForeground(new Color(70, 130, 180));
+		lblSintomas.setFont(new Font("Verdana", Font.BOLD, 12));
+        lblSintomas.setBounds(26, 41, 80, 14);
         panelConsulta.add(lblSintomas);
         
         JScrollPane scrollSintomas = new JScrollPane();
-        scrollSintomas.setBounds(100, 25, 494, 70);
+        scrollSintomas.setBounds(152, 41, 494, 70);
         panelConsulta.add(scrollSintomas);
         
         txtSintomas = new JTextArea();
+        txtSintomas.setLocation(127, 0);
+        txtSintomas.setBackground(new Color(240, 248, 255));
+        txtSintomas.setBorder(new LineBorder(new Color(70, 130, 180)));
         txtSintomas.setLineWrap(true);
         txtSintomas.setWrapStyleWord(true);
         scrollSintomas.setViewportView(txtSintomas);
         
         JLabel lblDiagnostico = new JLabel("Diagnóstico:");
-        lblDiagnostico.setForeground(Color.WHITE);
-        lblDiagnostico.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblDiagnostico.setBounds(10, 110, 80, 14);
+        lblDiagnostico.setForeground(new Color(70, 130, 180));
+		lblDiagnostico.setFont(new Font("Verdana", Font.BOLD, 12));
+        lblDiagnostico.setBounds(26, 132, 100, 14);
         panelConsulta.add(lblDiagnostico);
         
         txtDiagnostico = new JTextField();
         txtDiagnostico.setEditable(false);
-        txtDiagnostico.setBounds(100, 107, 344, 20);
+        txtDiagnostico.setBounds(152, 129, 344, 20);
+        txtDiagnostico.setBackground(new Color(224, 247, 250));
+        txtDiagnostico.setBorder(new LineBorder(new Color(70, 130, 180)));
         panelConsulta.add(txtDiagnostico);
         txtDiagnostico.setColumns(10);
         
         btnCrearDiagnostico = new JButton("Crear Diagnóstico");
+        btnCrearDiagnostico.setForeground(new Color(70, 130, 180));
+        btnCrearDiagnostico.setBackground(new Color(255, 245, 238));
         btnCrearDiagnostico.setFont(new Font("Tahoma", Font.BOLD, 11));
         btnCrearDiagnostico.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 abrirCrearDiagnostico();
             }
         });
-        btnCrearDiagnostico.setBounds(454, 106, 140, 23);
+        btnCrearDiagnostico.setBounds(506, 128, 140, 23);
         panelConsulta.add(btnCrearDiagnostico);
         
         JLabel lblTratamiento = new JLabel("Tratamiento:");
-        lblTratamiento.setForeground(Color.WHITE);
-        lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblTratamiento.setBounds(10, 145, 80, 14);
+        lblTratamiento.setForeground(new Color(70, 130, 180));
+		lblTratamiento.setFont(new Font("Verdana", Font.BOLD, 12));
+        lblTratamiento.setBounds(26, 161, 100, 14);
         panelConsulta.add(lblTratamiento);
         
         JScrollPane scrollTratamiento = new JScrollPane();
-        scrollTratamiento.setBounds(100, 145, 494, 70);
+        scrollTratamiento.setBounds(152, 161, 494, 70);
         panelConsulta.add(scrollTratamiento);
         
         txtTratamiento = new JTextArea();
+        txtTratamiento.setBackground(new Color(240, 248, 255));
+        txtTratamiento.setBorder(new LineBorder(new Color(70, 130, 180)));
         txtTratamiento.setLineWrap(true);
         txtTratamiento.setWrapStyleWord(true);
         scrollTratamiento.setViewportView(txtTratamiento);
         
         JLabel lblObservaciones = new JLabel("Observaciones:");
-        lblObservaciones.setForeground(Color.WHITE);
-        lblObservaciones.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblObservaciones.setBounds(10, 230, 90, 14);
+        lblObservaciones.setForeground(new Color(70, 130, 180));
+		lblObservaciones.setFont(new Font("Verdana", Font.BOLD, 12));
+        lblObservaciones.setBounds(26, 248, 111, 14);
         panelConsulta.add(lblObservaciones);
         
         JScrollPane scrollObservaciones = new JScrollPane();
-        scrollObservaciones.setBounds(100, 230, 494, 70);
+        scrollObservaciones.setBounds(152, 248, 494, 70);
         panelConsulta.add(scrollObservaciones);
         
         txtObservaciones = new JTextArea();
+        txtObservaciones.setBackground(new Color(240, 248, 255));
+        txtObservaciones.setBorder(new LineBorder(new Color(70, 130, 180)));
         txtObservaciones.setLineWrap(true);
         txtObservaciones.setWrapStyleWord(true);
         scrollObservaciones.setViewportView(txtObservaciones);
         
         chckEsImportante = new JCheckBox("Marcar como Importante (Agregar al Resumen del Paciente)");
-        chckEsImportante.setBackground(Color.DARK_GRAY);
-        chckEsImportante.setForeground(Color.WHITE);
+        chckEsImportante.setBackground(Color.WHITE);
+        chckEsImportante.setForeground(new Color(70, 130, 180));
         chckEsImportante.setFont(new Font("Tahoma", Font.BOLD, 13));
-        chckEsImportante.setBounds(100, 310, 494, 23);
+        chckEsImportante.setBounds(152, 350, 494, 23);
         panelConsulta.add(chckEsImportante);
         
         
         {
             JPanel buttonPane = new JPanel();
-            buttonPane.setBackground(Color.DARK_GRAY);
+            buttonPane.setBackground(Color.WHITE);
+            buttonPane.setBorder(new LineBorder(new Color(70, 130, 180)));
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JButton btnRealizar = new JButton("Realizar Consulta");
-                btnRealizar.setFont(new Font("Tahoma", Font.BOLD, 13));
+                btnRealizar.setFont(new Font("Verdana", Font.BOLD, 14));
+                btnRealizar.setForeground(new Color(70, 130, 180));
+                btnRealizar.setBackground(new Color(255, 245, 238));
                 btnRealizar.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         realizarConsulta();
@@ -221,7 +245,9 @@ public class RealizarConsulta extends JDialog {
             }
             {
                 JButton btnCancelar = new JButton("Cancelar");
-                btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
+                btnCancelar.setFont(new Font("Verdana", Font.BOLD, 14));
+                btnCancelar.setForeground(new Color(70, 130, 180));
+                btnCancelar.setBackground(new Color(255, 245, 238));
                 btnCancelar.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         dispose();
