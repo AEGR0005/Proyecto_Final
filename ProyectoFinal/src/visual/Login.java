@@ -2,15 +2,12 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import logico.Clinica;
 import logico.Doctor;
 import logico.Usuario;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -20,21 +17,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
-
 	private JPanel contentPane;
 	private JTextField txtNombre;
-	private JTextField txtPassword;
+	private JPasswordField txtPassword;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,100 +43,117 @@ public class Login extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
-		
 		EventQueue.invokeLater(new Runnable() {
-			
 			public void run() {
 				FileInputStream readClinica;
 				FileOutputStream writeClinica;
 				ObjectInputStream readClass;
 				ObjectOutputStream writeClass;
-				
 				try {
 					readClinica = new FileInputStream("clinica.dat");
 					readClass = new ObjectInputStream(readClinica);
-					
 					Clinica.getInstancia().setClinica((Clinica)readClass.readObject());
 					Clinica.getInstancia().asignarContadores();
-					
 					readClass.close();
 					readClinica.close();
-					
 				} catch (Exception e) {
 					try {
 						writeClinica = new FileOutputStream("clinica.dat");
 						writeClass = new ObjectOutputStream(writeClinica);
-						
 						Usuario usuario = new Usuario("admin", "admin", "Administrador");
 						Clinica.getInstancia().regUsuario(usuario);
 						Clinica.getInstancia().initInfo();
-						
 						writeClass.writeObject(Clinica.getInstancia());
 						writeClass.close();
 						writeClinica.close();
-						
 					} catch (FileNotFoundException e2) {
 						e2.printStackTrace();
-						
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
 				}
-				
 			}
-			
 		});
 		
-		setTitle("Login");
+		setTitle("Sistema de Gestión Clínica - Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 612, 395);
+		setBounds(100, 100, 550, 450);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Usuario:");
-		lblNewLabel.setBackground(new Color(72, 61, 139));
-		lblNewLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
-		lblNewLabel.setBounds(60, 63, 69, 20);
-		contentPane.add(lblNewLabel);
+		JPanel panelPrincipal = new JPanel();
+		panelPrincipal.setBackground(Color.WHITE);
+		panelPrincipal.setBorder(new LineBorder(new Color(135, 206, 235), 3));
+		panelPrincipal.setBounds(50, 30, 434, 350);
+		contentPane.add(panelPrincipal);
+		panelPrincipal.setLayout(null);
+		
+		JLabel lblTitulo = new JLabel("CLÍNICA");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 32));
+		lblTitulo.setForeground(new Color(70, 130, 180));
+		lblTitulo.setBounds(0, 30, 434, 40);
+		panelPrincipal.add(lblTitulo);
+		
+		JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
+		lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+		lblSubtitulo.setForeground(new Color(100, 149, 237));
+		lblSubtitulo.setBounds(0, 75, 434, 25);
+		panelPrincipal.add(lblSubtitulo);
+		
+		JPanel panelDivisor = new JPanel();
+		panelDivisor.setBackground(new Color(176, 224, 230));
+		panelDivisor.setBounds(50, 120, 334, 3);
+		panelPrincipal.add(panelDivisor);
+		
+		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+		lblUsuario.setForeground(new Color(70, 130, 180));
+		lblUsuario.setBounds(70, 150, 80, 25);
+		panelPrincipal.add(lblUsuario);
 		
 		txtNombre = new JTextField();
-		txtNombre.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		txtNombre.setBounds(60, 88, 232, 26);
-		contentPane.add(txtNombre);
+		txtNombre.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		txtNombre.setBorder(new LineBorder(new Color(173, 216, 230), 2));
+		txtNombre.setBackground(new Color(224, 247, 250));
+		txtNombre.setBounds(70, 180, 294, 30);
+		panelPrincipal.add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
-		lblContrasea.setBackground(new Color(72, 61, 139));
-		lblContrasea.setBounds(60, 148, 97, 20);
-		contentPane.add(lblContrasea);
+		JLabel lblContrasena = new JLabel("Contraseña:");
+		lblContrasena.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+		lblContrasena.setForeground(new Color(70, 130, 180));
+		lblContrasena.setBounds(70, 220, 120, 25);
+		panelPrincipal.add(lblContrasena);
 		
-		txtPassword = new JTextField();
-		txtPassword.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		txtPassword.setColumns(10);
-		txtPassword.setBounds(60, 173, 232, 26);
-		contentPane.add(txtPassword);
+		txtPassword = new JPasswordField();
+		txtPassword.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+		txtPassword.setBorder(new LineBorder(new Color(173, 216, 230), 2));
+		txtPassword.setBackground(new Color(224, 247, 250));
+		txtPassword.setBounds(70, 250, 294, 30);
+		panelPrincipal.add(txtPassword);
 		
-		JButton btnNewButton = new JButton("Login");
-		btnNewButton.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("Iniciar Sesión");
+		btnLogin.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+		btnLogin.setBackground(new Color(176, 224, 230));
+		btnLogin.setForeground(new Color(70, 130, 180));
+		btnLogin.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+		btnLogin.setFocusPainted(false);
+		btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main main = new Main();
-				
 				dispose();
 				main.setVisible(true);
 			}
 		});
-		btnNewButton.setBackground(new Color(245, 222, 179));
-		btnNewButton.setBounds(60, 244, 232, 29);
-		contentPane.add(btnNewButton);
+		btnLogin.setBounds(120, 300, 194, 35);
+		panelPrincipal.add(btnLogin);
 	}
-	
 }
