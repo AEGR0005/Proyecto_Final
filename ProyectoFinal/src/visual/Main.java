@@ -20,8 +20,6 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataInputStream;
@@ -45,472 +43,492 @@ import javax.swing.SwingConstants;
 import javax.swing.JFileChooser;
 
 public class Main extends JFrame {
-	private JPanel contentPane;
-	private Doctor auxDoctor = null;
-	private JLabel lblImagen;
-	private JPanel panelLateral;
-	private Dimension dim;
-	private static Socket sfd = null;
-	private static DataInputStream EntradaSocket;
-	private static DataOutputStream SalidaSocket;
-	private JMenu mnAdmin;
+    private JPanel contentPane;
+    private Doctor auxDoctor = null;
+    private JLabel lblImagen;
+    private JPanel panelLateral;
+    private Dimension dim;
+    private static Socket sfd = null;
+    private static DataInputStream EntradaSocket;
+    private static DataOutputStream SalidaSocket;
+    private JMenu mnAdmin;
+    private JMenu mnRegistro;
+    private JMenu mnListado;
+    
+    private JMenuItem mntmRespaldo;
+    private JMenuItem mntmCargarRespaldo;
+    private JMenuItem mntmEnfermedad;
+    private JMenuItem mntmVacuna;
+    private JMenuItem mntmReporte;
+    
+    private JMenuItem mntmPaciente;
+    private JMenuItem mntmCita;
+    private JMenuItem mntmConsulta;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main frame = new Main();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private JMenuItem mntmListarConsultas;
+    private JMenuItem mntmListarPacientes;
 
-	public Main() {
-		Servidor servidor = new Servidor(7000);
-		servidor.start();
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Main frame = new Main();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				FileOutputStream writeFile;
-				ObjectOutputStream writeObjeto;
-				try {
-					writeFile = new FileOutputStream("clinica.dat");
-					writeObjeto = new ObjectOutputStream(writeFile);
-					Clinica.getInstancia().guardarContadores();
-					writeObjeto.writeObject(Clinica.getInstancia());
-					writeFile.close();
-					writeObjeto.close();
-				} catch (FileNotFoundException e2) {
-					e2.printStackTrace();
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-			}
-		});
+    public Main() {
+        Servidor servidor = new Servidor(7000);
+        servidor.start();
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                FileOutputStream writeFile;
+                ObjectOutputStream writeObjeto;
+                try {
+                    writeFile = new FileOutputStream("clinica.dat");
+                    writeObjeto = new ObjectOutputStream(writeFile);
+                    Clinica.getInstancia().guardarContadores();
+                    writeObjeto.writeObject(Clinica.getInstancia());
+                    writeFile.close();
+                    writeObjeto.close();
+                } catch (FileNotFoundException e2) {
+                    e2.printStackTrace();
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        });
+        
+        setTitle("Sistema de Gestión Clínica");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        dim = getToolkit().getScreenSize();
+        setSize(dim.width - 40, dim.height - 60);
+        setLocationRelativeTo(null);
+        
+        contentPane = new JPanel();
+        contentPane.setForeground(Color.WHITE);
+        contentPane.setBackground(new Color(240, 248, 255));
+        contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        setContentPane(contentPane);
+        contentPane.setLayout(new BorderLayout());
+        
+        panelLateral = new JPanel();
+        panelLateral.setBackground(new Color(176, 224, 230));
+        panelLateral.setPreferredSize(new Dimension(280, dim.height));
+        panelLateral.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+        contentPane.add(panelLateral, BorderLayout.WEST);
+        panelLateral.setLayout(null);
+        
+        JLabel lblTitulo = new JLabel("CLÍNICA");
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 28));
+        lblTitulo.setForeground(new Color(70, 130, 180));
+        lblTitulo.setBounds(0, 20, 280, 40);
+        panelLateral.add(lblTitulo);
+        
+        JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
+        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+        lblSubtitulo.setForeground(new Color(100, 149, 237));
+        lblSubtitulo.setBounds(0, 60, 280, 20);
+        panelLateral.add(lblSubtitulo);
+        
+        JMenuBar menuBarAdmin = new JMenuBar();
+        menuBarAdmin.setBackground(new Color(224, 247, 250));
+        menuBarAdmin.setBorder(new LineBorder(new Color(173, 216, 230), 1));
+        menuBarAdmin.setBounds(20, 110, 240, 52);
+        panelLateral.add(menuBarAdmin);
+        
+        mnAdmin = new JMenu(" Administración");
+        mnAdmin.setIcon(cargarIcono("recursos/admin.png", 40, 40));
+        mnAdmin.setBackground(Color.WHITE);
+        mnAdmin.setForeground(new Color(70, 130, 180));
+        mnAdmin.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+        mnAdmin.setPreferredSize(new Dimension(240, 52));
+        mnAdmin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        mnAdmin.setHorizontalTextPosition(SwingConstants.RIGHT);
+        mnAdmin.setIconTextGap(10);
+        menuBarAdmin.add(mnAdmin);
+        
+        mntmRespaldo = new JMenuItem(" Crear Respaldo");
+        mntmRespaldo.setIcon(cargarIcono("recursos/respaldo.png", 24, 24));
+        mntmRespaldo.setPreferredSize(new Dimension(240, 40));
+        mntmRespaldo.setBackground(Color.WHITE);
+        mntmRespaldo.setForeground(new Color(70, 130, 180));
+        mntmRespaldo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmRespaldo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                crearRespaldo();
+            }
+        });
+        mnAdmin.add(mntmRespaldo);
+        
+        mntmCargarRespaldo = new JMenuItem(" Cargar Respaldo");
+        mntmCargarRespaldo.setIcon(cargarIcono("recursos/descargar.png", 24, 24));
+        mntmCargarRespaldo.setPreferredSize(new Dimension(240, 40));
+        mntmCargarRespaldo.setBackground(Color.WHITE);
+        mntmCargarRespaldo.setForeground(new Color(70, 130, 180));
+        mntmCargarRespaldo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmCargarRespaldo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cargarRespaldo();
+            }
+        });
+        mnAdmin.add(mntmCargarRespaldo);
+        
+        mntmEnfermedad = new JMenuItem(" Enfermedad");
+        mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
+        mntmEnfermedad.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                RegEnfermedad regEnfermedad = new RegEnfermedad();
+                regEnfermedad.setModal(true);
+                regEnfermedad.setVisible(true);
+            }
+        });
+        mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
+        mntmEnfermedad.setBackground(Color.WHITE);
+        mntmEnfermedad.setForeground(new Color(70, 130, 180));
+        mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnAdmin.add(mntmEnfermedad);
+        
+        mntmVacuna = new JMenuItem(" Vacuna");
+        mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
+        mntmVacuna.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManejoVacuna manejoVacuna = new ManejoVacuna();
+                manejoVacuna.setModal(true);
+                manejoVacuna.setVisible(true);
+            }
+        });
+        mntmVacuna.setPreferredSize(new Dimension(240, 40));
+        mntmVacuna.setBackground(Color.WHITE);
+        mntmVacuna.setForeground(new Color(70, 130, 180));
+        mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnAdmin.add(mntmVacuna);
+        
 
-		setTitle("Sistema de Gestión Clínica");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		dim = getToolkit().getScreenSize();
-		setSize(dim.width - 40, dim.height - 60);
-		setLocationRelativeTo(null);
+        
 
-		contentPane = new JPanel();
-		contentPane.setForeground(Color.WHITE);
-		contentPane.setBackground(new Color(240, 248, 255));
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout());
+        JMenuBar menuBarReg = new JMenuBar();
+        menuBarReg.setBackground(new Color(224, 247, 250));
+        menuBarReg.setBorder(new LineBorder(new Color(173, 216, 230), 1));
+        menuBarReg.setBounds(20, 175, 240, 52);
+        panelLateral.add(menuBarReg);
+        
+        mnRegistro = new JMenu(" Registro");
+        mnRegistro.setIcon(cargarIcono("recursos/registro.png", 40, 40));
+        mnRegistro.setBackground(Color.WHITE);
+        mnRegistro.setForeground(new Color(70, 130, 180));
+        mnRegistro.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+        mnRegistro.setPreferredSize(new Dimension(240, 52));
+        mnRegistro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        mnRegistro.setHorizontalTextPosition(SwingConstants.RIGHT);
+        mnRegistro.setIconTextGap(10);
+        menuBarReg.add(mnRegistro);
+        
+        mntmPaciente = new JMenuItem(" Paciente");
+        mntmPaciente.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
+        mntmPaciente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                RegistrarPaciente regPaciente = new RegistrarPaciente();
+                regPaciente.setModal(true);
+                regPaciente.setVisible(true);
+            }
+        });
+        mntmPaciente.setPreferredSize(new Dimension(240, 40));
+        mntmPaciente.setBackground(Color.WHITE);
+        mntmPaciente.setForeground(new Color(70, 130, 180));
+        mntmPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnRegistro.add(mntmPaciente);
+        
+        mntmCita = new JMenuItem(" Cita");
+        mntmCita.setIcon(cargarIcono("recursos/cita.png", 24, 24));
+        mntmCita.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                RegistrarCita regCita = new RegistrarCita();
+                regCita.setModal(true);
+                regCita.setVisible(true);
+            }
+        });
+        mntmCita.setPreferredSize(new Dimension(240, 40));
+        mntmCita.setBackground(Color.WHITE);
+        mntmCita.setForeground(new Color(70, 130, 180));
+        mntmCita.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnRegistro.add(mntmCita);
+        
+        mntmConsulta = new JMenuItem(" Consulta");
+        mntmConsulta.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
+        mntmConsulta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                RealizarConsulta realizarConsulta = new RealizarConsulta();
+                realizarConsulta.setModal(true);
+                realizarConsulta.setVisible(true);
+            }
+        });
+        mntmConsulta.setPreferredSize(new Dimension(240, 40));
+        mntmConsulta.setBackground(Color.WHITE);
+        mntmConsulta.setForeground(new Color(70, 130, 180));
+        mntmConsulta.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnRegistro.add(mntmConsulta);
+        
+        JMenuBar menuBarList = new JMenuBar();
+        menuBarList.setBackground(new Color(224, 247, 250));
+        menuBarList.setBorder(new LineBorder(new Color(173, 216, 230), 1));
+        menuBarList.setBounds(20, 240, 240, 52);
+        panelLateral.add(menuBarList);
+        
+        mnListado = new JMenu(" Listado");
+        mnListado.setIcon(cargarIcono("recursos/listado.png", 40, 40));
+        mnListado.setPreferredSize(new Dimension(240, 52));
+        mnListado.setForeground(new Color(70, 130, 180));
+        mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 18));
+        mnListado.setBackground(Color.WHITE);
+        mnListado.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        mnListado.setHorizontalTextPosition(SwingConstants.RIGHT);
+        mnListado.setIconTextGap(10);
+        menuBarList.add(mnListado);
+        
+        mntmListarConsultas = new JMenuItem(" Listar Consultas");
+        mntmListarConsultas.setIcon(cargarIcono("recursos/lista_consultas.png", 24, 24));
+        mntmListarConsultas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                Doctor doctorActual = Clinica.getDoctorActual();
+                if(doctorActual != null) {
+                    MostrarConsulta mostrarconsulta = new MostrarConsulta(doctorActual);
+                    mostrarconsulta.setModal(true);
+                    mostrarconsulta.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, 
+                        "Debe iniciar sesión como Doctor para ver las consultas.", 
+                        "Acceso Denegado", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        mntmListarConsultas.setPreferredSize(new Dimension(240, 40));
+        mntmListarConsultas.setForeground(new Color(70, 130, 180));
+        mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmListarConsultas.setBackground(Color.WHITE);
+        mnListado.add(mntmListarConsultas);
+        
+        mntmListarPacientes = new JMenuItem(" Listar Pacientes");
+        mntmListarPacientes.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
+        mntmListarPacientes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                MostrarPaciente mostrarPacientes = new MostrarPaciente();
+                mostrarPacientes.setModal(true);
+                mostrarPacientes.setVisible(true);
+            }
+        });
+        mntmListarPacientes.setPreferredSize(new Dimension(240, 40));
+        mntmListarPacientes.setForeground(new Color(70, 130, 180));
+        mntmListarPacientes.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmListarPacientes.setBackground(Color.WHITE);
+        mnListado.add(mntmListarPacientes);
+        
+        JPanel panel_1 = new JPanel();
+        panel_1.setBackground(new Color(240, 248, 255));
+        panel_1.setLayout(new BorderLayout());
+        contentPane.add(panel_1, BorderLayout.CENTER);
+        
+        lblImagen = new JLabel("");
+        lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_1.add(lblImagen, BorderLayout.CENTER);
+        
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                cargarImagenCentral();
+            }
+        });
+        
+        cargarImagenCentral();
+        configurarPermisos();
+    }
+    
+    
 
-		panelLateral = new JPanel();
-		panelLateral.setBackground(new Color(176, 224, 230));
-		panelLateral.setPreferredSize(new Dimension(280, dim.height));
-		panelLateral.setBorder(new LineBorder(new Color(135, 206, 235), 2));
-		contentPane.add(panelLateral, BorderLayout.WEST);
-		panelLateral.setLayout(null);
+    private void crearRespaldo() {
+        FileOutputStream clinicaOut;
+        ObjectOutputStream clinicaWrite;
+        try {
+            clinicaOut = new FileOutputStream("clinica.dat");
+            clinicaWrite = new ObjectOutputStream(clinicaOut);
+            Clinica.getInstancia().guardarContadores();
+            clinicaWrite.writeObject(Clinica.getInstancia());
+            clinicaOut.close();
+            clinicaWrite.close();
+            
+            enviarArchivo("clinica", "clinica.dat");
+            JOptionPane.showMessageDialog(null, 
+                "Respaldo enviado exitosamente al servidor", 
+                "Respaldo Completado", 
+                JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                "Error al crear el archivo de respaldo", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                "Error al guardar los datos", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-		JLabel lblTitulo = new JLabel("CLÍNICA");
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 28));
-		lblTitulo.setForeground(new Color(70, 130, 180));
-		lblTitulo.setBounds(0, 20, 280, 40);
-		panelLateral.add(lblTitulo);
+    private void enviarArchivo(String tipo, String nombreArchivo) {
+        try {
+            sfd = new Socket("127.0.0.1", 7000);
+            File archivo = new File(nombreArchivo);
+            
+            if (!archivo.exists()) {
+                JOptionPane.showMessageDialog(null, 
+                    "Archivo " + nombreArchivo + " no encontrado", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            EntradaSocket = new DataInputStream(new FileInputStream(archivo));
+            SalidaSocket = new DataOutputStream(sfd.getOutputStream());
+            
+            SalidaSocket.writeUTF(tipo);
+            
+            int unByte;
+            while ((unByte = EntradaSocket.read()) != -1) {
+                SalidaSocket.write(unByte);
+            }
+            SalidaSocket.flush();
+            
+            if (EntradaSocket != null) {
+                EntradaSocket.close();
+            }
+            if (SalidaSocket != null) {
+                SalidaSocket.close();
+            }
+            if (sfd != null) {
+                sfd.close();
+            }
+        } catch (UnknownHostException uhe) {
+            JOptionPane.showMessageDialog(null, 
+                "No se puede acceder al servidor: " + uhe.getMessage(),
+                "Error de Conexión", 
+                JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, 
+                "Error durante la transferencia: " + ioe.getMessage(), 
+                "Error de Comunicación", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void configurarPermisos() {
+        if(Clinica.getInstancia().getUsuarioActual() != null) {
+            String tipoUsuario = Clinica.getInstancia().getUsuarioActual().getTipo();
+            
+            if(tipoUsuario.equalsIgnoreCase("Admin")) {
+                mnAdmin.setEnabled(true);
+                mnRegistro.setEnabled(true);
+                mnListado.setEnabled(true);
+                
+            } else if(tipoUsuario.equalsIgnoreCase("Doctor")) {
+                mnAdmin.setEnabled(false);
+                mnRegistro.setEnabled(true);
+                mnListado.setEnabled(true);
+                
+            } else if(tipoUsuario.equalsIgnoreCase("Staff")) {
+                mnAdmin.setEnabled(false);
+                mnRegistro.setEnabled(true);
+                mnListado.setEnabled(false);
+            }
+        }
+    }
 
-		JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
-		lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-		lblSubtitulo.setForeground(new Color(100, 149, 237));
-		lblSubtitulo.setBounds(0, 60, 280, 20);
-		panelLateral.add(lblSubtitulo);
+    private void cargarRespaldo() {
+        JFileChooser fileChooser = new JFileChooser(new File("."));
+        fileChooser.setDialogTitle("Seleccionar archivo de respaldo de la clínica");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        FileNameExtensionFilter filtroDat = new FileNameExtensionFilter("Archivos de respaldo (.dat)", "dat");
+        fileChooser.setFileFilter(filtroDat);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        int resultado = fileChooser.showOpenDialog(null);
+        
+        if (resultado != JFileChooser.APPROVE_OPTION) return;
+        
+        File archivo = fileChooser.getSelectedFile();
+        String nombre = archivo.getName();
+        
+        if (!nombre.startsWith("clinica_respaldo_") || !nombre.endsWith(".dat")) {
+            JOptionPane.showMessageDialog(null, 
+                "Archivo inválido. Debe ser un respaldo tipo 'clinica_respaldo_#.dat'", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int confirm = JOptionPane.showConfirmDialog(null, 
+            "¿Deseas restaurar la clínica desde este respaldo?\nEsto sobrescribirá los datos actuales.", 
+            "Confirmar Restauración", 
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirm != JOptionPane.YES_OPTION) return;
+        
+        try (ObjectInputStream clinicaIn = new ObjectInputStream(new FileInputStream(archivo))) {
+            Clinica instancia = (Clinica) clinicaIn.readObject();
+            Clinica.getInstancia().setClinica(instancia);
+            Clinica.getInstancia().asignarContadores();
+            
+            JOptionPane.showMessageDialog(null, 
+                "Respaldo restaurado exitosamente.", 
+                "Restauración completada", 
+                JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                "Error al cargar archivo: " + ex.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-		JMenuBar menuBarAdmin = new JMenuBar();
-		menuBarAdmin.setBackground(new Color(224, 247, 250));
-		menuBarAdmin.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		menuBarAdmin.setBounds(20, 110, 240, 52);
-		panelLateral.add(menuBarAdmin);
+    private ImageIcon cargarIcono(String ruta, int ancho, int alto) {
+        try {
+            ImageIcon icon = new ImageIcon(ruta);
+            Image img = icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar el icono: " + ruta);
+            return null;
+        }
+    }
 
-		mnAdmin = new JMenu(" Administración");
-		mnAdmin.setIcon(cargarIcono("recursos/admin.png", 40, 40));
-		mnAdmin.setBackground(Color.WHITE);
-		mnAdmin.setForeground(new Color(70, 130, 180));
-		mnAdmin.setFont(new Font("Bahnschrift", Font.BOLD, 18));
-		mnAdmin.setPreferredSize(new Dimension(240, 52));
-		mnAdmin.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		mnAdmin.setHorizontalTextPosition(SwingConstants.RIGHT);
-		mnAdmin.setIconTextGap(10);
-		menuBarAdmin.add(mnAdmin);
-
-		JMenuItem mntmRespaldo = new JMenuItem(" Crear Respaldo");
-		mntmRespaldo.setIcon(cargarIcono("recursos/respaldo.png", 24, 24));
-		mntmRespaldo.setPreferredSize(new Dimension(240, 40));
-		mntmRespaldo.setBackground(Color.WHITE);
-		mntmRespaldo.setForeground(new Color(70, 130, 180));
-		mntmRespaldo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mntmRespaldo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				crearRespaldo();
-			}
-		});
-		mnAdmin.add(mntmRespaldo);
-
-		JMenuItem mntmCargarRespaldo = new JMenuItem(" Cargar Respaldo");
-		mntmCargarRespaldo.setIcon(cargarIcono("recursos/descargar.png", 24, 24));
-		mntmCargarRespaldo.setPreferredSize(new Dimension(240, 40));
-		mntmCargarRespaldo.setBackground(Color.WHITE);
-		mntmCargarRespaldo.setForeground(new Color(70, 130, 180));
-		mntmCargarRespaldo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mntmCargarRespaldo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cargarRespaldo();
-			}
-		});
-		mnAdmin.add(mntmCargarRespaldo);
-
-		JMenuBar menuBarReg = new JMenuBar();
-		menuBarReg.setBackground(new Color(224, 247, 250));
-		menuBarReg.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		menuBarReg.setBounds(20, 175, 240, 52);
-		panelLateral.add(menuBarReg);
-
-		JMenu mnRegistro = new JMenu(" Registro");
-		mnRegistro.setIcon(cargarIcono("recursos/registro.png", 40, 40));
-		mnRegistro.setBackground(Color.WHITE);
-		mnRegistro.setForeground(new Color(70, 130, 180));
-		mnRegistro.setFont(new Font("Bahnschrift", Font.BOLD, 18));
-		mnRegistro.setPreferredSize(new Dimension(240, 52));
-		mnRegistro.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		mnRegistro.setHorizontalTextPosition(SwingConstants.RIGHT);
-		mnRegistro.setIconTextGap(10);
-		menuBarReg.add(mnRegistro);
-
-		JMenuItem mntmPaciente = new JMenuItem(" Paciente");
-		mntmPaciente.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
-		mntmPaciente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				RegistrarPaciente regPaciente = new RegistrarPaciente();
-				regPaciente.setModal(true);
-				regPaciente.setVisible(true);
-			}
-		});
-		mntmPaciente.setPreferredSize(new Dimension(240, 40));
-		mntmPaciente.setBackground(Color.WHITE);
-		mntmPaciente.setForeground(new Color(70, 130, 180));
-		mntmPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mnRegistro.add(mntmPaciente);
-
-		JMenuItem mntmCita = new JMenuItem(" Cita");
-		mntmCita.setIcon(cargarIcono("recursos/cita.png", 24, 24));
-		mntmCita.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				RegistrarCita regCita = new RegistrarCita();
-				regCita.setModal(true);
-				regCita.setVisible(true);
-			}
-		});
-		mntmCita.setPreferredSize(new Dimension(240, 40));
-		mntmCita.setBackground(Color.WHITE);
-		mntmCita.setForeground(new Color(70, 130, 180));
-		mntmCita.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mnRegistro.add(mntmCita);
-
-		JMenuItem mntmEnfermedad = new JMenuItem(" Enfermedad");
-		mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
-		mntmEnfermedad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				RegEnfermedad regEnfermedad = new RegEnfermedad();
-				regEnfermedad.setModal(true);
-				regEnfermedad.setVisible(true);
-			}
-		});
-		mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
-		mntmEnfermedad.setBackground(Color.WHITE);
-		mntmEnfermedad.setForeground(new Color(70, 130, 180));
-		mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mnRegistro.add(mntmEnfermedad);
-
-		JMenuItem mntmConsulta = new JMenuItem(" Consulta");
-		mntmConsulta.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
-		mntmConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RealizarConsulta realizarConsulta = new RealizarConsulta();
-				realizarConsulta.setModal(true);
-				realizarConsulta.setVisible(true);
-			}
-		});
-		mntmConsulta.setPreferredSize(new Dimension(240, 40));
-		mntmConsulta.setBackground(Color.WHITE);
-		mntmConsulta.setForeground(new Color(70, 130, 180));
-		mntmConsulta.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mnRegistro.add(mntmConsulta);
-
-		JMenuItem mntmVacuna = new JMenuItem(" Vacuna");
-		mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
-		mntmVacuna.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ManejoVacuna manejoVacuna = new ManejoVacuna();
-				manejoVacuna.setModal(true);
-				manejoVacuna.setVisible(true);
-			}
-		});
-		mntmVacuna.setPreferredSize(new Dimension(240, 40));
-		mntmVacuna.setBackground(Color.WHITE);
-		mntmVacuna.setForeground(new Color(70, 130, 180));
-		mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mnRegistro.add(mntmVacuna);
-
-		JMenuBar menuBarList = new JMenuBar();
-		menuBarList.setBackground(new Color(224, 247, 250));
-		menuBarList.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		menuBarList.setBounds(20, 240, 240, 52);
-		panelLateral.add(menuBarList);
-
-		JMenu mnListado = new JMenu(" Listado");
-		mnListado.setIcon(cargarIcono("recursos/listado.png", 40, 40));
-		mnListado.setPreferredSize(new Dimension(240, 52));
-		mnListado.setForeground(new Color(70, 130, 180));
-		mnListado.setFont(new Font("Bahnschrift", Font.BOLD, 18));
-		mnListado.setBackground(Color.WHITE);
-		mnListado.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		mnListado.setHorizontalTextPosition(SwingConstants.RIGHT);
-		mnListado.setIconTextGap(10);
-		menuBarList.add(mnListado);
-
-		JMenuItem mntmListarConsultas = new JMenuItem(" Listar Consultas");
-		mntmListarConsultas.setIcon(cargarIcono("recursos/lista_consultas.png", 24, 24));
-		mntmListarConsultas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MostrarConsulta mostrarconsulta = new MostrarConsulta(auxDoctor);
-				mostrarconsulta.setModal(true);
-				mostrarconsulta.setVisible(true);
-			}
-		});
-		mntmListarConsultas.setPreferredSize(new Dimension(240, 40));
-		mntmListarConsultas.setForeground(new Color(70, 130, 180));
-		mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mntmListarConsultas.setBackground(Color.WHITE);
-		mnListado.add(mntmListarConsultas);
-
-		JMenuItem mntmListarPacientes = new JMenuItem(" Listar Pacientes");
-		mntmListarPacientes.setIcon(cargarIcono("recursos/paciente.png", 24, 24)); 
-		mntmListarPacientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MostrarPaciente mostrarPacientes = new MostrarPaciente();
-				mostrarPacientes.setModal(true);
-				mostrarPacientes.setVisible(true);
-			}
-		});
-		mntmListarPacientes.setPreferredSize(new Dimension(240, 40));
-		mntmListarPacientes.setForeground(new Color(70, 130, 180));
-		mntmListarPacientes.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-		mntmListarPacientes.setBackground(Color.WHITE);
-		mnListado.add(mntmListarPacientes);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(240, 248, 255));
-		panel_1.setLayout(new BorderLayout());
-		contentPane.add(panel_1, BorderLayout.CENTER);
-
-		lblImagen = new JLabel("");
-		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblImagen, BorderLayout.CENTER);
-
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				cargarImagenCentral();
-			}
-		});
-
-		cargarImagenCentral();
-		userUI();
-	}
-
-	private void crearRespaldo() {
-		FileOutputStream clinicaOut;
-		ObjectOutputStream clinicaWrite;
-		try {
-			clinicaOut = new FileOutputStream("clinica.dat");
-			clinicaWrite = new ObjectOutputStream(clinicaOut);
-			Clinica.getInstancia().guardarContadores();
-			clinicaWrite.writeObject(Clinica.getInstancia());
-			clinicaOut.close();
-			clinicaWrite.close();
-
-			enviarArchivo("clinica", "clinica.dat");
-
-			JOptionPane.showMessageDialog(null, 
-					"Respaldo enviado exitosamente al servidor", 
-					"Respaldo Completado", JOptionPane.INFORMATION_MESSAGE);
-
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, 
-					"Error al crear el archivo de respaldo", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, 
-					"Error al guardar los datos", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void enviarArchivo(String tipo, String nombreArchivo) {
-		try {
-			sfd = new Socket("127.0.0.1", 7000);
-
-			File archivo = new File(nombreArchivo);
-			if (!archivo.exists()) {
-				JOptionPane.showMessageDialog(null, "Archivo " + nombreArchivo + " no encontrado", 
-						"Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-
-			EntradaSocket = new DataInputStream(new FileInputStream(archivo));
-			SalidaSocket = new DataOutputStream(sfd.getOutputStream());
-
-			SalidaSocket.writeUTF(tipo);
-
-			int unByte;
-			while ((unByte = EntradaSocket.read()) != -1) {
-				SalidaSocket.write(unByte);
-			}
-
-			SalidaSocket.flush();
-
-			if (EntradaSocket != null) {
-				EntradaSocket.close();
-			}
-			if (SalidaSocket != null) {
-				SalidaSocket.close();
-			}
-			if (sfd != null) {
-				sfd.close();
-			}
-		} 
-		catch (UnknownHostException uhe) {
-			JOptionPane.showMessageDialog(null, 
-					"No se puede acceder al servidor: " + uhe.getMessage(),"Error de Conexión", JOptionPane.ERROR_MESSAGE);
-			try {
-				if (EntradaSocket != null) {
-					EntradaSocket.close();
-				}
-				if (SalidaSocket != null) {
-					SalidaSocket.close();
-				}
-				if (sfd != null) {
-					sfd.close();
-				}
-			} catch (IOException e1) {
-				System.out.println("Error al cerrar recursos: " + e1.getMessage());
-			}
-		} 
-		catch (IOException ioe) {
-			JOptionPane.showMessageDialog(null, 
-					"Error durante la transferencia: " + ioe.getMessage(), 
-					"Error de Comunicación", JOptionPane.ERROR_MESSAGE);
-			try {
-				if (EntradaSocket != null) {
-					EntradaSocket.close();
-				}
-				if (SalidaSocket != null) {
-					SalidaSocket.close();
-				}
-				if (sfd != null) {
-					sfd.close();
-				}
-			} catch (IOException e1) {
-				System.out.println("Error al cerrar recursos: " + e1.getMessage());
-			}
-		}
-	}
-
-	private void cargarRespaldo() {
-		JFileChooser fileChooser = new JFileChooser(new File("."));
-		fileChooser.setDialogTitle("Seleccionar archivo de respaldo de la clínica");
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		FileNameExtensionFilter filtroDat = new FileNameExtensionFilter("Archivos de respaldo (.dat)", "dat");
-		fileChooser.setFileFilter(filtroDat);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-
-		int resultado = fileChooser.showOpenDialog(null);
-		if (resultado != JFileChooser.APPROVE_OPTION) 
-			return;
-
-
-		File archivo = fileChooser.getSelectedFile();
-		String nombre = archivo.getName();
-
-		if (!nombre.startsWith("clinica_respaldo_") || !nombre.endsWith(".dat")) {
-			JOptionPane.showMessageDialog(null, 
-					"Archivo inválido. Debe ser un respaldo tipo 'clinica_respaldo_#.dat'", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		int confirm = JOptionPane.showConfirmDialog(null,
-				"¿Deseas restaurar la clínica desde este respaldo?\nEsto sobrescribirá los datos actuales.",
-				"Confirmar Restauración",
-				JOptionPane.YES_NO_OPTION);
-
-		if (confirm != JOptionPane.YES_OPTION) 
-			return;
-
-		try (ObjectInputStream clinicaIn = new ObjectInputStream(new FileInputStream(archivo))) {
-			Clinica instancia = (Clinica) clinicaIn.readObject();
-			Clinica.getInstancia().setClinica(instancia);
-			Clinica.getInstancia().asignarContadores();
-
-			JOptionPane.showMessageDialog(null, 
-					"Respaldo restaurado exitosamente.",
-					"Restauración completada", JOptionPane.INFORMATION_MESSAGE);
-
-		} catch (IOException | ClassNotFoundException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, 
-					"Error al cargar archivo: " + ex.getMessage(), 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void userUI() {
-		if (Clinica.getUsuarioActual() != null && 
-				!Clinica.getUsuarioActual().getTipo().equals("Administrador")) {
-			mnAdmin.setEnabled(false);
-		}
-	}
-
-	private ImageIcon cargarIcono(String ruta, int ancho, int alto) {
-		try {
-			ImageIcon icon = new ImageIcon(ruta);
-			Image img = icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-			return new ImageIcon(img);
-		} catch (Exception e) {
-			System.out.println("No se pudo cargar el icono: " + ruta);
-			return null;
-		}
-	}
-
-	private void cargarImagenCentral() {
-		try {
-			ImageIcon icon = new ImageIcon("recursos/fondo_clinica.png");
-			if (icon.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
-				int ancho = getWidth() - panelLateral.getWidth() - 40;
-				int alto = getHeight() - 40;
-				Image img = icon.getImage();
-				Image imgScale = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-				ImageIcon scaledIcon = new ImageIcon(imgScale);
-				lblImagen.setIcon(scaledIcon);
-				lblImagen.setText("");
-			}
-		} catch (Exception e) {
-			lblImagen.setIcon(null);
-			lblImagen.setText("Bienvenido al Sistema de Gestión Clínica");
-			lblImagen.setFont(new Font("Bahnschrift", Font.BOLD, 24));
-			lblImagen.setForeground(new Color(70, 130, 180));
-		}
-	}
+    private void cargarImagenCentral() {
+        try {
+            ImageIcon icon = new ImageIcon("recursos/fondo_clinica.png");
+            if (icon.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
+                int ancho = getWidth() - panelLateral.getWidth() - 40;
+                int alto = getHeight() - 40;
+                Image img = icon.getImage();
+                Image imgScale = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(imgScale);
+                lblImagen.setIcon(scaledIcon);
+                lblImagen.setText("");
+            }
+        } catch (Exception e) {
+            lblImagen.setIcon(null);
+            lblImagen.setText("Bienvenido al Sistema de Gestión Clínica");
+            lblImagen.setFont(new Font("Bahnschrift", Font.BOLD, 24));
+            lblImagen.setForeground(new Color(70, 130, 180));
+        }
+    }
 }
