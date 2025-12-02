@@ -38,10 +38,11 @@ public class RegistrarPaciente extends JDialog {
 	private JComboBox cbxSexo;
 	private JComboBox cbxTipoSangre;
 	private JTextArea txtDireccion;
+	private Paciente miPaciente = null;
 
 	public static void main(String[] args) {
 		try {
-			RegistrarPaciente dialog = new RegistrarPaciente();
+			RegistrarPaciente dialog = new RegistrarPaciente(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -49,8 +50,15 @@ public class RegistrarPaciente extends JDialog {
 		}
 	}
 
-	public RegistrarPaciente() {
-		setTitle("Registrar Paciente");
+	public RegistrarPaciente(Paciente pac) {
+		miPaciente = pac;
+		
+		if(miPaciente == null) {
+			setTitle("Registrar Paciente");
+		} else {
+			setTitle("Modificar Paciente");
+		}
+		
 		setBounds(100, 100, 631, 450);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -224,6 +232,9 @@ public class RegistrarPaciente extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton btnRegistrar = new JButton("Registrar");
+		if(miPaciente != null) {
+			btnRegistrar.setText("Modificar");
+		}
 		btnRegistrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnRegistrar.setBackground(new Color(176, 224, 230));
 		btnRegistrar.setForeground(new Color(70, 130, 180));
@@ -231,7 +242,11 @@ public class RegistrarPaciente extends JDialog {
 		btnRegistrar.setFocusPainted(false);
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				registrarPaciente();
+				if(miPaciente != null) {
+					modificarPaciente();
+				} else {
+					registrarPaciente();
+				}
 			}
 		});
 		btnRegistrar.setActionCommand("OK");
@@ -251,27 +266,59 @@ public class RegistrarPaciente extends JDialog {
 		});
 		btnCancelar.setActionCommand("Cancel");
 		buttonPane.add(btnCancelar);
+		
+		cargarDatos();
+	}
+	
+	private void cargarDatos() {
+		if(miPaciente != null) {
+			txtNombre.setText(miPaciente.getNombre());
+			txtCedula.setText(miPaciente.getCedula());
+			txtCedula.setEditable(false);
+			txtTelefono.setText(miPaciente.getTelefono());
+			txtDireccion.setText(miPaciente.getDireccion());
+			txtPeso.setText(String.valueOf(miPaciente.getPeso()));
+			txtEstatura.setText(String.valueOf(miPaciente.getEstatura()));
+			cbxSexo.setSelectedItem(miPaciente.getSexo());
+			cbxTipoSangre.setSelectedItem(miPaciente.getTipoSangre());
+			spnFechaNacim.setValue(miPaciente.getFecNacim());
+		}
+	}
+	
+	private void modificarPaciente() {
+		if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente.")) return;
+		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El teléfono no puede contener caracteres.")) return;
+		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la dirección del paciente.")) return;
+		if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) return;
+		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar la estatura del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", "La estatura no puede contener caracteres.")) return;
+		
+		miPaciente.setNombre(txtNombre.getText().trim());
+		miPaciente.setTelefono(txtTelefono.getText().trim());
+		miPaciente.setFecNacim((Date)spnFechaNacim.getValue());
+		miPaciente.setSexo((String)cbxSexo.getSelectedItem());
+		miPaciente.setPeso(Float.parseFloat(txtPeso.getText().trim()));
+		miPaciente.setEstatura(Float.parseFloat(txtEstatura.getText().trim()));
+		miPaciente.setTipoSangre(cbxTipoSangre.getSelectedItem().toString());
+		miPaciente.setDireccion(txtDireccion.getText().trim());
+		
+		MostrarPaciente.loadPacientes();
+		JOptionPane.showMessageDialog(null, "Paciente modificado con éxito.", "Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+		dispose();
 	}
 
 	private void registrarPaciente() {
 		if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente.")) return;
-		if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar el cédula del paciente.")) return;
+		if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar la cédula del paciente.")) return;
 		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente.")) return;
-		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El teléfono no puede contener caracteres.")) {
-			return;
-		}
-		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar el dirección del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El teléfono no puede contener caracteres.")) return;
+		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la dirección del paciente.")) return;
 		if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente.")) return;
-		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) {
-			return;
-		}
-		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar el estatura del paciente.")) return;
-		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) {
-			return;
-		}
-		if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", "La estatura no puede contener caracteres.")) {
-			return;
-		}
+		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) return;
+		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar la estatura del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", "La estatura no puede contener caracteres.")) return;
 		
 		String idPaciente = "PAC-" + Clinica.genCodigoPacientes;
 		Paciente paciente = new Paciente(
@@ -281,8 +328,8 @@ public class RegistrarPaciente extends JDialog {
 			txtTelefono.getText().trim(),
 			(Date)spnFechaNacim.getValue(),
 			(String)cbxSexo.getSelectedItem(),
-			new Float(txtPeso.getText().trim()),
-			new Float(txtEstatura.getText().trim()),
+			Float.parseFloat(txtPeso.getText().trim()),
+			Float.parseFloat(txtEstatura.getText().trim()),
 			cbxTipoSangre.getSelectedItem().toString(),
 			txtDireccion.getText().trim());
 		

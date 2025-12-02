@@ -17,10 +17,11 @@ public class ManejoVacuna extends JDialog {
 	private JTextField txtEdadMin;
 	private JTextField txtFabricante;
 	private JComboBox<Enfermedad> cbEnfermedad;
+	private Vacuna miVacuna = null;
 
 	public static void main(String[] args) {
 		try {
-			ManejoVacuna dialog = new ManejoVacuna();
+			ManejoVacuna dialog = new ManejoVacuna(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -28,8 +29,15 @@ public class ManejoVacuna extends JDialog {
 		}
 	}
 
-	public ManejoVacuna() {
-		setTitle("Manejo de Vacunas");
+	public ManejoVacuna(Vacuna vac) {
+		miVacuna = vac;
+		
+		if(miVacuna == null) {
+			setTitle("Registrar Vacuna");
+		} else {
+			setTitle("Modificar Vacuna");
+		}
+		
 		setBounds(100, 100, 700, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -39,7 +47,7 @@ public class ManejoVacuna extends JDialog {
 		
 		JPanel panelRegistro = new JPanel();
 		panelRegistro.setBackground(Color.WHITE);
-		panelRegistro.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Registro de Vacuna", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
+		panelRegistro.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Datos de la Vacuna", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
 		panelRegistro.setBounds(12, 13, 664, 225);
 		contentPanel.add(panelRegistro);
 		panelRegistro.setLayout(null);
@@ -103,64 +111,30 @@ public class ManejoVacuna extends JDialog {
 		txtFabricante.setBounds(140, 162, 200, 25);
 		panelRegistro.add(txtFabricante);
 		
-		JButton btnRegistrar = new JButton("Registrar Vacuna");
+		JPanel buttonPane = new JPanel();
+		buttonPane.setBackground(new Color(240, 248, 255));
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton btnRegistrar = new JButton("Registrar");
+		if(miVacuna != null) {
+			btnRegistrar.setText("Modificar");
+		}
 		btnRegistrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnRegistrar.setBackground(new Color(176, 224, 230));
 		btnRegistrar.setForeground(new Color(70, 130, 180));
 		btnRegistrar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
 		btnRegistrar.setFocusPainted(false);
-		btnRegistrar.setBounds(400, 65, 200, 40);
-		panelRegistro.add(btnRegistrar);
-		
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (txtNombre.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Debe ingresar el nombre de la vacuna.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-					return;
+				if(miVacuna != null) {
+					modificarVacuna();
+				} else {
+					registrarVacuna();
 				}
-				
-				if (txtEdadMin.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Debe ingresar la edad mínima.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				int edadMin;
-				try {
-					edadMin = Integer.parseInt(txtEdadMin.getText().trim());
-					if (edadMin < 0) {
-						JOptionPane.showMessageDialog(null, "La edad mínima no puede ser negativa.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-						return;
-					}
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "La edad mínima debe ser un número válido.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				if (txtFabricante.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Debe ingresar el fabricante.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				Enfermedad enfermedad = (Enfermedad) cbEnfermedad.getSelectedItem();
-				String id = "VAC-" + Clinica.genCodigoVacuna;
-				String nombre = txtNombre.getText().trim();
-				String fabricante = txtFabricante.getText().trim();
-				
-				Vacuna vacuna = new Vacuna(id, nombre, enfermedad, edadMin);
-				vacuna.setFabricante(fabricante);
-				
-				Clinica.getInstancia().getVacunas().add(vacuna);
-				Clinica.genCodigoVacuna++;
-				
-				limpiarCampos();
-				JOptionPane.showMessageDialog(null, "Vacuna registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		
-		JPanel buttonPane = new JPanel();
-		buttonPane.setBackground(new Color(240, 248, 255));
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		buttonPane.add(btnRegistrar);
 		
 		JButton btnCerrar = new JButton("Cerrar");
 		btnCerrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
@@ -170,6 +144,101 @@ public class ManejoVacuna extends JDialog {
 		btnCerrar.setFocusPainted(false);
 		btnCerrar.addActionListener(e -> dispose());
 		buttonPane.add(btnCerrar);
+		
+		cargarDatos();
+	}
+	
+	private void cargarDatos() {
+		if(miVacuna != null) {
+			txtNombre.setText(miVacuna.getNombre());
+			txtEdadMin.setText(String.valueOf(miVacuna.getEdadMinima()));
+			txtFabricante.setText(miVacuna.getFabricante());
+			
+			if(miVacuna.getEnfermedad() != null) {
+				cbEnfermedad.setSelectedItem(miVacuna.getEnfermedad());
+			}
+		}
+	}
+	
+	private void modificarVacuna() {
+		if(txtNombre.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar el nombre de la vacuna.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if(txtEdadMin.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar la edad mínima.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		int edadMin;
+		try {
+			edadMin = Integer.parseInt(txtEdadMin.getText().trim());
+			if(edadMin < 0) {
+				JOptionPane.showMessageDialog(null, "La edad mínima no puede ser negativa.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "La edad mínima debe ser un número válido.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if(txtFabricante.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar el fabricante.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		miVacuna.setNombre(txtNombre.getText().trim());
+		miVacuna.setEdadMinima(edadMin);
+		miVacuna.setFabricante(txtFabricante.getText().trim());
+		miVacuna.setEnfermedad((Enfermedad) cbEnfermedad.getSelectedItem());
+		
+		ListarVacuna.loadVacunas();
+		JOptionPane.showMessageDialog(null, "Vacuna modificada con éxito.", "Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+		dispose();
+	}
+	
+	private void registrarVacuna() {
+		if(txtNombre.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar el nombre de la vacuna.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if(txtEdadMin.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar la edad mínima.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		int edadMin;
+		try {
+			edadMin = Integer.parseInt(txtEdadMin.getText().trim());
+			if(edadMin < 0) {
+				JOptionPane.showMessageDialog(null, "La edad mínima no puede ser negativa.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "La edad mínima debe ser un número válido.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if(txtFabricante.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar el fabricante.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		Enfermedad enfermedad = (Enfermedad) cbEnfermedad.getSelectedItem();
+		String id = "VAC-" + Clinica.genCodigoVacuna;
+		String nombre = txtNombre.getText().trim();
+		String fabricante = txtFabricante.getText().trim();
+		
+		Vacuna vacuna = new Vacuna(id, nombre, enfermedad, edadMin);
+		vacuna.setFabricante(fabricante);
+		
+		Clinica.getInstancia().getVacunas().add(vacuna);
+		Clinica.genCodigoVacuna++;
+		
+		limpiarCampos();
+		JOptionPane.showMessageDialog(null, "Vacuna registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void limpiarCampos() {

@@ -27,11 +27,11 @@ public class RegEnfermedad extends JDialog {
 	private JTextArea txtSintomas;
 	private JTextArea txtDescripcion;
 	private JCheckBox cbVigilancia;
-	boolean esContagiosa = false;
+	private Enfermedad miEnfermedad = null;
 
 	public static void main(String[] args) {
 		try {
-			RegEnfermedad dialog = new RegEnfermedad();
+			RegEnfermedad dialog = new RegEnfermedad(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -39,8 +39,15 @@ public class RegEnfermedad extends JDialog {
 		}
 	}
 
-	public RegEnfermedad() {
-		setTitle("Registrar Enfermedad");
+	public RegEnfermedad(Enfermedad enf) {
+		miEnfermedad = enf;
+		
+		if(miEnfermedad == null) {
+			setTitle("Registrar Enfermedad");
+		} else {
+			setTitle("Modificar Enfermedad");
+		}
+		
 		setBounds(100, 100, 600, 450);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -113,6 +120,9 @@ public class RegEnfermedad extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton btnRegistrar = new JButton("Registrar");
+		if(miEnfermedad != null) {
+			btnRegistrar.setText("Modificar");
+		}
 		btnRegistrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnRegistrar.setBackground(new Color(176, 224, 230));
 		btnRegistrar.setForeground(new Color(70, 130, 180));
@@ -120,7 +130,11 @@ public class RegEnfermedad extends JDialog {
 		btnRegistrar.setFocusPainted(false);
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				registrarEnfermedad();
+				if(miEnfermedad != null) {
+					modificarEnfermedad();
+				} else {
+					registrarEnfermedad();
+				}
 			}
 		});
 		buttonPane.add(btnRegistrar);
@@ -133,6 +147,33 @@ public class RegEnfermedad extends JDialog {
 		btnCancelar.setFocusPainted(false);
 		btnCancelar.addActionListener(e -> dispose());
 		buttonPane.add(btnCancelar);
+		
+		cargarDatos();
+	}
+	
+	private void cargarDatos() {
+		if(miEnfermedad != null) {
+			txtNombre.setText(miEnfermedad.getNombre());
+			cbVigilancia.setSelected(miEnfermedad.isVigilancia());
+			txtSintomas.setText(miEnfermedad.getSintomas());
+			txtDescripcion.setText(miEnfermedad.getDescripcion());
+		}
+	}
+	
+	private void modificarEnfermedad() {
+		if (txtNombre.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Debe ingresar el nombre.", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		miEnfermedad.setNombre(txtNombre.getText().trim());
+		miEnfermedad.setVigilancia(cbVigilancia.isSelected());
+		miEnfermedad.setSintomas(txtSintomas.getText().trim());
+		miEnfermedad.setDescripcion(txtDescripcion.getText().trim());
+		
+		ListarEnfermedad.loadEnfermedades();
+		JOptionPane.showMessageDialog(this, "Enfermedad modificada con éxito.", "Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+		dispose();
 	}
 
 	private void registrarEnfermedad() {
@@ -143,18 +184,16 @@ public class RegEnfermedad extends JDialog {
 		
 		String id = "ENF-" + Clinica.genCodigoEnfermedad;
 		String nombre = txtNombre.getText().trim();
-		
 		boolean vigilancia = cbVigilancia.isSelected();
 		String sintomas = txtSintomas.getText().trim();
 		String descripcion = txtDescripcion.getText().trim();
 		
-		Enfermedad nueva = new Enfermedad(id, nombre, vigilancia, esContagiosa, sintomas, descripcion);
-		nueva.setSintomas(sintomas);
+		Enfermedad nueva = new Enfermedad(id, nombre, vigilancia, false, sintomas, descripcion);
 		Clinica.getInstancia().registrarEnfermedad(nueva);
 		
-		JOptionPane.showMessageDialog(this, "Enfermedad registrada con éxito.\n: " + nombre + "-"+ id, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Enfermedad registrada con éxito.\nCódigo: " + id, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
 		limpiarCampos();
-	}	
+	}
 
 	private void limpiarCampos() {
 		txtNombre.setText("");

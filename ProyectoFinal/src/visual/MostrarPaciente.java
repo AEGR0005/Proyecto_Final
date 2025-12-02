@@ -5,11 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,13 +25,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-
 import logico.Clinica;
 import logico.Paciente;
-
-
-
-
 
 public class MostrarPaciente extends JDialog {
 	
@@ -51,9 +49,11 @@ public class MostrarPaciente extends JDialog {
 	private static Object[] row;
 	private JTextField txtFiltroNombre;
 	private JTextField txtFiltroCedula;
+	private static JButton btnModificar;
+	private static JButton btnEliminar;
+	private Paciente auxPaciente = null;
 
 	public MostrarPaciente() {
-
 		setTitle("Listado de Pacientes");
 		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
@@ -62,7 +62,6 @@ public class MostrarPaciente extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setLayout(null);
-
 
 		JPanel panelBarra = new JPanel();
 		panelBarra.setBackground(Color.WHITE);
@@ -118,10 +117,9 @@ public class MostrarPaciente extends JDialog {
 		btnMostrarTodos.addActionListener(e -> {
 			txtFiltroNombre.setText("");
 			txtFiltroCedula.setText("");
-			listarPacientes("", "");
+			loadPacientes("", "");
 		});
 		panelBarra.add(btnMostrarTodos);
-
 
 		JPanel panelTable = new JPanel();
 		panelTable.setBackground(new Color(240, 248, 255));
@@ -160,7 +158,19 @@ public class MostrarPaciente extends JDialog {
 		table.getTableHeader().setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		table.getTableHeader().setBackground(new Color(135, 206, 235));
 		table.getTableHeader().setForeground(new Color(70, 130, 180));
-
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = table.getSelectedRow();
+				if(index > -1) {
+					btnModificar.setEnabled(true);
+					btnEliminar.setEnabled(true);
+					String idPaciente = table.getValueAt(index, 0).toString();
+					auxPaciente = Clinica.getInstancia().buscarPacienteXId(idPaciente);
+				}
+			}
+		});
 
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(new Color(240, 248, 255));
@@ -168,16 +178,54 @@ public class MostrarPaciente extends JDialog {
 		panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(panelBotones);
 
-		JButton btnCerrar = new JButton("Cerrar");
-		btnCerrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-		btnCerrar.setBackground(new Color(176, 224, 230));
-		btnCerrar.setForeground(new Color(70, 130, 180));
-		btnCerrar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
-		btnCerrar.addActionListener(e -> dispose());
-		panelBotones.add(btnCerrar);
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnEliminar.setBackground(new Color(176, 224, 230));
+		btnEliminar.setForeground(new Color(70, 130, 180));
+		btnEliminar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+		btnEliminar.setEnabled(false);
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(auxPaciente != null) {
+					int option = JOptionPane.showConfirmDialog(
+						null, 
+						"¿Está seguro que desea eliminar al paciente: " + auxPaciente.getNombre() + "?",
+						"Confirmación", 
+						JOptionPane.WARNING_MESSAGE
+					);
+					if(option == JOptionPane.OK_OPTION) {
+						Clinica.getInstancia().getPacientes().remove(auxPaciente);
+						btnEliminar.setEnabled(false);
+						btnModificar.setEnabled(false);
+						loadPacientes("", "");
+						JOptionPane.showMessageDialog(null, 
+							"Paciente eliminado exitosamente.", 
+							"Éxito", 
+							JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		});
+		panelBotones.add(btnEliminar);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnModificar.setBackground(new Color(176, 224, 230));
+		btnModificar.setForeground(new Color(70, 130, 180));
+		btnModificar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+		btnModificar.setEnabled(false);
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(auxPaciente != null) {
+					RegistrarPaciente modPaciente = new RegistrarPaciente(auxPaciente);
+					modPaciente.setModal(true);
+					modPaciente.setVisible(true);
+				}
+			}
+		});
+		panelBotones.add(btnModificar);
 
-
-		JButton btnDetalle = new JButton("Mostrar Detalle");
+		JButton btnDetalle = new JButton("Ver Detalle");
 		btnDetalle.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnDetalle.setBackground(new Color(176, 224, 230));
 		btnDetalle.setForeground(new Color(70, 130, 180));
@@ -186,11 +234,11 @@ public class MostrarPaciente extends JDialog {
 			int fila = table.getSelectedRow();
 			if (fila == -1) {
 				JOptionPane.showMessageDialog(
-						null,
-						"Debe seleccionar un paciente de la lista.",
-						"Advertencia",
-						JOptionPane.WARNING_MESSAGE
-						);
+					null,
+					"Debe seleccionar un paciente de la lista.",
+					"Advertencia",
+					JOptionPane.WARNING_MESSAGE
+				);
 				return;
 			}
 
@@ -199,9 +247,9 @@ public class MostrarPaciente extends JDialog {
 
 			if (paciente == null) {
 				JOptionPane.showMessageDialog(null,
-						"No se encontró el paciente seleccionado.",
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
+					"No se encontró el paciente seleccionado.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -210,17 +258,24 @@ public class MostrarPaciente extends JDialog {
 			detalle.setLocationRelativeTo(null);
 			detalle.setVisible(true);
 		});
-
 		panelBotones.add(btnDetalle);
+		
+		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		btnCerrar.setBackground(new Color(176, 224, 230));
+		btnCerrar.setForeground(new Color(70, 130, 180));
+		btnCerrar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+		btnCerrar.addActionListener(e -> dispose());
+		panelBotones.add(btnCerrar);
 
-		listarPacientes("", "");
+		loadPacientes("", "");
 	}
 
 	private void aplicarFiltros() {
-		listarPacientes(
-				txtFiltroNombre.getText().trim(),
-				txtFiltroCedula.getText().trim()
-				);
+		loadPacientes(
+			txtFiltroNombre.getText().trim(),
+			txtFiltroCedula.getText().trim()
+		);
 	}
 
 	private int calcularEdad(java.util.Date date) {
@@ -238,32 +293,44 @@ public class MostrarPaciente extends JDialog {
 	    return edad;
 	}
 
-	private void listarPacientes(String nombreFiltro, String cedulaFiltro) {
-
+	public static void loadPacientes() {
+		loadPacientes("", "");
+	}
+	
+	private static void loadPacientes(String nombreFiltro, String cedulaFiltro) {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 
 		ArrayList<Paciente> pacientes = Clinica.getInstancia().getPacientes();
 
 		for (Paciente p : pacientes) {
-
 			boolean coincideNombre = p.getNombre().toLowerCase()
 					.contains(nombreFiltro.toLowerCase());
 
 			boolean coincideCedula = p.getCedula().toLowerCase()
 					.contains(cedulaFiltro.toLowerCase());
 
-			if (!(coincideNombre && coincideCedula)) {
-				return; 
+			if (coincideNombre && coincideCedula) {
+				row[0] = p.getIdPaciente();
+				row[1] = p.getNombre();
+				row[2] = p.getCedula();
+				
+				Calendar nacimiento = Calendar.getInstance();
+				nacimiento.setTime(p.getFecNacim());
+				Calendar hoy = Calendar.getInstance();
+				int edad = hoy.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR);
+				if (hoy.get(Calendar.DAY_OF_YEAR) < nacimiento.get(Calendar.DAY_OF_YEAR)) {
+					edad--;
+				}
+				
+				row[3] = edad;
+				row[4] = p.getTelefono();
+
+				model.addRow(row);
 			}
-
-			row[0] = p.getIdPaciente();
-			row[1] = p.getNombre();
-			row[2] = p.getCedula();
-			row[3] = calcularEdad(p.getFecNacim());
-			row[4] = p.getTelefono();
-
-			model.addRow(row);
 		}
+		
+		if(btnModificar != null) btnModificar.setEnabled(false);
+		if(btnEliminar != null) btnEliminar.setEnabled(false);
 	}
 }

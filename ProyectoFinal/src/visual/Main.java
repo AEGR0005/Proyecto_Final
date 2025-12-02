@@ -67,6 +67,8 @@ public class Main extends JFrame {
 
     private JMenuItem mntmListarConsultas;
     private JMenuItem mntmListarPacientes;
+    private JMenuItem mntmListarEnfermedades;
+    private JMenuItem mntmListarVacunas;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -131,7 +133,7 @@ public class Main extends JFrame {
         menuBarAdmin.setBorder(new LineBorder(new Color(173, 216, 230), 1));
         menuBarAdmin.setBounds(20, 110, 240, 52);
         panelLateral.add(menuBarAdmin);
-        
+
         mnAdmin = new JMenu(" Administración");
         mnAdmin.setIcon(cargarIcono("recursos/admin.png", 40, 40));
         mnAdmin.setBackground(Color.WHITE);
@@ -142,7 +144,7 @@ public class Main extends JFrame {
         mnAdmin.setHorizontalTextPosition(SwingConstants.RIGHT);
         mnAdmin.setIconTextGap(10);
         menuBarAdmin.add(mnAdmin);
-        
+
         mntmRespaldo = new JMenuItem(" Crear Respaldo");
         mntmRespaldo.setIcon(cargarIcono("recursos/respaldo.png", 24, 24));
         mntmRespaldo.setPreferredSize(new Dimension(240, 40));
@@ -155,7 +157,7 @@ public class Main extends JFrame {
             }
         });
         mnAdmin.add(mntmRespaldo);
-        
+
         mntmCargarRespaldo = new JMenuItem(" Cargar Respaldo");
         mntmCargarRespaldo.setIcon(cargarIcono("recursos/descargar.png", 24, 24));
         mntmCargarRespaldo.setPreferredSize(new Dimension(240, 40));
@@ -168,37 +170,7 @@ public class Main extends JFrame {
             }
         });
         mnAdmin.add(mntmCargarRespaldo);
-        
-        mntmEnfermedad = new JMenuItem(" Enfermedad");
-        mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
-        mntmEnfermedad.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                RegEnfermedad regEnfermedad = new RegEnfermedad();
-                regEnfermedad.setModal(true);
-                regEnfermedad.setVisible(true);
-            }
-        });
-        mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
-        mntmEnfermedad.setBackground(Color.WHITE);
-        mntmEnfermedad.setForeground(new Color(70, 130, 180));
-        mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-        mnAdmin.add(mntmEnfermedad);
-        
-        mntmVacuna = new JMenuItem(" Vacuna");
-        mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
-        mntmVacuna.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ManejoVacuna manejoVacuna = new ManejoVacuna();
-                manejoVacuna.setModal(true);
-                manejoVacuna.setVisible(true);
-            }
-        });
-        mntmVacuna.setPreferredSize(new Dimension(240, 40));
-        mntmVacuna.setBackground(Color.WHITE);
-        mntmVacuna.setForeground(new Color(70, 130, 180));
-        mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
-        mnAdmin.add(mntmVacuna);
-        
+
         mntmReporte = new JMenuItem(" Reporte");
         mntmReporte.setIcon(cargarIcono("recursos/reporte.png", 24, 24));
         mntmReporte.addActionListener(new ActionListener() {
@@ -220,7 +192,7 @@ public class Main extends JFrame {
         menuBarReg.setBorder(new LineBorder(new Color(173, 216, 230), 1));
         menuBarReg.setBounds(20, 175, 240, 52);
         panelLateral.add(menuBarReg);
-        
+
         mnRegistro = new JMenu(" Registro");
         mnRegistro.setIcon(cargarIcono("recursos/registro.png", 40, 40));
         mnRegistro.setBackground(Color.WHITE);
@@ -231,12 +203,12 @@ public class Main extends JFrame {
         mnRegistro.setHorizontalTextPosition(SwingConstants.RIGHT);
         mnRegistro.setIconTextGap(10);
         menuBarReg.add(mnRegistro);
-        
+
         mntmPaciente = new JMenuItem(" Paciente");
         mntmPaciente.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
         mntmPaciente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                RegistrarPaciente regPaciente = new RegistrarPaciente();
+                RegistrarPaciente regPaciente = new RegistrarPaciente(null);
                 regPaciente.setModal(true);
                 regPaciente.setVisible(true);
             }
@@ -246,7 +218,7 @@ public class Main extends JFrame {
         mntmPaciente.setForeground(new Color(70, 130, 180));
         mntmPaciente.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mnRegistro.add(mntmPaciente);
-        
+
         mntmCita = new JMenuItem(" Cita");
         mntmCita.setIcon(cargarIcono("recursos/cita.png", 24, 24));
         mntmCita.addActionListener(new ActionListener() {
@@ -261,7 +233,7 @@ public class Main extends JFrame {
         mntmCita.setForeground(new Color(70, 130, 180));
         mntmCita.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mnRegistro.add(mntmCita);
-        
+
         mntmConsulta = new JMenuItem(" Consulta");
         mntmConsulta.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
         mntmConsulta.addActionListener(new ActionListener() {
@@ -276,13 +248,43 @@ public class Main extends JFrame {
         mntmConsulta.setForeground(new Color(70, 130, 180));
         mntmConsulta.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mnRegistro.add(mntmConsulta);
+
+        mntmEnfermedad = new JMenuItem(" Enfermedad");
+        mntmEnfermedad.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
+        mntmEnfermedad.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                RegEnfermedad regEnfermedad = new RegEnfermedad(null);
+                regEnfermedad.setModal(true);
+                regEnfermedad.setVisible(true);
+            }
+        });
+        mntmEnfermedad.setPreferredSize(new Dimension(240, 40));
+        mntmEnfermedad.setBackground(Color.WHITE);
+        mntmEnfermedad.setForeground(new Color(70, 130, 180));
+        mntmEnfermedad.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnRegistro.add(mntmEnfermedad);
+
+        mntmVacuna = new JMenuItem(" Vacuna");
+        mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
+        mntmVacuna.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManejoVacuna manejoVacuna = new ManejoVacuna(null);
+                manejoVacuna.setModal(true);
+                manejoVacuna.setVisible(true);
+            }
+        });
+        mntmVacuna.setPreferredSize(new Dimension(240, 40));
+        mntmVacuna.setBackground(Color.WHITE);
+        mntmVacuna.setForeground(new Color(70, 130, 180));
+        mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnRegistro.add(mntmVacuna);
         
         JMenuBar menuBarList = new JMenuBar();
         menuBarList.setBackground(new Color(224, 247, 250));
         menuBarList.setBorder(new LineBorder(new Color(173, 216, 230), 1));
         menuBarList.setBounds(20, 240, 240, 52);
         panelLateral.add(menuBarList);
-        
+
         mnListado = new JMenu(" Listado");
         mnListado.setIcon(cargarIcono("recursos/listado.png", 40, 40));
         mnListado.setPreferredSize(new Dimension(240, 52));
@@ -293,8 +295,8 @@ public class Main extends JFrame {
         mnListado.setHorizontalTextPosition(SwingConstants.RIGHT);
         mnListado.setIconTextGap(10);
         menuBarList.add(mnListado);
-        
-        mntmListarConsultas = new JMenuItem(" Listar Consultas");
+
+        mntmListarConsultas = new JMenuItem(" Consultas");
         mntmListarConsultas.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
         mntmListarConsultas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -316,8 +318,8 @@ public class Main extends JFrame {
         mntmListarConsultas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mntmListarConsultas.setBackground(Color.WHITE);
         mnListado.add(mntmListarConsultas);
-        
-        mntmListarPacientes = new JMenuItem(" Listar Pacientes");
+
+        mntmListarPacientes = new JMenuItem(" Pacientes");
         mntmListarPacientes.setIcon(cargarIcono("recursos/paciente.png", 24, 24));
         mntmListarPacientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -331,6 +333,36 @@ public class Main extends JFrame {
         mntmListarPacientes.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mntmListarPacientes.setBackground(Color.WHITE);
         mnListado.add(mntmListarPacientes);
+
+        mntmListarEnfermedades = new JMenuItem(" Enfermedades");
+        mntmListarEnfermedades.setIcon(cargarIcono("recursos/enfermedad.png", 24, 24));
+        mntmListarEnfermedades.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                ListarEnfermedad listarEnf = new ListarEnfermedad();
+                listarEnf.setModal(true);
+                listarEnf.setVisible(true);
+            }
+        });
+        mntmListarEnfermedades.setPreferredSize(new Dimension(240, 40));
+        mntmListarEnfermedades.setForeground(new Color(70, 130, 180));
+        mntmListarEnfermedades.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmListarEnfermedades.setBackground(Color.WHITE);
+        mnListado.add(mntmListarEnfermedades);
+
+        mntmListarVacunas = new JMenuItem(" Vacunas");
+        mntmListarVacunas.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
+        mntmListarVacunas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                ListarVacuna listarVac = new ListarVacuna();
+                listarVac.setModal(true);
+                listarVac.setVisible(true);
+            }
+        });
+        mntmListarVacunas.setPreferredSize(new Dimension(240, 40));
+        mntmListarVacunas.setForeground(new Color(70, 130, 180));
+        mntmListarVacunas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mntmListarVacunas.setBackground(Color.WHITE);
+        mnListado.add(mntmListarVacunas);
         
         JPanel panel_1 = new JPanel();
         panel_1.setBackground(new Color(240, 248, 255));
@@ -438,16 +470,35 @@ public class Main extends JFrame {
                 mnAdmin.setEnabled(true);
                 mnRegistro.setEnabled(true);
                 mnListado.setEnabled(true);
+                mntmEnfermedad.setVisible(true);
+                mntmVacuna.setVisible(true);
+                mntmListarEnfermedades.setEnabled(true);
+                mntmListarEnfermedades.setVisible(true);
+                mntmListarVacunas.setEnabled(true);
+                mntmListarVacunas.setVisible(true);
                 
             } else if(tipoUsuario.equalsIgnoreCase("Doctor")) {
                 mnAdmin.setEnabled(false);
                 mnRegistro.setEnabled(true);
                 mnListado.setEnabled(true);
+                mntmEnfermedad.setVisible(false);
+                mntmVacuna.setVisible(false);
+                mntmListarEnfermedades.setEnabled(false);
+                mntmListarEnfermedades.setVisible(false);
+                mntmListarVacunas.setEnabled(false);
+                mntmListarVacunas.setVisible(false);
+
                 
             } else if(tipoUsuario.equalsIgnoreCase("Staff")) {
                 mnAdmin.setEnabled(false);
                 mnRegistro.setEnabled(true);
                 mnListado.setEnabled(false);
+                mntmEnfermedad.setVisible(false);
+                mntmVacuna.setVisible(false);
+                mntmListarEnfermedades.setEnabled(false);
+                mntmListarEnfermedades.setVisible(false);
+                mntmListarVacunas.setEnabled(false);
+                mntmListarVacunas.setVisible(false);
             }
         }
     }
