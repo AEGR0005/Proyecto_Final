@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +18,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import logico.Clinica;
+import logico.Enfermedad;
 import logico.Paciente;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -85,8 +88,16 @@ public class Reporte extends JDialog {
         }
 
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Masculino (" + masculino + ")", masculino);
-        dataset.setValue("Femenino (" + femenino + ")", femenino);
+        if (masculino > 0) {
+            dataset.setValue("Masculino (" + masculino + ")", masculino);
+        }
+        if (femenino > 0) {
+            dataset.setValue("Femenino (" + femenino + ")", femenino);
+        }
+
+        if (masculino == 0 && femenino == 0) {
+            dataset.setValue("Sin datos", 1);
+        }
 
         JFreeChart chart = ChartFactory.createPieChart(
             "",
@@ -118,12 +129,29 @@ public class Reporte extends JDialog {
             new Color(70, 130, 180)
         ));
 
-        int conVigilancia = 3;
-        int sinVigilancia = 5;
+        int conVigilancia = 0;
+        int sinVigilancia = 0;
+
+        for (Paciente p : Clinica.getInstancia().getPacientes()) {
+            if (tieneEnfermedadEnVigilancia(p)) {
+                conVigilancia++;
+            } else {
+                sinVigilancia++;
+            }
+        }
 
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Con Vigilancia (" + conVigilancia + ")", conVigilancia);
-        dataset.setValue("Sin Vigilancia (" + sinVigilancia + ")", sinVigilancia);
+        
+        if (conVigilancia > 0) {
+            dataset.setValue("Con Vigilancia (" + conVigilancia + ")", conVigilancia);
+        }
+        if (sinVigilancia > 0) {
+            dataset.setValue("Sin Vigilancia (" + sinVigilancia + ")", sinVigilancia);
+        }
+
+        if (conVigilancia == 0 && sinVigilancia == 0) {
+            dataset.setValue("Sin datos", 1);
+        }
 
         JFreeChart chart = ChartFactory.createPieChart(
             "",
@@ -148,19 +176,34 @@ public class Reporte extends JDialog {
         panel.setBackground(Color.WHITE);
         panel.setBorder(new TitledBorder(
             new LineBorder(new Color(70, 130, 180), 2),
-            "Distribución de Pacientes por Enfermedad en Vigilancia",
+            "Pacientes por Enfermedad en Vigilancia",
             TitledBorder.CENTER,
             TitledBorder.TOP,
             new Font("Bahnschrift", Font.BOLD, 14),
             new Color(70, 130, 180)
         ));
 
+        Map<String, Integer> contadorEnfermedades = new HashMap<>();
+        
+        for (Paciente p : Clinica.getInstancia().getPacientes()) {
+            for (Enfermedad e : p.getEnfermedades()) {
+                if (e.isVigilancia()) {
+                    String nombreEnf = e.getNombre();
+                    contadorEnfermedades.put(nombreEnf, contadorEnfermedades.getOrDefault(nombreEnf, 0) + 1);
+                }
+            }
+        }
+
         DefaultPieDataset dataset = new DefaultPieDataset();
         
-        dataset.setValue("EJ1", 12);
-        dataset.setValue("EJ2", 8);
-        dataset.setValue("EJ3)", 15);
-        dataset.setValue("EJ14", 10);
+        if (contadorEnfermedades.isEmpty()) {
+            dataset.setValue("Sin enfermedades en vigilancia", 1);
+        } else {
+            for (Map.Entry<String, Integer> entry : contadorEnfermedades.entrySet()) {
+                dataset.setValue(entry.getKey() + " (" + entry.getValue() + ")", 
+                                entry.getValue());
+            }
+        }
 
         JFreeChart chart = ChartFactory.createPieChart(
             "",
@@ -197,7 +240,6 @@ public class Reporte extends JDialog {
             new Color(70, 130, 180)
         ));
 
-
         JLabel lblTotalPacientes = new JLabel("Total de Pacientes:");
         lblTotalPacientes.setFont(new Font("Bahnschrift", Font.BOLD, 13));
         lblTotalPacientes.setForeground(new Color(70, 130, 180));
@@ -210,19 +252,19 @@ public class Reporte extends JDialog {
         lblNumPacientes.setBounds(250, 42, 100, 25);
         panel.add(lblNumPacientes);
 
-
+        int totalEnfVigilancia = contarEnfermedadesEnVigilancia();
+        
         JLabel lblEnfVigilancia = new JLabel("Enfermedades en Vigilancia:");
         lblEnfVigilancia.setFont(new Font("Bahnschrift", Font.BOLD, 13));
         lblEnfVigilancia.setForeground(new Color(70, 130, 180));
         lblEnfVigilancia.setBounds(20, 85, 220, 25);
         panel.add(lblEnfVigilancia);
 
-        JLabel lblNumEnfVigilancia = new JLabel("8");
+        JLabel lblNumEnfVigilancia = new JLabel(String.valueOf(totalEnfVigilancia));
         lblNumEnfVigilancia.setFont(new Font("Bahnschrift", Font.BOLD, 20));
         lblNumEnfVigilancia.setForeground(new Color(220, 20, 60));
         lblNumEnfVigilancia.setBounds(250, 85, 100, 25);
         panel.add(lblNumEnfVigilancia);
-
 
         JLabel lblTotalConsultas = new JLabel("Total de Consultas:");
         lblTotalConsultas.setFont(new Font("Bahnschrift", Font.BOLD, 13));
@@ -236,20 +278,56 @@ public class Reporte extends JDialog {
         lblNumConsultas.setBounds(250, 130, 100, 25);
         panel.add(lblNumConsultas);
 
-
+        float porcentajeVigilancia = calcularPorcentajePacientesEnVigilancia();
+        
         JLabel lblPorcentaje = new JLabel("% Pacientes en Vigilancia:");
         lblPorcentaje.setFont(new Font("Bahnschrift", Font.BOLD, 13));
         lblPorcentaje.setForeground(new Color(70, 130, 180));
         lblPorcentaje.setBounds(20, 175, 220, 25);
         panel.add(lblPorcentaje);
 
-        JLabel lblNumPorcentaje = new JLabel("66.2%");
+        JLabel lblNumPorcentaje = new JLabel(String.format("%.1f%%", porcentajeVigilancia));
         lblNumPorcentaje.setFont(new Font("Bahnschrift", Font.BOLD, 20));
         lblNumPorcentaje.setForeground(new Color(220, 20, 60));
         lblNumPorcentaje.setBounds(250, 175, 100, 25);
         panel.add(lblNumPorcentaje);
 
         return panel;
+    }
+
+    private boolean tieneEnfermedadEnVigilancia(Paciente p) {
+        for (Enfermedad e : p.getEnfermedades()) {
+            if (e.isVigilancia()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int contarEnfermedadesEnVigilancia() {
+        int contador = 0;
+        for (Enfermedad e : Clinica.getInstancia().getEnfermedades()) {
+            if (e.isVigilancia()) {
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    private float calcularPorcentajePacientesEnVigilancia() {
+        int totalPacientes = Clinica.getInstancia().getPacientes().size();
+        if (totalPacientes == 0) {
+            return 0.0f;
+        }
+        
+        int pacientesConVigilancia = 0;
+        for (Paciente p : Clinica.getInstancia().getPacientes()) {
+            if (tieneEnfermedadEnVigilancia(p)) {
+                pacientesConVigilancia++;
+            }
+        }
+        
+        return((pacientesConVigilancia * 100.0f) / totalPacientes);
     }
 
     private void personalizarGraficoPie(JFreeChart chart, Color color1, Color color2) {
@@ -260,7 +338,11 @@ public class Reporte extends JDialog {
         plot.setLabelFont(new Font("Bahnschrift", Font.BOLD, 12));
         plot.setLabelBackgroundPaint(Color.WHITE);
         
-        plot.setSectionPaint(0, color1);
-        plot.setSectionPaint(1, color2);
+        if (plot.getDataset().getItemCount() >= 1) {
+            plot.setSectionPaint(0, color1);
+        }
+        if (plot.getDataset().getItemCount() >= 2) {
+            plot.setSectionPaint(1, color2);
+        }
     }
 }
