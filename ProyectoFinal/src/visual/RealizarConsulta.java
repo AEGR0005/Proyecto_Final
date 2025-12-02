@@ -52,7 +52,7 @@ public class RealizarConsulta extends JDialog {
 
 	public RealizarConsulta() {
 		setTitle("Realizar Consulta");
-		setBounds(100, 100, 650, 630);
+		setBounds(100, 100, 685, 630);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,7 +62,7 @@ public class RealizarConsulta extends JDialog {
 		JPanel panelCita = new JPanel();
 		panelCita.setBackground(Color.WHITE);
 		panelCita.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Información de la Cita", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
-		panelCita.setBounds(10, 11, 614, 150);
+		panelCita.setBounds(20, 11, 614, 150);
 		contentPanel.add(panelCita);
 		panelCita.setLayout(null);
 		
@@ -129,7 +129,7 @@ public class RealizarConsulta extends JDialog {
 		JPanel panelConsulta = new JPanel();
 		panelConsulta.setBackground(Color.WHITE);
 		panelConsulta.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Datos de la Consulta", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
-		panelConsulta.setBounds(10, 172, 614, 360);
+		panelConsulta.setBounds(20, 174, 614, 360);
 		contentPanel.add(panelConsulta);
 		panelConsulta.setLayout(null);
 		
