@@ -5,12 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.Clinica;
 import logico.Clinica;
 import logico.Usuario;
 import logico.Doctor;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,7 +47,8 @@ public class Login extends JFrame {
             }
         });
     }
-
+    
+	
     public Login() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {

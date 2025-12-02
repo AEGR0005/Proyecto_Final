@@ -143,6 +143,7 @@ public class RegEnfermedad extends JDialog {
 		
 		String id = "ENF-" + Clinica.genCodigoEnfermedad;
 		String nombre = txtNombre.getText().trim();
+		
 		boolean vigilancia = cbVigilancia.isSelected();
 		String sintomas = txtSintomas.getText().trim();
 		String descripcion = txtDescripcion.getText().trim();

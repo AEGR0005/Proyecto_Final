@@ -22,6 +22,7 @@ import logico.Clinica;
 import logico.Cita;
 import logico.Consulta;
 import logico.Diagnostico;
+import logico.Enfermedad;
 import logico.EstadoCita;
 import java.awt.Color;
 import java.awt.Font;
@@ -327,7 +328,10 @@ public class RealizarConsulta extends JDialog {
 				consulta.setTratamiento(txtTratamiento.getText());
 				consulta.setObservaciones(txtObservaciones.getText());
 				consulta.setEsImportante(chckEsImportante.isSelected());
-				cita.getPaciente().getEnfermedades().add(diagnosticoActual.getEnfermedadDiagnosticada());
+				Enfermedad enfermedadDiag = diagnosticoActual.getEnfermedadDiagnosticada();
+	            if(enfermedadDiag != null) {
+	                cita.getPaciente().agregarEnfermedad(enfermedadDiag);
+	            }
 				
 				if(chckEsImportante.isSelected()) {
 					cita.getPaciente().getResumen().add(consulta);

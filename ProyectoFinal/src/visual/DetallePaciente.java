@@ -31,14 +31,17 @@ public class DetallePaciente extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		/*
 		try {
-			/*DetallePaciente dialog = new DetallePaciente();
+			
+			DetallePaciente dialog = new DetallePaciente(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			 */
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	/**

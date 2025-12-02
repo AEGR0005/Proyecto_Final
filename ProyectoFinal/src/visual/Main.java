@@ -88,20 +88,7 @@ public class Main extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                FileOutputStream writeFile;
-                ObjectOutputStream writeObjeto;
-                try {
-                    writeFile = new FileOutputStream("clinica.dat");
-                    writeObjeto = new ObjectOutputStream(writeFile);
-                    Clinica.getInstancia().guardarContadores();
-                    writeObjeto.writeObject(Clinica.getInstancia());
-                    writeFile.close();
-                    writeObjeto.close();
-                } catch (FileNotFoundException e2) {
-                    e2.printStackTrace();
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
+                guardarDatos();
             }
         });
         
@@ -542,6 +529,25 @@ public class Main extends JFrame {
             lblImagen.setText("Bienvenido al Sistema de Gestión Clínica");
             lblImagen.setFont(new Font("Bahnschrift", Font.BOLD, 24));
             lblImagen.setForeground(new Color(70, 130, 180));
+        }
+    }
+    private void guardarDatos() {
+        try {
+            FileOutputStream writeFile = new FileOutputStream("clinica.dat");
+            ObjectOutputStream writeObjeto = new ObjectOutputStream(writeFile);
+            Clinica.getInstancia().guardarContadores();
+            writeObjeto.writeObject(Clinica.getInstancia());
+            
+            writeObjeto.close();
+            writeFile.close();
+            
+            System.out.println("Datos guardados correctamente");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                "Error al guardar los datos: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }

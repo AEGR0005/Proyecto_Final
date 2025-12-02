@@ -24,7 +24,7 @@ public class Enfermedad implements Serializable{
 		this.id = id;
         this.nombre = nombre;
         this.esContagiosa = esContagiosa;
-        this.vigilancia = false;
+        this.vigilancia = vigilancia;
         this.casosReportados = 0;
         this.fechaUltimoCaso = null;
         this.sintomas = sintomas;
