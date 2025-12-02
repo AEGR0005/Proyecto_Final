@@ -153,7 +153,7 @@ public class RegEnfermedad extends JDialog {
 		
 		JOptionPane.showMessageDialog(this, "Enfermedad registrada con éxito.\n: " + nombre + "-"+ id, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
 		limpiarCampos();
-	}
+	}	
 
 	private void limpiarCampos() {
 		txtNombre.setText("");

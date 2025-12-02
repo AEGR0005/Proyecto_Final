@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3609313352946430885L;
 	
 	private String nombre;
@@ -44,5 +41,7 @@ public class Usuario implements Serializable{
 		this.tipo = tipo;
 	}
 	
-	
+	public boolean match(String nombre, String password) {
+		return (this.nombre.equals(nombre) && this.password.equals(password));
+	}
 }

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -25,7 +26,24 @@ import javax.swing.table.DefaultTableModel;
 import logico.Clinica;
 import logico.Paciente;
 
+
+
+
+
 public class MostrarPaciente extends JDialog {
+	
+	public static void main(String[] args) {
+	    EventQueue.invokeLater(new Runnable() {
+	        public void run() {
+	            try {
+	                MostrarPaciente frame = new MostrarPaciente();
+	                frame.setVisible(true);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    });
+	}
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
