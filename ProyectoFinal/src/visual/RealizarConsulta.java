@@ -327,6 +327,7 @@ public class RealizarConsulta extends JDialog {
 				consulta.setTratamiento(txtTratamiento.getText());
 				consulta.setObservaciones(txtObservaciones.getText());
 				consulta.setEsImportante(chckEsImportante.isSelected());
+				cita.getPaciente().getEnfermedades().add(diagnosticoActual.getEnfermedadDiagnosticada());
 				
 				if(chckEsImportante.isSelected()) {
 					cita.getPaciente().getResumen().add(consulta);

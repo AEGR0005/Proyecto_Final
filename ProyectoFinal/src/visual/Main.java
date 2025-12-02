@@ -308,7 +308,7 @@ public class Main extends JFrame {
         menuBarList.add(mnListado);
         
         mntmListarConsultas = new JMenuItem(" Listar Consultas");
-        mntmListarConsultas.setIcon(cargarIcono("recursos/lista_consultas.png", 24, 24));
+        mntmListarConsultas.setIcon(cargarIcono("recursos/consulta.png", 24, 24));
         mntmListarConsultas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 Doctor doctorActual = Clinica.getDoctorActual();
