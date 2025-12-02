@@ -212,7 +212,20 @@ public class Main extends JFrame {
         mntmVacuna.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         mnAdmin.add(mntmVacuna);
         
-
+        mntmReporte = new JMenuItem(" Reporte");
+        mntmReporte.setIcon(cargarIcono("recursos/reporte.png", 24, 24));
+        mntmReporte.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Reporte reporte = new Reporte();
+                reporte.setModal(true);
+                reporte.setVisible(true);
+            }
+        });
+        mntmReporte.setPreferredSize(new Dimension(240, 40));
+        mntmReporte.setBackground(Color.WHITE);
+        mntmReporte.setForeground(new Color(70, 130, 180));
+        mntmReporte.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        mnAdmin.add(mntmReporte);
         
 
         JMenuBar menuBarReg = new JMenuBar();
