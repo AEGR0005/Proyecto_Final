@@ -270,6 +270,12 @@ public class RegistrarPaciente extends JDialog {
 		cargarDatos();
 	}
 
+	private Paciente pacienteCreado = null;
+
+	public Paciente getPacienteCreado() {
+		return pacienteCreado;
+	}
+
 	private void cargarDatos() {
 		if(miPaciente != null) {
 			txtNombre.setText(miPaciente.getNombre());
@@ -311,10 +317,10 @@ public class RegistrarPaciente extends JDialog {
 
 	private void registrarPaciente() {
 		if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente.")) return;
-		if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar la cÃ©dula del paciente.")) return;
-		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el telÃ©fono del paciente.")) return;
+		if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar la cédula del paciente.")) return;
+		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El telefono no puede contener caracteres.")) return;
-		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la direcciÃ³n del paciente.")) return;
+		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la dirección del paciente.")) return;
 		if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) return;
 		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar la estatura del paciente.")) return;
@@ -334,8 +340,9 @@ public class RegistrarPaciente extends JDialog {
 				txtDireccion.getText().trim());
 
 		Clinica.getInstancia().regPaciente(paciente);
+		this.pacienteCreado = paciente;
 		JOptionPane.showMessageDialog(null, "Paciente registrado con éxito.\nCódigo: " + idPaciente, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-		limpiarCampos();
+		dispose();
 	}
 
 	private void limpiarCampos() {
