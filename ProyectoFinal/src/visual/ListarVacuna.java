@@ -157,7 +157,7 @@ public class ListarVacuna extends JDialog {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(auxVacuna != null) {
-					ManejoVacuna modVacuna = new ManejoVacuna(auxVacuna);
+					RegistrarVacuna modVacuna = new RegistrarVacuna(auxVacuna);
 					modVacuna.setModal(true);
 					modVacuna.setVisible(true);
 				}

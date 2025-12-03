@@ -113,5 +113,9 @@ public class Enfermedad implements Serializable{
         casosReportados++;
         fechaUltimoCaso = LocalDate.now();
    }
-
+	
+	@Override
+	public String toString() {
+	    return nombre;
+	}
 }

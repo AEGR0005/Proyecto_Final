@@ -268,7 +268,7 @@ public class Main extends JFrame {
         mntmVacuna.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
         mntmVacuna.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ManejoVacuna manejoVacuna = new ManejoVacuna(null);
+                RegistrarVacuna manejoVacuna = new RegistrarVacuna(null);
                 manejoVacuna.setModal(true);
                 manejoVacuna.setVisible(true);
             }
@@ -358,6 +358,7 @@ public class Main extends JFrame {
                 listarVac.setVisible(true);
             }
         });
+        
         mntmListarVacunas.setPreferredSize(new Dimension(240, 40));
         mntmListarVacunas.setForeground(new Color(70, 130, 180));
         mntmListarVacunas.setFont(new Font("Bahnschrift", Font.PLAIN, 16));

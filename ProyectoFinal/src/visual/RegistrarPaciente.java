@@ -52,13 +52,13 @@ public class RegistrarPaciente extends JDialog {
 
 	public RegistrarPaciente(Paciente pac) {
 		miPaciente = pac;
-		
+
 		if(miPaciente == null) {
 			setTitle("Registrar Paciente");
 		} else {
 			setTitle("Modificar Paciente");
 		}
-		
+
 		setBounds(100, 100, 631, 450);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -66,7 +66,7 @@ public class RegistrarPaciente extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Datos del Paciente", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
 		panel.setForeground(Color.BLACK);
@@ -74,13 +74,13 @@ public class RegistrarPaciente extends JDialog {
 		panel.setBounds(12, 13, 580, 235);
 		contentPanel.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(12, 40, 80, 20);
 		lblNombre.setForeground(new Color(70, 130, 180));
 		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		panel.add(lblNombre);
-		
+
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtNombre.setBackground(new Color(224, 247, 250));
@@ -88,13 +88,13 @@ public class RegistrarPaciente extends JDialog {
 		txtNombre.setBounds(97, 39, 468, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
-		
-		JLabel lblCedula = new JLabel("Cédula:");
-		lblCedula.setBounds(382, 91, 60, 20);
+
+		JLabel lblCedula = new JLabel("C\u00E9dula:");
+		lblCedula.setBounds(369, 90, 60, 20);
 		lblCedula.setForeground(new Color(70, 130, 180));
 		lblCedula.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		panel.add(lblCedula);
-		
+
 		txtTelefono = new JTextField();
 		txtTelefono.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtTelefono.setBackground(new Color(224, 247, 250));
@@ -102,13 +102,13 @@ public class RegistrarPaciente extends JDialog {
 		txtTelefono.setBounds(447, 118, 118, 20);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
-		
-		JLabel lblTelefono = new JLabel("Teléfono:");
-		lblTelefono.setBounds(382, 118, 60, 20);
+
+		JLabel lblTelefono = new JLabel("Tel\u00E9fono:");
+		lblTelefono.setBounds(369, 117, 66, 20);
 		lblTelefono.setForeground(new Color(70, 130, 180));
 		lblTelefono.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		panel.add(lblTelefono);
-		
+
 		txtCedula = new JTextField();
 		txtCedula.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtCedula.setBackground(new Color(224, 247, 250));
@@ -116,32 +116,32 @@ public class RegistrarPaciente extends JDialog {
 		txtCedula.setBounds(447, 91, 118, 20);
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);
-		
+
 		JLabel lblSexo = new JLabel("Sexo:");
 		lblSexo.setBounds(258, 104, 43, 20);
 		lblSexo.setForeground(new Color(70, 130, 180));
 		lblSexo.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		panel.add(lblSexo);
-		
+
 		cbxSexo = new JComboBox();
 		cbxSexo.setBounds(302, 101, 43, 26);
 		cbxSexo.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		cbxSexo.setBackground(new Color(224, 247, 250));
 		cbxSexo.setModel(new DefaultComboBoxModel(new String[] {"F", "M"}));
 		panel.add(cbxSexo);
-		
+
 		JLabel lblFechaNacimiento = new JLabel("<html>Fecha de<br>Nacimiento:<html>");
 		lblFechaNacimiento.setBounds(12, 100, 92, 29);
 		panel.add(lblFechaNacimiento);
 		lblFechaNacimiento.setForeground(new Color(70, 130, 180));
 		lblFechaNacimiento.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-		
-		JLabel lblDireccion = new JLabel("Dirección:");
+
+		JLabel lblDireccion = new JLabel("Direcci\u00F3n:");
 		lblDireccion.setBounds(12, 159, 80, 20);
 		lblDireccion.setForeground(new Color(70, 130, 180));
 		lblDireccion.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		panel.add(lblDireccion);
-		
+
 		spnFechaNacim = new JSpinner();
 		spnFechaNacim.setModel(new SpinnerDateModel(new Date(974260800000L), new Date(-1576697400000L), new Date(1767153600000L), Calendar.DAY_OF_YEAR));
 		spnFechaNacim.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
@@ -149,88 +149,88 @@ public class RegistrarPaciente extends JDialog {
 		Formato.setSpinner(spnFechaNacim);
 		spnFechaNacim.setBounds(97, 101, 107, 26);
 		panel.add(spnFechaNacim);
-		
+
 		JPanel panelDireccion = new JPanel();
 		panelDireccion.setBounds(97, 159, 468, 49);
 		panel.add(panelDireccion);
 		panelDireccion.setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollDireccion = new JScrollPane();
 		scrollDireccion.setBorder(new LineBorder(new Color(173, 216, 230), 1));
 		panelDireccion.add(scrollDireccion, BorderLayout.CENTER);
-		
+
 		txtDireccion = new JTextArea();
 		txtDireccion.setLineWrap(true);
 		txtDireccion.setWrapStyleWord(true);
 		txtDireccion.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtDireccion.setBackground(new Color(224, 247, 250));
 		scrollDireccion.setViewportView(txtDireccion);
-		
-		JPanel panelCondición = new JPanel();
-		panelCondición.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Condición", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
-		panelCondición.setBounds(15, 264, 580, 76);
-		panelCondición.setBackground(Color.WHITE);
-		contentPanel.add(panelCondición);
-		panelCondición.setLayout(null);
-		
+
+		JPanel panelCondicion= new JPanel();
+		panelCondicion.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Condici�n", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
+		panelCondicion.setBounds(15, 264, 580, 76);
+		panelCondicion.setBackground(Color.WHITE);
+		contentPanel.add(panelCondicion);
+		panelCondicion.setLayout(null);
+
 		JLabel lblPeso = new JLabel("Peso:");
 		lblPeso.setBounds(15, 30, 49, 20);
-		panelCondición.add(lblPeso);
+		panelCondicion.add(lblPeso);
 		lblPeso.setForeground(new Color(70, 130, 180));
 		lblPeso.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-		
+
 		txtPeso = new JTextField();
 		txtPeso.setBounds(60, 27, 49, 26);
 		txtPeso.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtPeso.setBackground(new Color(224, 247, 250));
 		txtPeso.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		panelCondición.add(txtPeso);
+		panelCondicion.add(txtPeso);
 		txtPeso.setColumns(10);
-		
+
 		JLabel lblPesoMedida = new JLabel("lb");
 		lblPesoMedida.setForeground(new Color(70, 130, 180));
 		lblPesoMedida.setFont(new Font("Bahnschrift", Font.BOLD, 14));
 		lblPesoMedida.setBounds(115, 30, 33, 20);
-		panelCondición.add(lblPesoMedida);
-		
+		panelCondicion.add(lblPesoMedida);
+
 		JLabel lblEstatura = new JLabel("Estatura:");
 		lblEstatura.setForeground(new Color(70, 130, 180));
 		lblEstatura.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		lblEstatura.setBounds(200, 30, 66, 20);
-		panelCondición.add(lblEstatura);
-		
+		panelCondicion.add(lblEstatura);
+
 		txtEstatura = new JTextField();
 		txtEstatura.setBounds(270, 27, 41, 26);
 		txtEstatura.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		txtEstatura.setBackground(new Color(224, 247, 250));
 		txtEstatura.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		panelCondición.add(txtEstatura);
+		panelCondicion.add(txtEstatura);
 		txtEstatura.setColumns(10);
-		
+
 		JLabel lblEstMedida = new JLabel("ft");
 		lblEstMedida.setForeground(new Color(70, 130, 180));
 		lblEstMedida.setFont(new Font("Bahnschrift", Font.BOLD, 14));
 		lblEstMedida.setBounds(315, 30, 33, 20);
-		panelCondición.add(lblEstMedida);
-		
+		panelCondicion.add(lblEstMedida);
+
 		JLabel lblTipoDeSangre = new JLabel("Tipo de Sangre:");
 		lblTipoDeSangre.setForeground(new Color(70, 130, 180));
 		lblTipoDeSangre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		lblTipoDeSangre.setBounds(383, 30, 114, 20);
-		panelCondición.add(lblTipoDeSangre);
-		
+		panelCondicion.add(lblTipoDeSangre);
+
 		cbxTipoSangre = new JComboBox();
 		cbxTipoSangre.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		cbxTipoSangre.setBackground(new Color(224, 247, 250));
 		cbxTipoSangre.setModel(new DefaultComboBoxModel(new String[] {"A+", "A−", "B+", "B−", "AB+", "AB−", "O+", "O-"}));
 		cbxTipoSangre.setBounds(494, 27, 71, 26);
-		panelCondición.add(cbxTipoSangre);
-		
+		panelCondicion.add(cbxTipoSangre);
+
 		JPanel buttonPane = new JPanel();
 		buttonPane.setBackground(new Color(240, 248, 255));
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		
+
 		JButton btnRegistrar = new JButton("Registrar");
 		if(miPaciente != null) {
 			btnRegistrar.setText("Modificar");
@@ -252,7 +252,7 @@ public class RegistrarPaciente extends JDialog {
 		btnRegistrar.setActionCommand("OK");
 		buttonPane.add(btnRegistrar);
 		getRootPane().setDefaultButton(btnRegistrar);
-		
+
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnCancelar.setBackground(new Color(176, 224, 230));
@@ -266,10 +266,10 @@ public class RegistrarPaciente extends JDialog {
 		});
 		btnCancelar.setActionCommand("Cancel");
 		buttonPane.add(btnCancelar);
-		
+
 		cargarDatos();
 	}
-	
+
 	private void cargarDatos() {
 		if(miPaciente != null) {
 			txtNombre.setText(miPaciente.getNombre());
@@ -284,17 +284,17 @@ public class RegistrarPaciente extends JDialog {
 			spnFechaNacim.setValue(miPaciente.getFecNacim());
 		}
 	}
-	
+
 	private void modificarPaciente() {
 		if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente.")) return;
-		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente.")) return;
-		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El teléfono no puede contener caracteres.")) return;
-		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la dirección del paciente.")) return;
+		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el telefono del paciente.")) return;
+		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El telefono no puede contener caracteres.")) return;
+		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la direccion del paciente.")) return;
 		if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) return;
 		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar la estatura del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", "La estatura no puede contener caracteres.")) return;
-		
+
 		miPaciente.setNombre(txtNombre.getText().trim());
 		miPaciente.setTelefono(txtTelefono.getText().trim());
 		miPaciente.setFecNacim((Date)spnFechaNacim.getValue());
@@ -303,9 +303,9 @@ public class RegistrarPaciente extends JDialog {
 		miPaciente.setEstatura(Float.parseFloat(txtEstatura.getText().trim()));
 		miPaciente.setTipoSangre(cbxTipoSangre.getSelectedItem().toString());
 		miPaciente.setDireccion(txtDireccion.getText().trim());
-		
+
 		MostrarPaciente.loadPacientes();
-		JOptionPane.showMessageDialog(null, "Paciente modificado con éxito.", "Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Paciente modificado con exito.", "Modificacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
 		dispose();
 	}
 
@@ -313,28 +313,28 @@ public class RegistrarPaciente extends JDialog {
 		if(Formato.entradaVacia(txtNombre.getText(), "Debe ingresar el nombre del paciente.")) return;
 		if(Formato.entradaVacia(txtCedula.getText(), "Debe ingresar la cédula del paciente.")) return;
 		if(Formato.entradaVacia(txtTelefono.getText(), "Debe ingresar el teléfono del paciente.")) return;
-		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El teléfono no puede contener caracteres.")) return;
+		if(Formato.verificarEntradaRegex(txtTelefono.getText().trim(), "[0-9-]+", "El telefono no puede contener caracteres.")) return;
 		if(Formato.entradaVacia(txtDireccion.getText(), "Debe ingresar la dirección del paciente.")) return;
 		if(Formato.entradaVacia(txtPeso.getText(), "Debe ingresar el peso del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtPeso.getText(), "[0-9.]+", "El peso no puede contener caracteres.")) return;
 		if(Formato.entradaVacia(txtEstatura.getText(), "Debe ingresar la estatura del paciente.")) return;
 		if(Formato.verificarEntradaRegex(txtEstatura.getText(), "[0-9.]+", "La estatura no puede contener caracteres.")) return;
-		
+
 		String idPaciente = "PAC-" + Clinica.genCodigoPacientes;
 		Paciente paciente = new Paciente(
-			idPaciente,
-			txtNombre.getText().trim(),
-			txtCedula.getText().trim(),
-			txtTelefono.getText().trim(),
-			(Date)spnFechaNacim.getValue(),
-			(String)cbxSexo.getSelectedItem(),
-			Float.parseFloat(txtPeso.getText().trim()),
-			Float.parseFloat(txtEstatura.getText().trim()),
-			cbxTipoSangre.getSelectedItem().toString(),
-			txtDireccion.getText().trim());
-		
+				idPaciente,
+				txtNombre.getText().trim(),
+				txtCedula.getText().trim(),
+				txtTelefono.getText().trim(),
+				(Date)spnFechaNacim.getValue(),
+				(String)cbxSexo.getSelectedItem(),
+				Float.parseFloat(txtPeso.getText().trim()),
+				Float.parseFloat(txtEstatura.getText().trim()),
+				cbxTipoSangre.getSelectedItem().toString(),
+				txtDireccion.getText().trim());
+
 		Clinica.getInstancia().regPaciente(paciente);
-		JOptionPane.showMessageDialog(null, "Paciente registrado con éxito.\nCódigo: " + idPaciente, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Paciente registrado con �xito.\nC�digo: " + idPaciente, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
 		limpiarCampos();
 	}
 

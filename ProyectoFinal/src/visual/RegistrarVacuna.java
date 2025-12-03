@@ -11,17 +11,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ManejoVacuna extends JDialog {
+public class RegistrarVacuna extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
-	private JTextField txtEdadMin;
 	private JTextField txtFabricante;
+	private JSpinner spinEdadMin;
 	private JComboBox<Enfermedad> cbEnfermedad;
 	private Vacuna miVacuna = null;
 
 	public static void main(String[] args) {
 		try {
-			ManejoVacuna dialog = new ManejoVacuna(null);
+			RegistrarVacuna dialog = new RegistrarVacuna(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -29,7 +29,7 @@ public class ManejoVacuna extends JDialog {
 		}
 	}
 
-	public ManejoVacuna(Vacuna vac) {
+	public RegistrarVacuna(Vacuna vac) {
 		miVacuna = vac;
 		
 		if(miVacuna == null) {
@@ -91,12 +91,11 @@ public class ManejoVacuna extends JDialog {
 		lblEdadMin.setBounds(10, 117, 120, 20);
 		panelRegistro.add(lblEdadMin);
 		
-		txtEdadMin = new JTextField();
-		txtEdadMin.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
-		txtEdadMin.setBackground(new Color(224, 247, 250));
-		txtEdadMin.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		txtEdadMin.setBounds(140, 115, 200, 25);
-		panelRegistro.add(txtEdadMin);
+		spinEdadMin = new JSpinner();
+		spinEdadMin.setModel(new SpinnerNumberModel(0, 0, 120, 1));
+		spinEdadMin.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
+		spinEdadMin.setBounds(140, 115, 77, 25);
+		panelRegistro.add(spinEdadMin);
 		
 		JLabel lblFabricante = new JLabel("Fabricante:");
 		lblFabricante.setForeground(new Color(70, 130, 180));
@@ -151,7 +150,7 @@ public class ManejoVacuna extends JDialog {
 	private void cargarDatos() {
 		if(miVacuna != null) {
 			txtNombre.setText(miVacuna.getNombre());
-			txtEdadMin.setText(String.valueOf(miVacuna.getEdadMinima()));
+			spinEdadMin.setValue(miVacuna.getEdadMinima());
 			txtFabricante.setText(miVacuna.getFabricante());
 			
 			if(miVacuna.getEnfermedad() != null) {
@@ -166,27 +165,12 @@ public class ManejoVacuna extends JDialog {
 			return;
 		}
 		
-		if(txtEdadMin.getText().trim().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Debe ingresar la edad mínima.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-		
-		int edadMin;
-		try {
-			edadMin = Integer.parseInt(txtEdadMin.getText().trim());
-			if(edadMin < 0) {
-				JOptionPane.showMessageDialog(null, "La edad mínima no puede ser negativa.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(null, "La edad mínima debe ser un número válido.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-		
 		if(txtFabricante.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe ingresar el fabricante.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
+		
+		int edadMin = (int) spinEdadMin.getValue();
 		
 		miVacuna.setNombre(txtNombre.getText().trim());
 		miVacuna.setEdadMinima(edadMin);
@@ -204,27 +188,12 @@ public class ManejoVacuna extends JDialog {
 			return;
 		}
 		
-		if(txtEdadMin.getText().trim().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Debe ingresar la edad mínima.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-		
-		int edadMin;
-		try {
-			edadMin = Integer.parseInt(txtEdadMin.getText().trim());
-			if(edadMin < 0) {
-				JOptionPane.showMessageDialog(null, "La edad mínima no puede ser negativa.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(null, "La edad mínima debe ser un número válido.", "Valor Inválido", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-		
 		if(txtFabricante.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe ingresar el fabricante.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
+		
+		int edadMin = (int) spinEdadMin.getValue();
 		
 		Enfermedad enfermedad = (Enfermedad) cbEnfermedad.getSelectedItem();
 		String id = "VAC-" + Clinica.genCodigoVacuna;
@@ -243,7 +212,7 @@ public class ManejoVacuna extends JDialog {
 
 	private void limpiarCampos() {
 		txtNombre.setText("");
-		txtEdadMin.setText("");
+		spinEdadMin.setValue(0);
 		txtFabricante.setText("");
 		cbEnfermedad.setSelectedIndex(-1);
 	}

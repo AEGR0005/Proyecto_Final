@@ -223,7 +223,7 @@ public class Clinica implements Serializable {
         return nuevaConsulta;
     }
 
-    private int contarCitasXDia(Doctor doctor, Date fecha) {
+    public int contarCitasXDia(Doctor doctor, Date fecha) {
         Calendar calendFecha = Calendar.getInstance();
         calendFecha.setTime(fecha);
         int contador = 0;
@@ -368,6 +368,5 @@ public class Clinica implements Serializable {
     public void setUsuarioActual(Usuario usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
-
-	
+    
 }

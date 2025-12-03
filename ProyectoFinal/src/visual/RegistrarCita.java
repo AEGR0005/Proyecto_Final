@@ -1,5 +1,7 @@
 package visual;
 import javax.swing.DefaultComboBoxModel;
+
+import javax.swing.event.ChangeListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -75,7 +77,7 @@ public class RegistrarCita extends JDialog {
 		setTitle("Registrar: Cita");
 		setBounds(100, 100, 789, 615);
 		setLocationRelativeTo(null);
-		
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -84,7 +86,7 @@ public class RegistrarCita extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBounds(35, 28, 695, 463);
-			
+
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Registrar Cita", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(70, 130, 180)));
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -95,14 +97,14 @@ public class RegistrarCita extends JDialog {
 			lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblNewLabel.setBounds(31, 45, 78, 30);
 			panel.add(lblNewLabel);
-			
+
 
 			JLabel lblIdentificacion = new JLabel("Identificaci\u00F3n:");
 			lblIdentificacion.setForeground(new Color(70, 130, 180));
 			lblIdentificacion.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblIdentificacion.setBounds(31, 105, 129, 30);
 			panel.add(lblIdentificacion);
-			
+
 			txtIdPersona = new JTextField();
 			txtIdPersona.setFont(new Font("Verdana", Font.PLAIN, 14));
 			txtIdPersona.setColumns(10);
@@ -110,7 +112,7 @@ public class RegistrarCita extends JDialog {
 			txtIdPersona.setBackground(new Color(224, 247, 250));
 			txtIdPersona.setBounds(154, 109, 224, 22);
 			panel.add(txtIdPersona);
-			
+
 			JButton btnBuscar = new JButton("Buscar");
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -118,21 +120,21 @@ public class RegistrarCita extends JDialog {
 			});
 			btnBuscar.setBounds(433, 105, 97, 25);
 			panel.add(btnBuscar);
-			
-			btnBuscar.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                buscarPersonaPorId();
-	            }
-	        });
 
-			
+			btnBuscar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					buscarPersonaPorId();
+				}
+			});
+
+
 			lblTipo = new JLabel("");
 			lblTipo.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblTipo.setBounds(540, 109, 150, 22);
 			lblTipo.setForeground(Color.BLUE);
 			panel.add(lblTipo);
-			
+
 			JLabel lblPaciente = new JLabel("Nombre:");
 			lblPaciente.setForeground(new Color(70, 130, 180));
 			lblPaciente.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -150,7 +152,7 @@ public class RegistrarCita extends JDialog {
 			txtNombrePersona.setBackground(new Color(224, 247, 250));
 			txtNombrePersona.setBorder(new LineBorder(new Color(70, 130, 180)));
 			txtNombrePersona.setBounds(154, 166, 453, 22);
-			
+
 			txtNombrePersona.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -158,12 +160,12 @@ public class RegistrarCita extends JDialog {
 
 				}
 			});
-			
-			
-			
+
+
+
 			panel.add(txtNombrePersona);
 			txtNombrePersona.setColumns(10);
-				
+
 			txtFiltroDoctor = new JTextField();
 			txtFiltroDoctor.setFont(new Font("Verdana", Font.PLAIN, 14));
 			txtFiltroDoctor.setBackground(new Color(224, 247, 250));
@@ -230,7 +232,7 @@ public class RegistrarCita extends JDialog {
 			lblMotivo.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblMotivo.setBounds(31, 379, 113, 30);
 			panel.add(lblMotivo);
-			
+
 			lblWarnPat = new JLabel("");
 			lblWarnPat.setFont(new Font("Verdana", Font.PLAIN, 10));
 			lblWarnPat.setForeground(Color.RED);
@@ -239,19 +241,19 @@ public class RegistrarCita extends JDialog {
 			panel.add(lblWarnPat);
 
 			cbxMotivo = new JComboBox<>();
-			cbxMotivo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione el motivo>", "Entrega de resultados", "Consulta"}));
+			cbxMotivo.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione el motivo>", "Entrega de resultados", "Consulta"}));
 			cbxMotivo.setFont(new Font("Verdana", Font.PLAIN, 14));
 			cbxMotivo.setBackground(new Color(240, 248, 255));
 			cbxMotivo.setBorder(new LineBorder(new Color(70, 130, 180)));
 			cbxMotivo.setBounds(154, 383, 244, 22);
 			panel.add(cbxMotivo);
-			
+
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
 			lblTelfono.setForeground(new Color(70, 130, 180));
 			lblTelfono.setFont(new Font("Verdana", Font.BOLD, 14));
 			lblTelfono.setBounds(31, 207, 129, 30);
 			panel.add(lblTelfono);
-			
+
 			textTelefono = new JTextField();
 			textTelefono.setFont(new Font("Verdana", Font.PLAIN, 14));
 			textTelefono.setColumns(10);
@@ -259,7 +261,7 @@ public class RegistrarCita extends JDialog {
 			textTelefono.setBackground(new Color(224, 247, 250));
 			textTelefono.setBounds(154, 211, 224, 22);
 			panel.add(textTelefono);
-			
+
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -271,20 +273,20 @@ public class RegistrarCita extends JDialog {
 				JButton okButton = new JButton("Registrar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+
 						checkEmptyFields();
-						
+
 						if(infoCorrecta()) {
 							String motivo = (String) cbxMotivo.getSelectedItem();
 							Date fecha = (Date)spnFecha.getValue();
 							Clinica.getInstancia().crearCita(auxPaciente, auxDoctor, fecha, motivo);
-							
+
 							JOptionPane.showMessageDialog(null, "Cita registrada exitosamente.","Información", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}else {
 							JOptionPane.showMessageDialog(null, "Faltan campos por completar.","Información", JOptionPane.ERROR_MESSAGE);
 						}
-						
+
 					}
 				});
 				okButton.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -309,16 +311,71 @@ public class RegistrarCita extends JDialog {
 			}
 		}
 	}
-	
+
+	private boolean tieneCuposDisponibles(Doctor doctor) {
+
+		Date fechaSeleccionada = (Date) spnFecha.getValue();
+
+		int citasDelDia = Clinica.getInstancia().contarCitasXDia(doctor, fechaSeleccionada);
+
+		return citasDelDia < doctor.getCupoDiario();
+	}
+
+
 	private void cargarDoctores() {
 		cbxDoctor.removeAllItems();
 		cbxDoctor.addItem("<Seleccione un doctor>");
-		
+
 		for(Doctor d : Clinica.getInstancia().getDoctores()) {
-			cbxDoctor.addItem("Doc. " + d.getNombre());
+			if(tieneCuposDisponibles(d)) {
+				cbxDoctor.addItem("Doc. " + d.getNombre());
+			}
 		}
 	}
-	
+
+	private void filtrarDoctores(String filtro) {
+		cbxDoctor.removeAllItems();
+		cbxDoctor.addItem("<Seleccione un doctor>");
+
+		String filtroLower = filtro.toLowerCase().trim();
+
+		for(Doctor d : Clinica.getInstancia().getDoctores()) {
+			String nombreDoctor = d.getNombre().toLowerCase();
+
+			if((filtroLower.isEmpty() || nombreDoctor.contains(filtroLower)) 
+					&& tieneCuposDisponibles(d)) {
+				cbxDoctor.addItem("Doc. " + d.getNombre());
+			}
+		}
+
+		if(cbxDoctor.getItemCount() > 1) {
+			cbxDoctor.setSelectedIndex(1);
+		}
+	}
+
+	private void seleccionarDoctor() {
+		if(cbxDoctor.getSelectedIndex() > 0) {
+			String seleccion = (String) cbxDoctor.getSelectedItem();
+			String nombreDoctor = seleccion.substring(5);
+
+			auxDoctor = null;
+			int i = 0;
+			while(auxDoctor == null && i < Clinica.getInstancia().getDoctores().size()) {
+				if(Clinica.getInstancia().getDoctores().get(i).getNombre().equals(nombreDoctor)) {
+					auxDoctor = Clinica.getInstancia().getDoctores().get(i);
+				}
+				i++;
+			}
+
+			if(auxDoctor != null) {
+				lblWarnDoc.setVisible(false);
+			}
+		} else {
+			auxDoctor = null;
+		}
+
+	}
+
 	private void buscarPersonaPorId() {
 		String cedula = txtIdPersona.getText().trim();
 
@@ -334,46 +391,19 @@ public class RegistrarCita extends JDialog {
 		if (auxPaciente != null) {
 			txtNombrePersona.setText(auxPaciente.getNombre());
 			textTelefono.setText(auxPaciente.getTelefono());
-
 			lblTipo.setText("Paciente");
-			lblTipo.setForeground(Color.BLUE);
-
-			lblWarnPat.setVisible(false);
 		} else {
+			lblTipo.setText("No encontrado");
 			txtNombrePersona.setText("");
 			textTelefono.setText("");
-
-			lblTipo.setText("No encontrado");
-			lblTipo.setForeground(Color.RED);
-
-			lblWarnPat.setVisible(true);
 		}
 	}
-	
-	private void filtrarDoctores(String filtro) {
-		cbxDoctor.removeAllItems();
-		cbxDoctor.addItem("<Seleccione un doctor>");
-		
-		String filtroLower = filtro.toLowerCase().trim();
-		
-		for(Doctor d : Clinica.getInstancia().getDoctores()) {
-			String nombreDoctor = d.getNombre().toLowerCase();
-			
-			if(filtroLower.isEmpty() || nombreDoctor.contains(filtroLower)) {
-				cbxDoctor.addItem("Doc. " + d.getNombre());
-			}
-		}
-		
-		if(cbxDoctor.getItemCount() > 1) {
-			cbxDoctor.setSelectedIndex(1);
-		}
-	}
-	
+
 	private void seleccionarPaciente() {
 		if(cbxPaciente.getSelectedIndex() > 0) {
 			String seleccion = (String) cbxPaciente.getSelectedItem();
 			String cedula = seleccion.substring(seleccion.lastIndexOf("-") + 1).trim();
-			
+
 			auxPaciente = null;
 			int i = 0;
 			while(auxPaciente == null && i < Clinica.getInstancia().getPacientes().size()) {
@@ -382,7 +412,7 @@ public class RegistrarCita extends JDialog {
 				}
 				i++;
 			}
-			
+
 			if(auxPaciente != null) {
 				lblWarnPat.setVisible(false);
 			}
@@ -390,47 +420,25 @@ public class RegistrarCita extends JDialog {
 			auxPaciente = null;
 		}
 	}
-	
-	private void seleccionarDoctor() {
-		if(cbxDoctor.getSelectedIndex() > 0) {
-			String seleccion = (String) cbxDoctor.getSelectedItem();
-			String nombreDoctor = seleccion.substring(5);
-			
-			auxDoctor = null;
-			int i = 0;
-			while(auxDoctor == null && i < Clinica.getInstancia().getDoctores().size()) {
-				if(Clinica.getInstancia().getDoctores().get(i).getNombre().equals(nombreDoctor)) {
-					auxDoctor = Clinica.getInstancia().getDoctores().get(i);
-				}
-				i++;
-			}
-			
-			if(auxDoctor != null) {
-				lblWarnDoc.setVisible(false);
-			}
-		} else {
-			auxDoctor = null;
-		}
-	}
-	
+
 	private boolean infoCorrecta() {
-	    boolean correcto = true;
-	    
-	    if(lblWarnPat.isVisible() || lblWarnDoc.isVisible() || 
-	       auxPaciente == null || auxDoctor == null)
-	        correcto = false;
-	    
-	    return correcto;
+		boolean correcto = true;
+
+		if(lblWarnPat.isVisible() || lblWarnDoc.isVisible() || 
+				auxPaciente == null || auxDoctor == null)
+			correcto = false;
+
+		return correcto;
 	}
-	
+
 	private void checkEmptyFields() {
 		if(auxPaciente == null || cbxPaciente.getSelectedIndex() == 0)
 			lblWarnPat.setVisible(true);
 		if(auxDoctor == null || cbxDoctor.getSelectedIndex() == 0)
 			lblWarnDoc.setVisible(true);
-		
+
 	}
-	
+
 
 	/*
 	cbxPaciente = new JComboBox<>();
@@ -444,7 +452,7 @@ public class RegistrarCita extends JDialog {
 	});
 	panel.add(cbxPaciente);
 	cargarPacientes();
-	*/
+	 */
 
 	/*
 	lblWarnPat = new JLabel("Debe seleccionar un paciente.");
@@ -454,30 +462,30 @@ public class RegistrarCita extends JDialog {
 	lblWarnPat.setBounds(154, 125, 192, 10);
 	//panel.add(lblWarnPat);
 	 */
-	
+
 	/*
 	private void cargarPacientes() {
 		cbxPaciente.removeAllItems();
 		cbxPaciente.addItem("<Seleccione un paciente>");
-		
+
 		for(Paciente p : Clinica.getInstancia().getPacientes()) {
 			cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
 		}
 	}*/
-	
+
 	/*
 	private void filtrarPacientes(String filtro) {
-		
+
 		cbxPaciente.removeAllItems();
 		cbxPaciente.addItem("<Seleccione un paciente>");
-		
+
 		String filtroLower = filtro.toLowerCase().trim();
-		
+
 		if(!filtroLower.isEmpty()) {
 			for(Paciente p : Clinica.getInstancia().getPacientes()) {
 				String nombreCompleto = (p.getNombre() + " - " + p.getCedula()).toLowerCase();
-				
-				
+
+
 				//if(filtroLower.isEmpty() || nombreCompleto.contains(filtroLower)) {
 					//cbxPaciente.addItem(p.getNombre() + " - " + p.getCedula());
 				//}
@@ -486,10 +494,10 @@ public class RegistrarCita extends JDialog {
 				}
 			}
 		}
-		
+
 		if(cbxPaciente.getItemCount() > 1) {
 			cbxPaciente.setSelectedIndex(1);
 		}
 	}*/
-	
+
 } 
