@@ -271,7 +271,8 @@ public class ListarVacuna extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 
 						if(auxOpcion.equals("Agregar")) {
-							guardarVacs();
+							//guardarVacs();
+							guardarVacuna();
 
 						}else if(auxOpcion.equals("Ver Detalles")) {
 							RegistrarVacuna manejoVacuna = new RegistrarVacuna(null);
@@ -420,6 +421,36 @@ public class ListarVacuna extends JDialog {
 
 
 	}
+	
+	private void guardarVacuna() {
+		int filaSelect = table.getSelectedRow();
+		int contador = 0;
+
+
+			String codigo = table.getValueAt(filaSelect, 0).toString();
+			vacSelect = Clinica.getInstancia().buscarVacunaXId(codigo);
+
+			if(vacSelect != null) {
+				auxPaciente.agregarVacuna(vacSelect);
+				contador++;
+			}else {
+				JOptionPane.showMessageDialog(this, 
+						"No fue posible aplicar la vacuna",
+						"Vacunas Aplicadas", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+
+
+		loadVacunas(auxPaciente);
+
+		if(contador > 0) {
+			JOptionPane.showMessageDialog(this, 
+					"Se aplicaron " + contador + " vacunas al paciente " + auxPaciente.getNombre(),
+					"Vacunas Aplicadas", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+
+	}
 
 	private void guardarVacs() {
 		int[] vacsSelect = table.getSelectedRows();
@@ -432,8 +463,11 @@ public class ListarVacuna extends JDialog {
 			if(vacSelect != null) {
 				auxPaciente.agregarVacuna(vacSelect);
 				contador++;
-
-
+			}else {
+				JOptionPane.showMessageDialog(this, 
+						"No fue posible aplicar la vacuna",
+						"Vacunas Aplicadas", 
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		}

@@ -259,7 +259,7 @@ public class RealizarConsulta extends JDialog {
 		JButton btnAplicarVacunas = new JButton("Aplicar Vacunas");
 		btnAplicarVacunas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarVacuna listarVac = new ListarVacuna(pacienteActual, "Guardar");
+				ListarVacuna listarVac = new ListarVacuna(pacienteActual, "Agregar");
                 listarVac.setModal(true);
                 listarVac.setVisible(true);
 			}

@@ -201,6 +201,7 @@ public class Clinica implements Serializable {
 
     public void regCita(Cita cita) {
         citas.add(cita);
+        genCodigoCitas++;
     }
 
     public Cita crearCitaPrueba(String nombre, Doctor doctor, Date fecha, String motivo) {
