@@ -63,7 +63,7 @@ public class RealizarConsulta extends JDialog {
 
 	public RealizarConsulta() {
 		setTitle("Realizar Consulta");
-		setBounds(100, 100, 685, 630);
+		setBounds(100, 100, 685, 655);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
@@ -156,7 +156,7 @@ public class RealizarConsulta extends JDialog {
 		JPanel panelConsulta = new JPanel();
 		panelConsulta.setBackground(Color.WHITE);
 		panelConsulta.setBorder(new TitledBorder(new LineBorder(new Color(135, 206, 235), 2), "Datos de la Consulta", TitledBorder.CENTER, TitledBorder.TOP, new Font("Bahnschrift", Font.BOLD, 14), new Color(70, 130, 180)));
-		panelConsulta.setBounds(20, 174, 614, 360);
+		panelConsulta.setBounds(20, 174, 614, 395);
 		contentPanel.add(panelConsulta);
 		panelConsulta.setLayout(null);
 
@@ -253,8 +253,24 @@ public class RealizarConsulta extends JDialog {
 		chckEsImportante.setBackground(Color.WHITE);
 		chckEsImportante.setForeground(new Color(70, 130, 180));
 		chckEsImportante.setFont(new Font("Bahnschrift", Font.BOLD, 12));
-		chckEsImportante.setBounds(100, 310, 494, 23);
+		chckEsImportante.setBounds(100, 360, 494, 23);
 		panelConsulta.add(chckEsImportante);
+		
+		JButton btnAplicarVacunas = new JButton("Aplicar Vacunas");
+		btnAplicarVacunas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarVacuna listarVac = new ListarVacuna(pacienteActual, "Guardar");
+                listarVac.setModal(true);
+                listarVac.setVisible(true);
+			}
+		});
+		btnAplicarVacunas.setForeground(new Color(70, 130, 180));
+		btnAplicarVacunas.setFont(new Font("Bahnschrift", Font.BOLD, 11));
+		btnAplicarVacunas.setFocusPainted(false);
+		btnAplicarVacunas.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+		btnAplicarVacunas.setBackground(new Color(176, 224, 230));
+		btnAplicarVacunas.setBounds(100, 316, 494, 23);
+		panelConsulta.add(btnAplicarVacunas);
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setBackground(new Color(240, 248, 255));

@@ -38,7 +38,8 @@ public class RegistrarVacuna extends JDialog {
 			setTitle("Modificar Vacuna");
 		}
 		
-		setBounds(100, 100, 700, 500);
+		setBounds(100, 100, 700, 338);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +55,7 @@ public class RegistrarVacuna extends JDialog {
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setForeground(new Color(70, 130, 180));
-		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblNombre.setBounds(10, 30, 120, 20);
 		panelRegistro.add(lblNombre);
 		
@@ -67,7 +68,7 @@ public class RegistrarVacuna extends JDialog {
 		
 		JLabel lblEnfermedad = new JLabel("Enfermedad:");
 		lblEnfermedad.setForeground(new Color(70, 130, 180));
-		lblEnfermedad.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblEnfermedad.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblEnfermedad.setBounds(10, 73, 120, 20);
 		panelRegistro.add(lblEnfermedad);
 		
@@ -87,7 +88,7 @@ public class RegistrarVacuna extends JDialog {
 		
 		JLabel lblEdadMin = new JLabel("Edad mínima:");
 		lblEdadMin.setForeground(new Color(70, 130, 180));
-		lblEdadMin.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblEdadMin.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblEdadMin.setBounds(10, 117, 120, 20);
 		panelRegistro.add(lblEdadMin);
 		
@@ -99,7 +100,7 @@ public class RegistrarVacuna extends JDialog {
 		
 		JLabel lblFabricante = new JLabel("Fabricante:");
 		lblFabricante.setForeground(new Color(70, 130, 180));
-		lblFabricante.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblFabricante.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblFabricante.setBounds(10, 164, 120, 20);
 		panelRegistro.add(lblFabricante);
 		
@@ -177,7 +178,7 @@ public class RegistrarVacuna extends JDialog {
 		miVacuna.setFabricante(txtFabricante.getText().trim());
 		miVacuna.setEnfermedad((Enfermedad) cbEnfermedad.getSelectedItem());
 		
-		ListarVacuna.loadVacunas();
+		//ListarVacuna.loadVacunas();
 		JOptionPane.showMessageDialog(null, "Vacuna modificada con éxito.", "Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);
 		dispose();
 	}

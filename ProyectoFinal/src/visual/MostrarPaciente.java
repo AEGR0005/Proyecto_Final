@@ -55,7 +55,8 @@ public class MostrarPaciente extends JDialog {
 
 	public MostrarPaciente() {
 		setTitle("Listado de Pacientes");
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 900, 588);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(240, 248, 255));
 
@@ -66,12 +67,12 @@ public class MostrarPaciente extends JDialog {
 		JPanel panelBarra = new JPanel();
 		panelBarra.setBackground(Color.WHITE);
 		panelBarra.setBorder(new LineBorder(new Color(135, 206, 235), 2));
-		panelBarra.setBounds(15, 16, 853, 120);
+		panelBarra.setBounds(15, 16, 853, 72);
 		panelBarra.setLayout(null);
 		getContentPane().add(panelBarra);
 
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 13));
 		lblNombre.setForeground(new Color(70, 130, 180));
 		lblNombre.setBounds(15, 20, 96, 20);
 		panelBarra.add(lblNombre);
@@ -90,16 +91,16 @@ public class MostrarPaciente extends JDialog {
 		panelBarra.add(txtFiltroNombre);
 
 		JLabel lblCedula = new JLabel("Cédula:");
-		lblCedula.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblCedula.setFont(new Font("Verdana", Font.BOLD, 13));
 		lblCedula.setForeground(new Color(70, 130, 180));
-		lblCedula.setBounds(368, 20, 96, 20);
+		lblCedula.setBounds(349, 20, 96, 20);
 		panelBarra.add(lblCedula);
 
 		txtFiltroCedula = new JTextField();
 		txtFiltroCedula.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
 		txtFiltroCedula.setBackground(new Color(224, 247, 250));
 		txtFiltroCedula.setBorder(new LineBorder(new Color(173, 216, 230), 1));
-		txtFiltroCedula.setBounds(428, 17, 250, 26);
+		txtFiltroCedula.setBounds(410, 17, 250, 26);
 		txtFiltroCedula.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -113,7 +114,7 @@ public class MostrarPaciente extends JDialog {
 		btnMostrarTodos.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 		btnMostrarTodos.setBackground(new Color(176, 224, 230));
 		btnMostrarTodos.setBorder(new LineBorder(new Color(135, 206, 235), 2));
-		btnMostrarTodos.setBounds(669, 64, 150, 26);
+		btnMostrarTodos.setBounds(688, 17, 150, 26);
 		btnMostrarTodos.addActionListener(e -> {
 			txtFiltroNombre.setText("");
 			txtFiltroCedula.setText("");
@@ -123,7 +124,7 @@ public class MostrarPaciente extends JDialog {
 
 		JPanel panelTable = new JPanel();
 		panelTable.setBackground(new Color(240, 248, 255));
-		panelTable.setBounds(15, 145, 853, 350);
+		panelTable.setBounds(15, 104, 853, 350);
 		panelTable.setLayout(new BorderLayout(0, 0));
 		getContentPane().add(panelTable);
 

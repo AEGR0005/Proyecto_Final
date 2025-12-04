@@ -117,7 +117,7 @@ public class Clinica implements Serializable {
         doctor1.setPacientes(Clinica.getInstancia().getPacientes());
         
         crearEnfermDatos();
-        crearVacsClinicaPrueba();
+        crearVacsClinicaPrueba(enfermedades.get(0));
     }
     
 
@@ -210,27 +210,7 @@ public class Clinica implements Serializable {
         genCodigoCitas++;
         return nuevaCita;
     } 
-    /*
-    public Consulta realizarConsulta(Cita cita) {
-        if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
-            return null;
-        }
-        
-        String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = 
-        		new Consulta(idConsulta, 
-        		crearPacientePrueba("Julia", cedula), 
-        		cita.getDoctor(), 
-        		cita.getFechaHora());
-        consultas.add(nuevaConsulta);
-        cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
-        cita.getPaciente().addConsultaToResumen(nuevaConsulta);
-        cita.setConsultaGenerada(nuevaConsulta);
-        cita.completar();
-        
-        genCodigoConsultas++;
-        return nuevaConsulta;
-    }*/
+
     
     public void realizarConsulta(Consulta consulta, Cita cita) {
 
@@ -312,17 +292,17 @@ public class Clinica implements Serializable {
         return auxPaciente;
     }
     
-	public Vacuna vacunaPrueba(String nombre) {
-		return new Vacuna("2310", nombre, enfermPrueba("1020","Gripe"), 10);
+	public Vacuna vacunaPrueba(String nombre, String cod, Enfermedad e) {
+		return new Vacuna(cod, nombre, e, 10);
 	}
 	
-	public void crearVacsClinicaPrueba() {
+	public void crearVacsClinicaPrueba(Enfermedad e) {
 		ArrayList<Vacuna> vacs = new ArrayList<>();
-		vacs.add(vacunaPrueba("Cybac"));
-		vacs.add(vacunaPrueba("Brinx"));
-		vacs.add(vacunaPrueba("Fancil"));
-		vacs.add(vacunaPrueba("Trousse"));
-		vacs.add(vacunaPrueba("Cyrup"));
+		vacs.add(vacunaPrueba("1930","Cybac", e));
+		vacs.add(vacunaPrueba("2030","Brinx", e));
+		vacs.add(vacunaPrueba("4030","Fancil", e));
+		vacs.add(vacunaPrueba("5030","Trouse", e));
+		vacs.add(vacunaPrueba("1830","Cyrmac", e));
 		
 		vacunas = vacs;
 		genCodigoVacuna += 5;

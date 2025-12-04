@@ -60,7 +60,8 @@ public class DetalleConsulta extends JDialog {
 		this.consulta = consulta;
 		
 		setTitle("Detalle de Consulta - " + consulta.getId());
-		setBounds(100, 100, 750, 700);
+		setBounds(100, 100, 750, 682);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,7 +83,7 @@ public class DetalleConsulta extends JDialog {
 		panelInfoGeneral.setLayout(null);
 		
 		JLabel lblCodigo = new JLabel("Código:");
-		lblCodigo.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblCodigo.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblCodigo.setForeground(new Color(70, 130, 180));
 		lblCodigo.setBounds(15, 25, 80, 20);
 		panelInfoGeneral.add(lblCodigo);
@@ -96,9 +97,9 @@ public class DetalleConsulta extends JDialog {
 		panelInfoGeneral.add(txtCodigo);
 		
 		JLabel lblFecha = new JLabel("Fecha/Hora:");
-		lblFecha.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblFecha.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblFecha.setForeground(new Color(70, 130, 180));
-		lblFecha.setBounds(350, 25, 90, 20);
+		lblFecha.setBounds(364, 25, 90, 20);
 		panelInfoGeneral.add(lblFecha);
 		
 		txtFecha = new JTextField();
@@ -111,7 +112,7 @@ public class DetalleConsulta extends JDialog {
 		panelInfoGeneral.add(txtFecha);
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
-		lblPaciente.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblPaciente.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblPaciente.setForeground(new Color(70, 130, 180));
 		lblPaciente.setBounds(15, 60, 80, 20);
 		panelInfoGeneral.add(lblPaciente);
@@ -125,9 +126,9 @@ public class DetalleConsulta extends JDialog {
 		panelInfoGeneral.add(txtPaciente);
 		
 		JLabel lblCedula = new JLabel("Cédula:");
-		lblCedula.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblCedula.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblCedula.setForeground(new Color(70, 130, 180));
-		lblCedula.setBounds(370, 60, 70, 20);
+		lblCedula.setBounds(364, 60, 70, 20);
 		panelInfoGeneral.add(lblCedula);
 		
 		txtCedula = new JTextField();
@@ -139,7 +140,7 @@ public class DetalleConsulta extends JDialog {
 		panelInfoGeneral.add(txtCedula);
 		
 		JLabel lblDoctor = new JLabel("Doctor:");
-		lblDoctor.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblDoctor.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblDoctor.setForeground(new Color(70, 130, 180));
 		lblDoctor.setBounds(15, 95, 80, 20);
 		panelInfoGeneral.add(lblDoctor);
@@ -155,7 +156,7 @@ public class DetalleConsulta extends JDialog {
 		JLabel lblImportante = new JLabel("Importante:");
 		lblImportante.setFont(new Font("Bahnschrift", Font.BOLD, 12));
 		lblImportante.setForeground(new Color(70, 130, 180));
-		lblImportante.setBounds(370, 95, 80, 20);
+		lblImportante.setBounds(364, 95, 80, 20);
 		panelInfoGeneral.add(lblImportante);
 		
 		txtImportante = new JTextField();
@@ -183,7 +184,7 @@ public class DetalleConsulta extends JDialog {
 			new Font("Bahnschrift", Font.BOLD, 14),
 			new Color(100, 149, 237)
 		));
-		panelSintomas.setBounds(10, 150, 714, 100);
+		panelSintomas.setBounds(10, 150, 714, 88);
 		contentPanel.add(panelSintomas);
 		panelSintomas.setLayout(new BorderLayout(0, 0));
 		
@@ -209,12 +210,12 @@ public class DetalleConsulta extends JDialog {
 			new Font("Bahnschrift", Font.BOLD, 14),
 			new Color(70, 130, 180)
 		));
-		panelDiagnostico.setBounds(10, 260, 714, 150);
+		panelDiagnostico.setBounds(10, 250, 714, 150);
 		contentPanel.add(panelDiagnostico);
 		panelDiagnostico.setLayout(null);
 		
 		JLabel lblCodigoDiag = new JLabel("Código:");
-		lblCodigoDiag.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblCodigoDiag.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblCodigoDiag.setForeground(new Color(70, 130, 180));
 		lblCodigoDiag.setBounds(15, 25, 80, 20);
 		panelDiagnostico.add(lblCodigoDiag);
@@ -232,7 +233,7 @@ public class DetalleConsulta extends JDialog {
 		panelDiagnostico.add(txtCodigoDiagnostico);
 		
 		JLabel lblEnfermedad = new JLabel("Enfermedad:");
-		lblEnfermedad.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblEnfermedad.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblEnfermedad.setForeground(new Color(70, 130, 180));
 		lblEnfermedad.setBounds(300, 25, 90, 20);
 		panelDiagnostico.add(lblEnfermedad);
@@ -251,7 +252,7 @@ public class DetalleConsulta extends JDialog {
 		panelDiagnostico.add(txtEnfermedad);
 		
 		JLabel lblDescripcion = new JLabel("Descripción:");
-		lblDescripcion.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblDescripcion.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblDescripcion.setForeground(new Color(70, 130, 180));
 		lblDescripcion.setBounds(15, 55, 90, 20);
 		panelDiagnostico.add(lblDescripcion);
@@ -283,7 +284,7 @@ public class DetalleConsulta extends JDialog {
 			new Font("Bahnschrift", Font.BOLD, 14),
 			new Color(100, 149, 237)
 		));
-		panelTratamiento.setBounds(10, 420, 714, 100);
+		panelTratamiento.setBounds(10, 410, 714, 100);
 		contentPanel.add(panelTratamiento);
 		panelTratamiento.setLayout(new BorderLayout(0, 0));
 		
@@ -309,7 +310,7 @@ public class DetalleConsulta extends JDialog {
 			new Font("Bahnschrift", Font.BOLD, 14),
 			new Color(70, 130, 180)
 		));
-		panelObservaciones.setBounds(10, 530, 714, 80);
+		panelObservaciones.setBounds(10, 520, 714, 80);
 		contentPanel.add(panelObservaciones);
 		panelObservaciones.setLayout(new BorderLayout(0, 0));
 		

@@ -60,6 +60,7 @@ public class RegistrarPaciente extends JDialog {
 		}
 
 		setBounds(100, 100, 631, 450);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setForeground(Color.WHITE);
@@ -78,7 +79,7 @@ public class RegistrarPaciente extends JDialog {
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(12, 40, 80, 20);
 		lblNombre.setForeground(new Color(70, 130, 180));
-		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 12));
 		panel.add(lblNombre);
 
 		txtNombre = new JTextField();
@@ -92,7 +93,7 @@ public class RegistrarPaciente extends JDialog {
 		JLabel lblCedula = new JLabel("C\u00E9dula:");
 		lblCedula.setBounds(369, 90, 60, 20);
 		lblCedula.setForeground(new Color(70, 130, 180));
-		lblCedula.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblCedula.setFont(new Font("Verdana", Font.BOLD, 12));
 		panel.add(lblCedula);
 
 		txtTelefono = new JTextField();
@@ -106,7 +107,7 @@ public class RegistrarPaciente extends JDialog {
 		JLabel lblTelefono = new JLabel("Tel\u00E9fono:");
 		lblTelefono.setBounds(369, 117, 66, 20);
 		lblTelefono.setForeground(new Color(70, 130, 180));
-		lblTelefono.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblTelefono.setFont(new Font("Verdana", Font.BOLD, 12));
 		panel.add(lblTelefono);
 
 		txtCedula = new JTextField();
@@ -120,7 +121,7 @@ public class RegistrarPaciente extends JDialog {
 		JLabel lblSexo = new JLabel("Sexo:");
 		lblSexo.setBounds(258, 104, 43, 20);
 		lblSexo.setForeground(new Color(70, 130, 180));
-		lblSexo.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblSexo.setFont(new Font("Verdana", Font.BOLD, 12));
 		panel.add(lblSexo);
 
 		cbxSexo = new JComboBox();
@@ -134,12 +135,12 @@ public class RegistrarPaciente extends JDialog {
 		lblFechaNacimiento.setBounds(12, 100, 92, 29);
 		panel.add(lblFechaNacimiento);
 		lblFechaNacimiento.setForeground(new Color(70, 130, 180));
-		lblFechaNacimiento.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblFechaNacimiento.setFont(new Font("Verdana", Font.BOLD, 12));
 
 		JLabel lblDireccion = new JLabel("Direcci\u00F3n:");
 		lblDireccion.setBounds(12, 159, 80, 20);
 		lblDireccion.setForeground(new Color(70, 130, 180));
-		lblDireccion.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblDireccion.setFont(new Font("Verdana", Font.BOLD, 12));
 		panel.add(lblDireccion);
 
 		spnFechaNacim = new JSpinner();
@@ -189,19 +190,19 @@ public class RegistrarPaciente extends JDialog {
 
 		JLabel lblPesoMedida = new JLabel("lb");
 		lblPesoMedida.setForeground(new Color(70, 130, 180));
-		lblPesoMedida.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblPesoMedida.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblPesoMedida.setBounds(115, 30, 33, 20);
 		panelCondicion.add(lblPesoMedida);
 
 		JLabel lblEstatura = new JLabel("Estatura:");
 		lblEstatura.setForeground(new Color(70, 130, 180));
-		lblEstatura.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblEstatura.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblEstatura.setBounds(200, 30, 66, 20);
 		panelCondicion.add(lblEstatura);
 
 		txtEstatura = new JTextField();
 		txtEstatura.setBounds(270, 27, 41, 26);
-		txtEstatura.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
+		txtEstatura.setFont(new Font("Verdana", Font.BOLD, 12));
 		txtEstatura.setBackground(new Color(224, 247, 250));
 		txtEstatura.setBorder(new LineBorder(new Color(173, 216, 230), 1));
 		panelCondicion.add(txtEstatura);
@@ -215,7 +216,7 @@ public class RegistrarPaciente extends JDialog {
 
 		JLabel lblTipoDeSangre = new JLabel("Tipo de Sangre:");
 		lblTipoDeSangre.setForeground(new Color(70, 130, 180));
-		lblTipoDeSangre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblTipoDeSangre.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblTipoDeSangre.setBounds(383, 30, 114, 20);
 		panelCondicion.add(lblTipoDeSangre);
 

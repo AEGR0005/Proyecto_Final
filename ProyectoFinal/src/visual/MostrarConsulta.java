@@ -81,6 +81,7 @@ public class MostrarConsulta extends JDialog {
 		
 		setTitle("Listado de Consultas - Dr. " + selectDoctor.getNombre());
 		setBounds(100, 100, 900, 600);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(240, 248, 255));
 		contentPanel.setBounds(0, 0, 0, 0);
@@ -101,7 +102,7 @@ public class MostrarConsulta extends JDialog {
 		JLabel lblDoctor = new JLabel("Doctor:");
 		lblDoctor.setBounds(15, 14, 78, 20);
 		panelBarra.add(lblDoctor);
-		lblDoctor.setFont(new Font("Bahnschrift", Font.BOLD, 15));
+		lblDoctor.setFont(new Font("Verdana", Font.BOLD, 15));
 		lblDoctor.setForeground(new Color(70, 130, 180));
 		
 		JLabel lblNomDoc = new JLabel(selectDoctor.getNombre());
@@ -111,7 +112,7 @@ public class MostrarConsulta extends JDialog {
 		panelBarra.add(lblNomDoc);
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
-		lblPaciente.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblPaciente.setFont(new Font("Verdana", Font.BOLD, 13));
 		lblPaciente.setForeground(new Color(70, 130, 180));
 		lblPaciente.setBounds(15, 50, 96, 20);
 		panelBarra.add(lblPaciente);
@@ -131,13 +132,13 @@ public class MostrarConsulta extends JDialog {
 		txtFiltroPaciente.setColumns(10);
 		
 		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblFechaInicio.setFont(new Font("Verdana", Font.BOLD, 13));
 		lblFechaInicio.setForeground(new Color(70, 130, 180));
 		lblFechaInicio.setBounds(15, 90, 96, 20);
 		panelBarra.add(lblFechaInicio);
 		
 		JLabel lblFechaFin = new JLabel("Fecha Fin:");
-		lblFechaFin.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+		lblFechaFin.setFont(new Font("Verdana", Font.BOLD, 13));
 		lblFechaFin.setForeground(new Color(70, 130, 180));
 		lblFechaFin.setBounds(290, 90, 96, 20);
 		panelBarra.add(lblFechaFin);

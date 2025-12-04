@@ -176,7 +176,7 @@ public class Login extends JFrame {
     
     private Usuario verificar() {
         Usuario aux = null;
-        
+
         for(Usuario user : Clinica.getInstancia().getUsuarios()) {
             if(user.match(txtNombre.getText(), new String(txtPassword.getPassword()))) {
                 aux = user;

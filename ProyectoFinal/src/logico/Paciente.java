@@ -213,11 +213,21 @@ public class Paciente implements Serializable{
         }
         return lista;
     }
-    
+    /*
     public void agregarVacuna(Vacuna v) {
         if (v != null && !vacunas.contains(v)) {
+        	System.out.println(Vacuna Agregada);
+        	v.setAplicada(true);
             vacunas.add(v);
         }
+    }
+    */
+    
+    public void agregarVacuna(Vacuna v) {
+        	System.out.println("Vacuna Agregada");
+        	v.setAplicada(true);
+            vacunas.add(v);
+        
     }
     
     public Vacuna buscarVacunaPorId(String id) {

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
@@ -52,7 +53,6 @@ public class ListarVacuna extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNomPac;
 	private JComboBox cbxMostrar;
-	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] row;
 	private Paciente auxPaciente;
@@ -64,6 +64,8 @@ public class ListarVacuna extends JDialog {
 	private JButton btnEliminar;
 	private JPanel panelBarra;
 	private JPanel panelTable;
+	private JButton btnModificar;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -82,7 +84,10 @@ public class ListarVacuna extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarVacuna(Paciente paciente, String opcion) {
+		auxPaciente = paciente;
+		auxOpcion = opcion;
 
+		/*
 		if (paciente == null) {
 			auxOpcion = "Guardar";
 			auxPaciente = Clinica.getInstancia().crearPacientePrueba("Amanda", "1016");
@@ -92,9 +97,10 @@ public class ListarVacuna extends JDialog {
 		}else {
 			auxPaciente = paciente;
 			auxOpcion = opcion;
-		}
+		}*/
 
 		setBounds(100, 100, 818, 541);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -121,7 +127,6 @@ public class ListarVacuna extends JDialog {
 		txtNomPac.setBackground(new Color(224, 247, 250));
 		txtNomPac.setFont(new Font("Verdana", Font.PLAIN, 14));
 		txtNomPac.setBorder(new LineBorder(new Color(70, 130, 180)));
-		txtNomPac.setText(auxPaciente.getNombre());
 		panelBarra.add(txtNomPac);
 		txtNomPac.setColumns(10);
 
@@ -138,11 +143,25 @@ public class ListarVacuna extends JDialog {
 		cbxMostrar.setForeground(new Color(70, 130, 180));
 		panelBarra.add(cbxMostrar);
 
-		JScrollPane scrollTable = new JScrollPane();
-		scrollTable.setBounds(0, 0, 736, 283);
-		panelTable.add(scrollTable, BorderLayout.CENTER);
+		panelTable = new JPanel();
+		panelTable.setBounds(28, 127, 738, 285);
+		panelTable.setBorder(new LineBorder(new Color(70, 130, 180)));
+		contentPanel.add(panelTable);
+		panelTable.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollTabla = new JScrollPane();
+		panelTable.add(scrollTabla, BorderLayout.CENTER);
 
 		table = new JTable();
+		scrollTabla.setViewportView(table);
+
+		model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false; 
+			}
+		};
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
 		table.setBackground(Color.WHITE);
@@ -153,6 +172,10 @@ public class ListarVacuna extends JDialog {
 		table.getTableHeader().setBackground(new Color(135, 206, 235));
 		table.getTableHeader().setForeground(new Color(70, 130, 180));
 
+		table.setRowSelectionAllowed(true);
+		table.setColumnSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -161,44 +184,25 @@ public class ListarVacuna extends JDialog {
 					if(auxPaciente != null) {
 						btnCancelar.setEnabled(true);
 						btnGuardar.setEnabled(true);
-						
+
 					}else {
 						btnEliminar.setEnabled(true);
-						btnGuardar.setEnabled(true);
-						String id = table.getValueAt(index, 0).toString();
+						btnModificar.setEnabled(true);
 						
+						String id = table.getValueAt(index, 0).toString();
+
 						for(Vacuna v : Clinica.getInstancia().getVacunas()) {
 							if(v.getId().equals(id)) {
 								auxVacuna = v;
 								break;
 							}
 						}
-
 					}
-					
 
 				}
 			}
 		});
 		table.setModel(model);
-
-		table.setColumnSelectionAllowed(false);
-
-
-		scrollTable.setViewportView(table);
-
-		panelTable = new JPanel();
-		panelTable.setBounds(28, 127, 738, 285);
-		panelTable.setBorder(new LineBorder(new Color(70, 130, 180)));
-		contentPanel.add(panelTable);
-		panelTable.setLayout(new BorderLayout(0, 0));
-
-		model = new DefaultTableModel() {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false; 
-			}
-		};
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -209,9 +213,8 @@ public class ListarVacuna extends JDialog {
 
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-				btnEliminar.setBackground(new Color(176, 224, 230));
 				btnEliminar.setForeground(new Color(70, 130, 180));
-				btnEliminar.setBorder(new LineBorder(new Color(135, 206, 235), 2));
+				btnEliminar.setBackground(new Color(255, 245, 238));
 				btnEliminar.setFocusPainted(false);
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -236,21 +239,44 @@ public class ListarVacuna extends JDialog {
 					}
 				});
 				btnEliminar.setEnabled(false);
+				btnEliminar.setVisible(false);
 				buttonPane.add(btnEliminar);
 
+
+				btnModificar = new JButton("Modificar");
+				btnModificar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+				btnModificar.setForeground(new Color(70, 130, 180));
+				btnModificar.setBackground(new Color(255, 245, 238));
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(auxVacuna != null) {
+							RegistrarVacuna modVacuna = new RegistrarVacuna(auxVacuna);
+							modVacuna.setModal(true);
+							modVacuna.setVisible(true);
+							loadVacunas(auxPaciente);
+						}
+					}
+				});
+				btnModificar.setEnabled(false);
+				btnModificar.setVisible(false);
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				getRootPane().setDefaultButton(btnModificar);
+
 				btnGuardar = new JButton(auxOpcion);
-				btnGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnGuardar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 				btnGuardar.setForeground(new Color(70, 130, 180));
 				btnGuardar.setBackground(new Color(255, 245, 238));
 				btnGuardar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						if(auxOpcion.equals("Guardar")) {
+						if(auxOpcion.equals("Agregar")) {
 							guardarVacs();
-							dispose();
 
 						}else if(auxOpcion.equals("Ver Detalles")) {
-							guardarVacs();
+							RegistrarVacuna manejoVacuna = new RegistrarVacuna(null);
+			                manejoVacuna.setModal(true);
+			                manejoVacuna.setVisible(true);
 						}
 
 					}
@@ -261,13 +287,13 @@ public class ListarVacuna extends JDialog {
 				getRootPane().setDefaultButton(btnGuardar);
 			}
 			{
-				btnCancelar = new JButton("Cancelar");
+				btnCancelar = new JButton("Volver");
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				btnCancelar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnCancelar.setFont(new Font("Bahnschrift", Font.BOLD, 13));
 				btnCancelar.setForeground(new Color(70, 130, 180));
 				btnCancelar.setBackground(new Color(255, 245, 238));
 				btnCancelar.setActionCommand("Cancel");
@@ -275,17 +301,21 @@ public class ListarVacuna extends JDialog {
 			}
 		}
 
+		setFormatoTabla(auxPaciente);
 		loadVacunas(auxPaciente);
 
 	}
 
 	private void setFormatoTabla(Paciente paciente) {
 
-		if(paciente != null) {
+		if(auxPaciente != null) {
+			System.out.println("Vacunas del Paciente");
 			setBounds(100, 100, 818, 541);
 			panelBarra.setVisible(true);
 			panelTable.setBounds(28, 127, 738, 285);
-			
+
+			txtNomPac.setText(auxPaciente.getNombre());
+
 			String[] headers = {"Código", "Nombre", "Enfermedad", "Edad Mínima", "Fabricante","Aplicada"};
 			model.setColumnIdentifiers(headers);
 
@@ -295,19 +325,30 @@ public class ListarVacuna extends JDialog {
 				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			}
 
+			btnEliminar.setVisible(false);
+			btnModificar.setVisible(false);
+			btnGuardar.setVisible(true);
+
 		}else {
+			setTitle("Inventario de Vacunas");
 			setBounds(100, 100, 818, 418);
-			panelTable.setBounds(28, 127, 738, 285);
-			
+			panelTable.setBounds(28, 26, 738, 285);
+
 			String[] headers = {"Código", "Nombre", "Enfermedad", "Edad Mínima", "Fabricante"};
 			model.setColumnIdentifiers(headers);
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			
+
+			btnEliminar.setVisible(true);
+			btnModificar.setVisible(true);
+			btnGuardar.setVisible(false);
+
 		}
 
 	}
 
 	private void loadVacunas(Paciente paciente) {
+		model.setRowCount(0);
+		
 		if(paciente != null)
 			loadVacsPaciente(paciente);
 		else
@@ -321,9 +362,14 @@ public class ListarVacuna extends JDialog {
 		row = new Object[model.getColumnCount()];
 
 		for (Vacuna vacuna : vacsClinica) {
-
-			completarFila(row, vacuna,"No");
-			model.addRow(row);
+			if(vacuna != null) {
+				row[0] = vacuna.getId();
+				row[1] = vacuna.getNombre();
+				row[2] = vacuna.getEnfermedad() != null ? vacuna.getEnfermedad().getNombre() : "N/A";
+				row[3] = vacuna.getEdadMinima();
+				row[4] = vacuna.getFabricante() != null ? vacuna.getFabricante() : "N/A";
+				model.addRow(row);
+			}
 
 		}
 
@@ -339,17 +385,30 @@ public class ListarVacuna extends JDialog {
 
 		if(cbxMostrar.getSelectedItem().equals("Aplicadas")) {
 			for (Vacuna vacuna : vacsPaciente) {
-				completarFila(row, vacuna,"Si");
+
+				row[0] = vacuna.getId();
+				row[1] = vacuna.getNombre();
+				row[2] = vacuna.getEnfermedad() != null ? vacuna.getEnfermedad().getNombre() : "N/A";
+				row[3] = vacuna.getEdadMinima();
+				row[4] = vacuna.getFabricante() != null ? vacuna.getFabricante() : "N/A";
+				row[5] = "Si";
 				model.addRow(row);
 			}
 
 			table.setRowSelectionAllowed(false);
+			table.clearSelection();
 
 		}else if(cbxMostrar.getSelectedItem().equals("No Aplicadas")) {
 			for (Vacuna vacuna : vacsClinica) {
 
 				if(!vacsPaciente.contains(vacuna)) {
-					completarFila(row, vacuna,"No");
+
+					row[0] = vacuna.getId();
+					row[1] = vacuna.getNombre();
+					row[2] = vacuna.getEnfermedad() != null ? vacuna.getEnfermedad().getNombre() : "N/A";
+					row[3] = vacuna.getEdadMinima();
+					row[4] = vacuna.getFabricante() != null ? vacuna.getFabricante() : "N/A";
+					row[5] = "No";
 					model.addRow(row);
 				}
 
@@ -359,34 +418,35 @@ public class ListarVacuna extends JDialog {
 
 		}
 
-		table.setColumnSelectionAllowed(false);
-		table.setCellSelectionEnabled(false);
-
-	}
-
-	private void completarFila(Object[] row, Vacuna vacuna, String aplicada) {
-
-		row[0] = vacuna.getId();
-		row[1] = vacuna.getNombre();
-		row[2] = vacuna.getEnfermedad() != null ? vacuna.getEnfermedad().getNombre() : "N/A";
-		row[3] = vacuna.getEdadMinima();
-		row[4] = vacuna.getFabricante() != null ? vacuna.getFabricante() : "N/A";
-		if(aplicada != null)
-			row[5] = aplicada;
 
 	}
 
 	private void guardarVacs() {
 		int[] vacsSelect = table.getSelectedRows();
+		int contador = 0;
 
-		for (int index = 0; index < vacsSelect.length; index++) {
-			String codigo = table.getValueAt(index, 0).toString();
+		for (int filaSelect : vacsSelect) {
+			String codigo = table.getValueAt(filaSelect, 0).toString();
 			vacSelect = Clinica.getInstancia().buscarVacunaXId(codigo);
 
-			if(vacSelect != null)
+			if(vacSelect != null) {
 				auxPaciente.agregarVacuna(vacSelect);
+				contador++;
+
+
+			}
 
 		}
+
+		loadVacunas(auxPaciente);
+
+		if(contador > 0) {
+			JOptionPane.showMessageDialog(this, 
+					"Se aplicaron " + contador + " vacunas al paciente " + auxPaciente.getNombre(),
+					"Vacunas Aplicadas", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+
 	}
 
 	private void mostrarDetalles() {

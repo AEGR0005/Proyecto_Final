@@ -51,7 +51,7 @@ public class DetallePaciente extends JDialog {
 		this.paciente = paciente;
 
 		setTitle("Detalle del Paciente - " + paciente.getIdPaciente());
-		setBounds(100, 100, 600, 450);
+		setBounds(100, 100, 600, 421);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,13 +68,13 @@ public class DetallePaciente extends JDialog {
 				new Font("Bahnschrift", Font.BOLD, 14),
 				new Color(70, 130, 180)
 				));
-		panelInfo.setBounds(10, 10, 560, 380);
+		panelInfo.setBounds(10, 10, 560, 333);
 		contentPanel.add(panelInfo);
 		panelInfo.setLayout(null);
 
 
 		JLabel lblId = new JLabel("ID:");
-		lblId.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblId.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblId.setForeground(new Color(70, 130, 180));
 		lblId.setBounds(20, 30, 100, 20);
 		panelInfo.add(lblId);
@@ -88,7 +88,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtId);
 
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblNombre.setForeground(new Color(70, 130, 180));
 		lblNombre.setBounds(20, 70, 100, 20);
 		panelInfo.add(lblNombre);
@@ -102,7 +102,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtNombre);
 
 		JLabel lblCedula = new JLabel("Cédula:");
-		lblCedula.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblCedula.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblCedula.setForeground(new Color(70, 130, 180));
 		lblCedula.setBounds(20, 110, 100, 20);
 		panelInfo.add(lblCedula);
@@ -116,7 +116,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtCedula);
 
 		JLabel lblEdad = new JLabel("Fecha nacimiento:");
-		lblEdad.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblEdad.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblEdad.setForeground(new Color(70, 130, 180));
 		lblEdad.setBounds(20, 150, 121, 20);
 		panelInfo.add(lblEdad);
@@ -132,7 +132,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtEdad);
 
 		JLabel lblSexo = new JLabel("Sexo:");
-		lblSexo.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblSexo.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblSexo.setForeground(new Color(70, 130, 180));
 		lblSexo.setBounds(20, 190, 100, 20);
 		panelInfo.add(lblSexo);
@@ -146,7 +146,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtSexo);
 
 		JLabel lblTelefono = new JLabel("Teléfono:");
-		lblTelefono.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblTelefono.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblTelefono.setForeground(new Color(70, 130, 180));
 		lblTelefono.setBounds(20, 230, 100, 20);
 		panelInfo.add(lblTelefono);
@@ -160,7 +160,7 @@ public class DetallePaciente extends JDialog {
 		panelInfo.add(txtTelefono);
 
 		JLabel lblDireccion = new JLabel("Dirección:");
-		lblDireccion.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		lblDireccion.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblDireccion.setForeground(new Color(70, 130, 180));
 		lblDireccion.setBounds(20, 270, 100, 20);
 		panelInfo.add(lblDireccion);
@@ -169,7 +169,7 @@ public class DetallePaciente extends JDialog {
 		txtDireccion.setEditable(false);
 		txtDireccion.setBackground(new Color(224, 247, 250));
 		txtDireccion.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
-		txtDireccion.setBounds(130, 270, 380, 22);
+		txtDireccion.setBounds(152, 270, 380, 22);
 		txtDireccion.setText(paciente.getDireccion());
 		panelInfo.add(txtDireccion);
 	}

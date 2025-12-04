@@ -64,7 +64,7 @@ public class RegEnfermedad extends JDialog {
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setForeground(new Color(70, 130, 180));
-		lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblNombre.setBounds(20, 40, 120, 20);
 		panel.add(lblNombre);
 		
@@ -76,7 +76,7 @@ public class RegEnfermedad extends JDialog {
 		panel.add(txtNombre);
 		
 		cbVigilancia = new JCheckBox("Bajo vigilancia");
-		cbVigilancia.setFont(new Font("Bahnschrift", Font.BOLD, 12));
+		cbVigilancia.setFont(new Font("Verdana", Font.BOLD, 12));
 		cbVigilancia.setForeground(new Color(70, 130, 180));
 		cbVigilancia.setBackground(Color.WHITE);
 		cbVigilancia.setBounds(20, 75, 250, 25);
@@ -84,7 +84,7 @@ public class RegEnfermedad extends JDialog {
 		
 		JLabel lblSintomas = new JLabel("Síntomas:");
 		lblSintomas.setForeground(new Color(70, 130, 180));
-		lblSintomas.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblSintomas.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblSintomas.setBounds(20, 115, 120, 20);
 		panel.add(lblSintomas);
 		
@@ -100,7 +100,7 @@ public class RegEnfermedad extends JDialog {
 		
 		JLabel lblDescripcion = new JLabel("Descripción:");
 		lblDescripcion.setForeground(new Color(70, 130, 180));
-		lblDescripcion.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+		lblDescripcion.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblDescripcion.setBounds(20, 205, 120, 20);
 		panel.add(lblDescripcion);
 		
