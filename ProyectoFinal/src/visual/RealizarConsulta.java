@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -22,9 +24,12 @@ import logico.Clinica;
 import logico.Cita;
 import logico.Consulta;
 import logico.Diagnostico;
+import logico.Doctor;
 import logico.Enfermedad;
 import logico.EstadoCita;
 import logico.Paciente;
+import utilidad.Formato;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -43,6 +48,7 @@ public class RealizarConsulta extends JDialog {
 	private JCheckBox chckEsImportante;
 	private Diagnostico diagnosticoActual;
 	private Paciente pacienteActual = null;
+	private Cita citaElegida = null;
 
 	public static void main(String[] args) {
 		try {
@@ -57,6 +63,7 @@ public class RealizarConsulta extends JDialog {
 	public RealizarConsulta() {
 		setTitle("Realizar Consulta");
 		setBounds(100, 100, 685, 630);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(240, 248, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -192,13 +199,6 @@ public class RealizarConsulta extends JDialog {
 		btnCrearDiagnostico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				abrirCrearDiagnostico();
-				if(diagnosticoActual.getEnfermedadDiagnosticada() != null) {
-	                if(diagnosticoActual.getEnfermedadDiagnosticada().isVigilancia())
-	                {
-	                	chckEsImportante.setSelected(true);
-	                	chckEsImportante.setEnabled(false);
-	                }
-	            }
 			}
 		});
 		btnCrearDiagnostico.setBounds(454, 106, 140, 23);
@@ -294,7 +294,7 @@ public class RealizarConsulta extends JDialog {
 		cbxCita.addItem("<<Seleccione>>");
 		for(Cita cita : Clinica.getInstancia().getCitas()) {
 			if(cita.getEstado() == EstadoCita.PROGRAMADA) {
-				String item = cita.getId() + " - " + cita.getPaciente().getNombre() + " (" + cita.getFechaHora() + ")";
+				String item = cita.getIdCita()+ " - " + cita.getNombrePersona() + " (" + cita.getIdPersona() + ")" + " - (" + Formato.getDateString(cita.getFechaHora()) + ")";
 				cbxCita.addItem(item);
 			}
 		}
@@ -305,23 +305,28 @@ public class RealizarConsulta extends JDialog {
 	}
 
 	private void cargarDatosCita() {
+
 		if(cbxCita.getSelectedIndex() > 0) {
+
 			String codigo = cbxCita.getSelectedItem().toString().split(" ")[0];
-			Cita cita = Clinica.getInstancia().buscarCitaXId(codigo);
-			if(cita != null) {
-				pacienteActual = buscarPacientePorCedula(cita.getPaciente().getCedula());
+			citaElegida = Clinica.getInstancia().buscarCitaXId(codigo);
 
-				txtPaciente.setText(cita.getPaciente().getNombre() + " - " + cita.getPaciente().getCedula());
-				txtDoctor.setText(cita.getDoctor().getNombre());
-				txtFechaCita.setText(cita.getFechaHora().toString());
-
+			if(citaElegida != null) {
+				pacienteActual = Clinica.getInstancia().buscarPacienteXId(citaElegida.getIdPersona());
+				
 				if(pacienteActual != null) {
 					btnGestionarPaciente.setText("Modificar Paciente");
+					txtPaciente.setText(pacienteActual.getNombre() + " - " + pacienteActual.getCedula());
+					
 				} else {
 					btnGestionarPaciente.setText("Crear Paciente");
 				}
 				btnGestionarPaciente.setEnabled(true);
+				
+				txtDoctor.setText(citaElegida.getDoctor().getNombre());
+				txtFechaCita.setText(Formato.getDateString(citaElegida.getFechaHora()));
 			}
+
 		} else {
 			limpiarCampos();
 			btnGestionarPaciente.setEnabled(false);
@@ -329,59 +334,45 @@ public class RealizarConsulta extends JDialog {
 		}
 	}
 
-	private Paciente buscarPacientePorCedula(String cedula) {
-		for(Paciente p : Clinica.getInstancia().getPacientes()) {
-			if(p.getCedula().equalsIgnoreCase(cedula)) {
-				return p;
-			}
-		}
-		return null;
-	}
-
 	private void gestionarPaciente() {
-		if(cbxCita.getSelectedIndex() <= 0) {
-			JOptionPane.showMessageDialog(this,
-					"Debe seleccionar una cita primero.",
-					"Advertencia",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		String codigo = cbxCita.getSelectedItem().toString().split(" ")[0];
-		Cita cita = Clinica.getInstancia().buscarCitaXId(codigo);
-
-		if(cita == null) return;
 
 		if(pacienteActual != null) {
-			RegistrarPaciente dialogo = new RegistrarPaciente(pacienteActual);
-			dialogo.setModal(true);
-			dialogo.setLocationRelativeTo(this);
-			dialogo.setVisible(true);
+			modificarPaciente();
+		} else {
+			registroPaciente();
+		}
+	}
 
+	
+	private void modificarPaciente() {
+		RegistrarPaciente dialogo = new RegistrarPaciente(pacienteActual);
+		dialogo.setModal(true);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setVisible(true);
+
+		txtPaciente.setText(pacienteActual.getNombre() + " - " + pacienteActual.getCedula());
+	}
+
+	private void registroPaciente() {
+		
+		RegistrarPaciente dialogo = new RegistrarPaciente(null);
+		dialogo.setModal(true);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setVisible(true);
+
+		Paciente nuevoPaciente = dialogo.getPacienteCreado();
+
+		if(nuevoPaciente != null) {
+			pacienteActual = nuevoPaciente;
+			btnGestionarPaciente.setText("Modificar Paciente");
 			txtPaciente.setText(pacienteActual.getNombre() + " - " + pacienteActual.getCedula());
 
-		} else {
-
-			RegistrarPaciente dialogo = new RegistrarPaciente(null);
-			dialogo.setModal(true);
-			dialogo.setLocationRelativeTo(this);
-
-
-
-			dialogo.setVisible(true);
-
-			Paciente nuevoPaciente = dialogo.getPacienteCreado();
-
-			if(nuevoPaciente != null) {
-				pacienteActual = nuevoPaciente;
-				btnGestionarPaciente.setText("Modificar Paciente");
-
-				JOptionPane.showMessageDialog(this,
-						"Paciente registrado exitosamente.\nAhora puede continuar con la consulta.",
-						"Paciente Creado",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
+			JOptionPane.showMessageDialog(this,
+					"Paciente registrado exitosamente.\nAhora puede continuar con la consulta.",
+					"Paciente Creado",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
+
 	}
 
 	private void abrirCrearDiagnostico() {
@@ -416,33 +407,34 @@ public class RealizarConsulta extends JDialog {
 			JOptionPane.showMessageDialog(null, "Debe ingresar un tratamiento.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
+			
+			Consulta consulta = new Consulta(
+					"CONS-" + Clinica.genCodigoConsultas,
+					pacienteActual, 
+					citaElegida.getDoctor(), 
+					citaElegida.getFechaHora());
+			
+			
+			setCamposConsulta(consulta);
+			Clinica.getInstancia().realizarConsulta(consulta, citaElegida);
+			
+			JOptionPane.showMessageDialog(null, "Consulta realizada con éxito.\nCódigo: " + consulta.getId(), "Consulta Exitosa", JOptionPane.INFORMATION_MESSAGE);
+			dispose();
+	}
 
-		String codigo = cbxCita.getSelectedItem().toString().split(" ")[0];
-		Cita cita = Clinica.getInstancia().buscarCitaXId(codigo);
+	private void setCamposConsulta(Consulta consulta) {
+		consulta.setSintomas(txtSintomas.getText());
+		consulta.setDiagnostico(diagnosticoActual);
+		consulta.setTratamiento(txtTratamiento.getText());
+		consulta.setObservaciones(txtObservaciones.getText());
+		consulta.setEsImportante(chckEsImportante.isSelected());
+		Enfermedad enfermedadDiag = diagnosticoActual.getEnfermedadDiagnosticada();
+		if(enfermedadDiag != null) {
+			pacienteActual.agregarEnfermedad(enfermedadDiag);
+		}
 
-		if(cita != null) {
-			Consulta consulta = Clinica.getInstancia().realizarConsulta(cita, chckEsImportante.isSelected());
-
-			if(consulta != null) {
-				consulta.setSintomas(txtSintomas.getText());
-				consulta.setDiagnostico(diagnosticoActual);
-				consulta.setTratamiento(txtTratamiento.getText());
-				consulta.setObservaciones(txtObservaciones.getText());
-				consulta.setEsImportante(chckEsImportante.isSelected());
-				Enfermedad enfermedadDiag = diagnosticoActual.getEnfermedadDiagnosticada();
-				if(enfermedadDiag != null) {
-					cita.getPaciente().agregarEnfermedad(enfermedadDiag);
-				}
-
-				if(chckEsImportante.isSelected()) {
-					cita.getPaciente().getResumen().add(consulta);
-				}
-
-				JOptionPane.showMessageDialog(null, "Consulta realizada con éxito.\nCódigo: " + consulta.getId(), "Consulta Exitosa", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-			} else {
-				JOptionPane.showMessageDialog(null, "Error al realizar la consulta. Verifique que la cita esté programada.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
+		if(chckEsImportante.isSelected()) {
+			pacienteActual.getResumen().add(consulta);
 		}
 	}
 

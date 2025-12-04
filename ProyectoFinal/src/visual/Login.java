@@ -101,14 +101,14 @@ public class Login extends JFrame {
         
         JLabel lblTitulo = new JLabel("CLÍNICA");
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Bahnschrift", Font.BOLD, 32));
+        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 32));
         lblTitulo.setForeground(new Color(70, 130, 180));
         lblTitulo.setBounds(0, 30, 434, 40);
         panelPrincipal.add(lblTitulo);
         
         JLabel lblSubtitulo = new JLabel("Sistema de Gestión");
         lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSubtitulo.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
+        lblSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 16));
         lblSubtitulo.setForeground(new Color(100, 149, 237));
         lblSubtitulo.setBounds(0, 75, 434, 25);
         panelPrincipal.add(lblSubtitulo);
@@ -119,13 +119,13 @@ public class Login extends JFrame {
         panelPrincipal.add(panelDivisor);
         
         JLabel lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+        lblUsuario.setFont(new Font("Verdana", Font.BOLD, 16));
         lblUsuario.setForeground(new Color(70, 130, 180));
         lblUsuario.setBounds(70, 150, 80, 25);
         panelPrincipal.add(lblUsuario);
         
         txtNombre = new JTextField();
-        txtNombre.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+        txtNombre.setFont(new Font("Verdana", Font.PLAIN, 14));
         txtNombre.setBorder(new LineBorder(new Color(173, 216, 230), 2));
         txtNombre.setBackground(new Color(224, 247, 250));
         txtNombre.setBounds(70, 180, 294, 30);
@@ -133,20 +133,20 @@ public class Login extends JFrame {
         txtNombre.setColumns(10);
         
         JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+        lblContrasena.setFont(new Font("Verdana", Font.BOLD, 16));
         lblContrasena.setForeground(new Color(70, 130, 180));
         lblContrasena.setBounds(70, 220, 120, 25);
         panelPrincipal.add(lblContrasena);
         
         txtPassword = new JPasswordField();
-        txtPassword.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+        txtPassword.setFont(new Font("Verdana", Font.PLAIN, 14));
         txtPassword.setBorder(new LineBorder(new Color(173, 216, 230), 2));
         txtPassword.setBackground(new Color(224, 247, 250));
         txtPassword.setBounds(70, 250, 294, 30);
         panelPrincipal.add(txtPassword);
         
         JButton btnLogin = new JButton("Iniciar Sesión");
-        btnLogin.setFont(new Font("Bahnschrift", Font.BOLD, 16));
+        btnLogin.setFont(new Font("Verdana", Font.BOLD, 16));
         btnLogin.setBackground(new Color(176, 224, 230));
         btnLogin.setForeground(new Color(70, 130, 180));
         btnLogin.setBorder(new LineBorder(new Color(135, 206, 235), 2));

@@ -1,8 +1,10 @@
 package logico;
 
 import java.util.Date;
+import java.util.Random;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import utilidad.AuthException;
 
@@ -113,6 +115,9 @@ public class Clinica implements Serializable {
         Clinica.getInstancia().crearPacientePrueba("Maria Antonieta De las Nieves", "0312435679");
         
         doctor1.setPacientes(Clinica.getInstancia().getPacientes());
+        
+        crearEnfermDatos();
+        crearVacsClinicaPrueba();
     }
     
 
@@ -151,7 +156,7 @@ public class Clinica implements Serializable {
         Paciente auxPaciente = null;
         int i = 0;
         while(auxPaciente == null && i < pacientes.size()) {
-            if(pacientes.get(i).getIdPaciente().equals(id))
+            if(pacientes.get(i).getIdPaciente().equalsIgnoreCase(id))
                 auxPaciente = pacientes.get(i);
             i++;
         }
@@ -162,7 +167,7 @@ public class Clinica implements Serializable {
         Cita auxCita = null;
         int i = 0;
         while(auxCita == null && i < citas.size()) {
-            if(citas.get(i).getId().equals(id))
+            if(citas.get(i).getIdCita().equals(id))
                 auxCita = citas.get(i);
         }
         return auxCita;
@@ -193,26 +198,29 @@ public class Clinica implements Serializable {
         genCodigoPacientes++;
     }
 
-    private void regCita(Cita cita) {
+    public void regCita(Cita cita) {
         citas.add(cita);
     }
 
-    public Cita crearCita(Paciente paciente, Doctor doctor, Date fecha, String motivo) {
+    public Cita crearCitaPrueba(String nombre, Doctor doctor, Date fecha, String motivo) {
         String idCita = "C-" + genCodigoCitas;
-        Cita nuevaCita = new Cita(idCita, paciente, doctor, fecha, motivo);
+        Cita nuevaCita = new Cita("CI-1", "1016", nombre, "849", doctor, fecha, motivo);
         regCita(nuevaCita);
         genCodigoCitas++;
         return nuevaCita;
-    }
-
-    public Consulta realizarConsulta(Cita cita, boolean imp) {
+    } 
+    /*
+    public Consulta realizarConsulta(Cita cita) {
         if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
             return null;
         }
         
         String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = new Consulta(idConsulta, cita.getPaciente(), cita.getDoctor(), cita.getFechaHora(),imp);
-        
+        Consulta nuevaConsulta = 
+        		new Consulta(idConsulta, 
+        		crearPacientePrueba("Julia", cedula), 
+        		cita.getDoctor(), 
+        		cita.getFechaHora());
         consultas.add(nuevaConsulta);
         cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
         cita.getPaciente().addConsultaToResumen(nuevaConsulta);
@@ -221,6 +229,18 @@ public class Clinica implements Serializable {
         
         genCodigoConsultas++;
         return nuevaConsulta;
+    }*/
+    
+    public void realizarConsulta(Consulta consulta, Cita cita) {
+
+    	consulta.getPaciente().getHistorialClinico().add(consulta);
+    	consulta.getPaciente().addConsultaToResumen(consulta);
+    	cita.setConsultaGenerada(consulta);
+        cita.completar();
+        
+        genCodigoConsultas++;
+    	consultas.add(consulta);
+    	
     }
 
     public int contarCitasXDia(Doctor doctor, Date fecha) {
@@ -268,12 +288,58 @@ public class Clinica implements Serializable {
     }
 
     public Paciente crearPacientePrueba(String nombre, String cedula) {
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(1990, Calendar.MARCH, 15); 
+    	Date fecha = cal.getTime();
+    	
         Paciente auxPaciente = new Paciente("PAC-"+genCodigoPacientes, nombre, cedula, "849", 
-                                           null, "U", (float)100, (float)5.2, "A+", null);
+        		fecha, "U", (float)100, (float)5.2, "A+", null);
         genCodigoPacientes++;
         pacientes.add(auxPaciente);
         return auxPaciente;
     }
+    
+	public Vacuna vacunaPrueba(String nombre) {
+		return new Vacuna("2310", nombre, enfermPrueba("1020","Gripe"), 10);
+	}
+	
+	public void crearVacsClinicaPrueba() {
+		ArrayList<Vacuna> vacs = new ArrayList<>();
+		vacs.add(vacunaPrueba("Cybac"));
+		vacs.add(vacunaPrueba("Brinx"));
+		vacs.add(vacunaPrueba("Fancil"));
+		vacs.add(vacunaPrueba("Trousse"));
+		vacs.add(vacunaPrueba("Cyrup"));
+		
+		vacunas = vacs;
+		genCodigoVacuna += 5;
+	}
+	
+	public Enfermedad enfermPrueba(String cod, String nombre) {
+		Random random = new Random();
+		Enfermedad e = new Enfermedad(cod, nombre, false, false, "Dolor de cabeza", "");
+		e.setCasosReportados(random.nextInt(350)+1);
+		return e;
+	}
+	
+	public void crearEnfermDatos() {
+		Random random = new Random();
+		
+		ArrayList<String> enfermedadesComunes = new ArrayList<>(Arrays.asList(
+			    "Gripe",
+			    "Hipertensión",
+			    "Diabetes",
+			    "Asma",
+			    "Gastritis"
+			));
+		
+		for (String enferm : enfermedadesComunes) {
+			enfermedades.add(enfermPrueba(
+					String.valueOf(random.nextInt(1000) + 999), 
+					enferm));
+		}
+	}
 
     public Consulta buscarConsultaXId(String id) {
         Consulta auxConsulta = null;
@@ -286,6 +352,20 @@ public class Clinica implements Serializable {
         }
         return auxConsulta;
     }
+    
+    public Vacuna buscarVacunaXId(String id) {
+		Vacuna aux = null;
+		int i = 0;
+
+		while(aux == null && i < vacunas.size()) {
+			if(vacunas.get(i).getId().equals(id)) {
+				aux = vacunas.get(i);
+			}
+			i++;
+		}
+
+		return aux;
+	}
 
     public ArrayList<Consulta> getConsultasVisiblesXDoctor(Doctor doctor) {
         ArrayList<Consulta> consultasVisibles = new ArrayList<>();
@@ -343,12 +423,6 @@ public class Clinica implements Serializable {
         if(enf != null) {
             enf.reportarCaso();
         }
-    }
-
-    public String getDateString(Date fecha) {
-        Calendar calen = Calendar.getInstance();
-        calen.setTime(fecha);
-        return calen.get(Calendar.DAY_OF_MONTH)+"/"+(calen.get(Calendar.MONTH)+1)+"/"+calen.get(Calendar.YEAR);
     }
 
     public ArrayList<Enfermedad> getEnfermedades() {
