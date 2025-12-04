@@ -19,12 +19,12 @@ public class Consulta implements Serializable{
     private boolean esImportante;
     // LAS IMPORTANTES VAN DENTRO DE LA HISTORIA CLINICA DEL PACIENTE
     
-    public Consulta(String id, Paciente paciente, Doctor doctor, Date fecha) {
+    public Consulta(String id, Paciente paciente, Doctor doctor, Date fecha, boolean esImportante) {
         this.id = id;
         this.paciente = paciente;
         this.doctor = doctor;
         this.fecha = fecha;
-        this.esImportante = false;
+        this.esImportante = esImportante;
     }
     
     public String getId() {

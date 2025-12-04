@@ -192,6 +192,13 @@ public class RealizarConsulta extends JDialog {
 		btnCrearDiagnostico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				abrirCrearDiagnostico();
+				if(diagnosticoActual.getEnfermedadDiagnosticada() != null) {
+	                if(diagnosticoActual.getEnfermedadDiagnosticada().isVigilancia())
+	                {
+	                	chckEsImportante.setSelected(true);
+	                	chckEsImportante.setEnabled(false);
+	                }
+	            }
 			}
 		});
 		btnCrearDiagnostico.setBounds(454, 106, 140, 23);
@@ -414,7 +421,7 @@ public class RealizarConsulta extends JDialog {
 		Cita cita = Clinica.getInstancia().buscarCitaXId(codigo);
 
 		if(cita != null) {
-			Consulta consulta = Clinica.getInstancia().realizarConsulta(cita);
+			Consulta consulta = Clinica.getInstancia().realizarConsulta(cita, chckEsImportante.isSelected());
 
 			if(consulta != null) {
 				consulta.setSintomas(txtSintomas.getText());

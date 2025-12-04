@@ -205,13 +205,13 @@ public class Clinica implements Serializable {
         return nuevaCita;
     }
 
-    public Consulta realizarConsulta(Cita cita) {
+    public Consulta realizarConsulta(Cita cita, boolean imp) {
         if(cita == null || cita.getEstado() != EstadoCita.PROGRAMADA) {
             return null;
         }
         
         String idConsulta = "CONS-" + genCodigoConsultas;
-        Consulta nuevaConsulta = new Consulta(idConsulta, cita.getPaciente(), cita.getDoctor(), cita.getFechaHora());
+        Consulta nuevaConsulta = new Consulta(idConsulta, cita.getPaciente(), cita.getDoctor(), cita.getFechaHora(),imp);
         
         consultas.add(nuevaConsulta);
         cita.getPaciente().getHistorialClinico().add(nuevaConsulta);
