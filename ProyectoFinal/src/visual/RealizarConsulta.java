@@ -1,38 +1,32 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.DefaultComboBoxModel;
-import logico.Clinica;
 import logico.Cita;
+import logico.Clinica;
 import logico.Consulta;
 import logico.Diagnostico;
-import logico.Doctor;
 import logico.Enfermedad;
 import logico.EstadoCita;
 import logico.Paciente;
-import utilidad.Formato;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.util.Date;
-import javax.swing.JCheckBox;
 
 public class RealizarConsulta extends JDialog {
 	private final JPanel contentPanel = new JPanel();
@@ -201,8 +195,7 @@ public class RealizarConsulta extends JDialog {
 		btnCrearDiagnostico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				abrirCrearDiagnostico();
-				if(diagnosticoActual.getEnfermedadDiagnosticada().isVigilancia()){
-					
+				if(diagnosticoActual != null && diagnosticoActual.getEnfermedadDiagnosticada() != null && diagnosticoActual.getEnfermedadDiagnosticada().isVigilancia()){
 					chckEsImportante.setEnabled(false);
 					chckEsImportante.setSelected(true);
 				}else {
@@ -319,7 +312,7 @@ public class RealizarConsulta extends JDialog {
 		cbxCita.addItem("<<Seleccione>>");
 		for(Cita cita : Clinica.getInstancia().getCitas()) {
 			if(cita.getEstado() == EstadoCita.PROGRAMADA) {
-				String item = cita.getIdCita()+ " - " + cita.getNombrePersona() + " (" + cita.getIdPersona() + ")" + " - (" + Formato.getDateString(cita.getFechaHora()) + ")";
+				String item = cita.getIdCita()+ " - " + cita.getNombrePersona() + " (" + cita.getIdPersona() + ")" + " - (" + utilidad.Formato.getDateString(cita.getFechaHora()) + ")";
 				cbxCita.addItem(item);
 			}
 		}
@@ -348,7 +341,7 @@ public class RealizarConsulta extends JDialog {
 				}
 				
 				txtDoctor.setText(citaElegida.getDoctor().getNombre());
-				txtFechaCita.setText(Formato.getDateString(citaElegida.getFechaHora()));
+				txtFechaCita.setText(utilidad.Formato.getDateString(citaElegida.getFechaHora()));
 			}
 		} else {
 			limpiarCampos();
@@ -376,6 +369,15 @@ public class RealizarConsulta extends JDialog {
 
 	private void registroPaciente() {
 		RegistrarPaciente dialogo = new RegistrarPaciente(null);
+		
+		if(citaElegida != null) {
+			dialogo.setDatosIniciales(
+				citaElegida.getIdPersona(),
+				citaElegida.getNombrePersona(),
+				citaElegida.getTelefonoPersona()
+			);
+		}
+		
 		dialogo.setModal(true);
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
