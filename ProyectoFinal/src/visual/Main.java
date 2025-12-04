@@ -353,7 +353,7 @@ public class Main extends JFrame {
         mntmListarVacunas.setIcon(cargarIcono("recursos/vacuna.png", 24, 24));
         mntmListarVacunas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                ListarVacuna listarVac = new ListarVacuna();
+                ListarVacuna listarVac = new ListarVacuna(null, "Ver Detalles");
                 listarVac.setModal(true);
                 listarVac.setVisible(true);
             }
