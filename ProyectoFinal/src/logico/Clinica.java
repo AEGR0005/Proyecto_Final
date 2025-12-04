@@ -264,6 +264,17 @@ public class Clinica implements Serializable {
         }
         return contador;
     }
+    
+    public Paciente buscarPacienteXIdentificacion(String cedula) {
+        Paciente auxPaciente = null;
+        int i = 0;
+        while(auxPaciente == null && i < pacientes.size()) {
+            if(pacientes.get(i).getCedula().equalsIgnoreCase(cedula))
+                auxPaciente = pacientes.get(i);
+            i++;
+        }
+        return auxPaciente;
+    }
 
     public ArrayList<Consulta> getConsultasXDoctor(Doctor doctor) {
         ArrayList<Consulta> consultasDoctor = new ArrayList<>();

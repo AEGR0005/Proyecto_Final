@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -14,12 +14,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import logico.Clinica;
 import logico.Cita;
 import logico.Consulta;
@@ -32,6 +31,8 @@ import utilidad.Formato;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Date;
+import javax.swing.JCheckBox;
 
 public class RealizarConsulta extends JDialog {
 	private final JPanel contentPanel = new JPanel();
@@ -121,6 +122,7 @@ public class RealizarConsulta extends JDialog {
 			}
 		});
 		btnGestionarPaciente.setBounds(454, 62, 140, 20);
+		btnGestionarPaciente.setEnabled(false);
 		panelCita.add(btnGestionarPaciente);
 
 		JLabel lblDoctor = new JLabel("Doctor:");
@@ -199,6 +201,13 @@ public class RealizarConsulta extends JDialog {
 		btnCrearDiagnostico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				abrirCrearDiagnostico();
+				if(diagnosticoActual.getEnfermedadDiagnosticada().isVigilancia()){
+					
+					chckEsImportante.setEnabled(false);
+					chckEsImportante.setSelected(true);
+				}else {
+					chckEsImportante.setEnabled(true);
+				}
 			}
 		});
 		btnCrearDiagnostico.setBounds(454, 106, 140, 23);
@@ -305,28 +314,26 @@ public class RealizarConsulta extends JDialog {
 	}
 
 	private void cargarDatosCita() {
-
 		if(cbxCita.getSelectedIndex() > 0) {
-
 			String codigo = cbxCita.getSelectedItem().toString().split(" ")[0];
 			citaElegida = Clinica.getInstancia().buscarCitaXId(codigo);
 
 			if(citaElegida != null) {
-				pacienteActual = Clinica.getInstancia().buscarPacienteXId(citaElegida.getIdPersona());
+				pacienteActual = Clinica.getInstancia().buscarPacienteXIdentificacion(citaElegida.getIdPersona());
 				
 				if(pacienteActual != null) {
 					btnGestionarPaciente.setText("Modificar Paciente");
+					btnGestionarPaciente.setEnabled(true);
 					txtPaciente.setText(pacienteActual.getNombre() + " - " + pacienteActual.getCedula());
-					
 				} else {
 					btnGestionarPaciente.setText("Crear Paciente");
+					btnGestionarPaciente.setEnabled(true);
+					txtPaciente.setText(citaElegida.getNombrePersona() + " - " + citaElegida.getIdPersona());
 				}
-				btnGestionarPaciente.setEnabled(true);
 				
 				txtDoctor.setText(citaElegida.getDoctor().getNombre());
 				txtFechaCita.setText(Formato.getDateString(citaElegida.getFechaHora()));
 			}
-
 		} else {
 			limpiarCampos();
 			btnGestionarPaciente.setEnabled(false);
@@ -335,7 +342,6 @@ public class RealizarConsulta extends JDialog {
 	}
 
 	private void gestionarPaciente() {
-
 		if(pacienteActual != null) {
 			modificarPaciente();
 		} else {
@@ -343,7 +349,6 @@ public class RealizarConsulta extends JDialog {
 		}
 	}
 
-	
 	private void modificarPaciente() {
 		RegistrarPaciente dialogo = new RegistrarPaciente(pacienteActual);
 		dialogo.setModal(true);
@@ -354,7 +359,6 @@ public class RealizarConsulta extends JDialog {
 	}
 
 	private void registroPaciente() {
-		
 		RegistrarPaciente dialogo = new RegistrarPaciente(null);
 		dialogo.setModal(true);
 		dialogo.setLocationRelativeTo(this);
@@ -372,7 +376,6 @@ public class RealizarConsulta extends JDialog {
 					"Paciente Creado",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
-
 	}
 
 	private void abrirCrearDiagnostico() {
@@ -393,6 +396,11 @@ public class RealizarConsulta extends JDialog {
 			return;
 		}
 
+		if(pacienteActual == null) {
+			JOptionPane.showMessageDialog(null, "Debe crear el paciente antes de realizar la consulta.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
 		if(txtSintomas.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe ingresar los síntomas.", "Campo Requerido", JOptionPane.WARNING_MESSAGE);
 			return;
@@ -408,18 +416,17 @@ public class RealizarConsulta extends JDialog {
 			return;
 		}
 			
-			Consulta consulta = new Consulta(
-					"CONS-" + Clinica.genCodigoConsultas,
-					pacienteActual, 
-					citaElegida.getDoctor(), 
-					citaElegida.getFechaHora());
-			
-			
-			setCamposConsulta(consulta);
-			Clinica.getInstancia().realizarConsulta(consulta, citaElegida);
-			
-			JOptionPane.showMessageDialog(null, "Consulta realizada con éxito.\nCódigo: " + consulta.getId(), "Consulta Exitosa", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
+		Consulta consulta = new Consulta(
+				"CONS-" + Clinica.genCodigoConsultas,
+				pacienteActual, 
+				citaElegida.getDoctor(), 
+				citaElegida.getFechaHora());
+		
+		setCamposConsulta(consulta);
+		Clinica.getInstancia().realizarConsulta(consulta, citaElegida);
+		
+		JOptionPane.showMessageDialog(null, "Consulta realizada con éxito.\nCódigo: " + consulta.getId(), "Consulta Exitosa", JOptionPane.INFORMATION_MESSAGE);
+		dispose();
 	}
 
 	private void setCamposConsulta(Consulta consulta) {
@@ -437,7 +444,6 @@ public class RealizarConsulta extends JDialog {
 			pacienteActual.getResumen().add(consulta);
 		}
 	}
-
 
 	private void limpiarCampos() {
 		if(txtPaciente != null) txtPaciente.setText("");
