@@ -169,6 +169,7 @@ public class Clinica implements Serializable {
         while(auxCita == null && i < citas.size()) {
             if(citas.get(i).getIdCita().equals(id))
                 auxCita = citas.get(i);
+            i++;
         }
         return auxCita;
     }
